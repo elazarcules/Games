@@ -958,6 +958,17 @@ html,body{position:fixed;inset:0;width:100%;height:100%;touch-action:pan-x pan-y
 .charHead .yTough{animation:yTough 7s infinite}
 @keyframes ySmile{0%,74%{opacity:0}77%,90%{opacity:1}93%,100%{opacity:0}}
 @keyframes yTough{0%,74%{opacity:1}77%,90%{opacity:0}93%,100%{opacity:1}}
+/* הודעה קופצת: מוסתרת לגמרי כשאינה פעילה (בלי "גלולה" מרחפת) */
+#toast{opacity:0;visibility:hidden;transform:translate(-50%,-260%);transition:transform .35s cubic-bezier(.2,1.6,.4,1),opacity .2s,visibility 0s linear .35s}
+#toast.on{opacity:1;visibility:visible;transform:translate(-50%,0);transition:transform .35s cubic-bezier(.2,1.6,.4,1),opacity .15s,visibility 0s}
+#toast:empty{display:none}
+/* מסך מלא: שורה עליונה פנויה לחור המצלמה */
+:root{--fsPad:0px}
+html.fs{--fsPad:max(0px,calc(36px - env(safe-area-inset-top,0px)))}
+@media (display-mode:fullscreen),(display-mode:standalone){:root{--fsPad:max(0px,calc(30px - env(safe-area-inset-top,0px)))}}
+#screen,#modal{top:var(--fsPad)}
+#toast{margin-top:var(--fsPad)}
+@media (max-height:430px){.concept .cHead{padding:4px 12px;margin-bottom:4px}.concept .cHead h2{font-size:18px}.concept .cHead .stone{transform:scale(.7)}.cTitle{font-size:19px;margin:0 0 2px}.cDemo{padding:3px 6px;margin-bottom:4px;border-width:3px}.cEm{font-size:32px}.cBig{font-size:36px}.cSlots b{width:38px;height:38px;font-size:24px}.cPairs b{font-size:26px}.cEq{font-size:24px;margin:2px 0}.cTx{font-size:14px;line-height:1.3;margin-bottom:4px}.concept .row .btn{padding-top:5px;padding-bottom:5px;min-height:0}}
 /* ===== תנועות MMA ===== */
 .legF{transform-box:view-box;transform-origin:85px 194px}.legK{transform-box:view-box;transform-origin:85px 194px;opacity:0}.legB{transform-box:view-box;transform-origin:115px 194px}.pouchArm{transform-box:view-box;transform-origin:134px 124px}
 .heroWrap.mma[data-mv=round] .legF,.heroWrap.mma[data-mv=knee] .legF,.heroWrap.mma[data-mv=front] .legF,.heroWrap.mma[data-mv=combo] .legF{opacity:0}
@@ -1425,8 +1436,9 @@ function tone(f,dur,o={}){
   osc.type=o.type||'sine'; osc.frequency.setValueAtTime(f,t);
   if(o.slide) osc.frequency.exponentialRampToValueAtTime(o.slide,t+dur);
   const v=o.vol==null?.25:o.vol;
-  g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(v,t+(o.attack||.008)); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
-  osc.connect(g); g.connect(o.music?AU.mus:AU.sfx); osc.start(t); osc.stop(t+dur+.05);
+  g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(v,t+(o.attack||.008)); if(o.hold) g.gain.setValueAtTime(v,t+dur*o.hold); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  let out=osc; if(o.lp){ const fl=c.createBiquadFilter(); fl.type='lowpass'; fl.frequency.setValueAtTime(o.lp,t); fl.Q.value=o.q||.7; osc.connect(fl); out=fl; }
+  out.connect(g); g.connect(o.music?AU.mus:AU.sfx); osc.start(t); osc.stop(t+dur+.05);
  }catch(e){}
 }
 function noise(dur,o={}){
@@ -1473,6 +1485,7 @@ const MUSIC={timer:null,want:null,track:null,step:0,next:0};
 const TRACKS={
  map:{bpm:118,mel:[72,0,76,0,79,0,76,0,77,0,81,0,79,0,0,0,76,0,79,0,84,0,79,0,77,76,74,0,72,0,0,0],bass:[48,0,55,0,52,0,55,0,53,0,57,0,60,0,57,0,48,0,55,0,52,0,55,0,55,0,59,0,50,0,55,0]},
  battle:{bpm:150,mel:[69,0,72,69,76,0,74,72,71,0,74,71,79,0,77,76,69,0,72,69,76,0,79,81,79,77,76,74,72,71,69,0],bass:[45,45,57,45,45,45,57,45,43,43,55,43,43,43,55,43,41,41,53,41,41,41,53,41,40,40,52,40,44,44,56,44]},
+ hero:{"bpm":128,"len":128,"lead":[[0,3,67],[3,1,72],[4,4,79],[8,3,77],[11,1,74],[12,2,70],[14,2,74],[16,3,72],[19,1,77],[20,4,81],[24,6,79],[30,1,76],[31,1,79],[32,3,80],[35,1,79],[36,2,75],[38,2,72],[40,3,74],[43,1,77],[44,4,82],[48,2,84],[50,1,79],[51,1,76],[52,2,79],[54,2,84],[56,6,86],[62,2,79],[64,2,72],[66,2,77],[68,3,81],[71,1,79],[72,2,79],[74,2,74],[76,4,83],[80,2,79],[82,2,76],[84,3,83],[87,1,84],[88,6,81],[94,2,76],[96,2,77],[98,2,81],[100,2,84],[102,2,81],[104,2,83],[106,2,79],[108,2,86],[110,2,83],[112,3,84],[115,1,80],[116,4,87],[120,3,86],[123,1,82],[124,4,79]],"pad":[[0,8,[60,64,67]],[8,8,[58,62,65]],[16,8,[57,60,65]],[24,8,[60,64,67]],[32,8,[56,60,63]],[40,8,[58,62,65]],[48,8,[60,64,67]],[56,8,[55,59,62]],[64,8,[57,60,65]],[72,8,[55,59,62]],[80,8,[55,59,64]],[88,8,[57,60,64]],[96,8,[57,60,65]],[104,8,[55,59,62]],[112,8,[56,60,63]],[120,8,[58,62,65]]],"bass":[48,48,60,48,48,48,60,48,46,46,58,46,46,46,58,46,41,41,53,41,41,41,53,41,48,48,60,48,48,48,60,48,44,44,56,44,44,44,56,44,46,46,58,46,46,46,58,46,48,48,60,48,48,48,60,48,43,43,55,43,43,43,55,43,41,41,53,41,41,41,53,41,43,43,55,43,43,43,55,43,40,40,52,40,40,40,52,40,45,45,57,45,45,45,57,45,41,41,53,41,41,41,53,41,43,43,55,43,43,43,55,43,44,44,56,44,44,44,56,44,46,46,58,46,46,46,58,46],"kick":[0,4,8,12,11,16,20,24,28,27,32,36,40,44,43,48,52,56,60,59,64,68,72,76,75,80,84,88,92,91,96,100,104,108,107,112,116,120,124,123],"snare":[2,6,10,14,18,22,26,30,34,38,42,46,50,54,58,60,61,62,63,66,70,74,78,82,86,90,94,98,102,106,110,114,118,122,124,125,126,127],"hat":[1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125,127],"crash":[0,64]},
  boss:{bpm:160,mel:[64,0,67,64,71,0,69,67,64,0,67,64,72,71,69,0,62,0,65,62,69,0,67,65,64,67,71,72,76,0,74,0],bass:[40,40,52,40,40,40,52,40,38,38,50,38,38,38,50,38,36,36,48,36,36,36,48,36,35,35,47,35,40,40,52,40]}
 };
 function musicPlay(name,force){
@@ -1483,9 +1496,22 @@ function musicPlay(name,force){
  MUSIC.timer=setInterval(musicTick,40);
 }
 function musicStop(keepWant){ if(MUSIC.timer) clearInterval(MUSIC.timer); MUSIC.timer=null; MUSIC.track=null; if(!keepWant) MUSIC.want=null; }
+/* "Heroes Rising" – לחן מקורי למשחק (CC0): כלי נשיפה, מיתרים, בס ותופים */
+function heroIdx(tr){ if(tr._i) return tr._i; const i={lead:{},pad:{},k:new Set(tr.kick),s:new Set(tr.snare),h:new Set(tr.hat),c:new Set(tr.crash)}; tr.lead.forEach(([st,l,m])=>(i.lead[st]=i.lead[st]||[]).push([l,m])); tr.pad.forEach(([st,l,v])=>i.pad[st]=[l,v]); return tr._i=i; }
+function heroStep(tr,s,at,spb){
+ const I=heroIdx(tr);
+ (I.lead[s]||[]).forEach(([l,m])=>{ const d=spb*l*.94; tone(N(m),d,{type:'sawtooth',vol:.034,at,music:true,hold:.7,lp:2400,attack:.02}); tone(N(m),d,{type:'square',vol:.016,at,music:true,hold:.7,lp:1800}); tone(N(m-12),d,{type:'triangle',vol:.05,at,music:true,hold:.6}); });
+ const P=I.pad[s]; if(P) P[1].forEach(m=>tone(N(m),spb*P[0]*.98,{type:'sawtooth',vol:.012,at,music:true,hold:.85,lp:1100,attack:.12}));
+ const b=tr.bass[s]; if(b) tone(N(b),spb*.82,{type:'triangle',vol:.12,at,music:true});
+ if(I.k.has(s)) tone(110,.16,{type:'sine',vol:.2,slide:42,at,music:true});
+ if(I.s.has(s)){ noise(.13,{vol:.08,f1:1900,q:.7,at,music:true}); tone(185,.07,{type:'triangle',vol:.06,at,music:true}); }
+ if(I.h.has(s)) noise(.035,{vol:.022,f1:8500,ftype:'highpass',at,music:true});
+ if(I.c.has(s)) noise(.9,{vol:.045,f1:6500,ftype:'highpass',at,music:true});
+}
 function musicTick(){
  const tr=TRACKS[MUSIC.track]; if(!tr||!AU.ctx) return; const spb=60/tr.bpm/2, now=AU.ctx.currentTime;
  if(MUSIC.next<now-.1) MUSIC.next=now+.05;
+ if(tr.lead){ while(MUSIC.next<now+.2){ heroStep(tr,MUSIC.step%tr.len,MUSIC.next,spb); MUSIC.next+=spb; MUSIC.step++; } return; }
  while(MUSIC.next<now+.2){
   const s=MUSIC.step, at=MUSIC.next;
   const m=tr.mel[s%tr.mel.length]; if(m) tone(N(m),spb*.9,{type:'square',vol:.04,at,music:true});
@@ -1983,6 +2009,7 @@ async function nlHops(svg,max,from,steps,dir,alive){ const st=(NLW-2*NLP)/max, X
 
 /* ====== מסך מלא ====== */
 const isFull=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
+['fullscreenchange','webkitfullscreenchange'].forEach(ev=>document.addEventListener(ev,()=>document.documentElement.classList.toggle('fs',!!isFull())));
 function enterFull(){ try{ if(isFull()) return; const el=document.documentElement, f=el.requestFullscreen||el.webkitRequestFullscreen; if(f){ const r=f.call(el); if(r&&r.catch) r.catch(()=>{}); } }catch(e){} }
 function toggleFull(){ try{ if(isFull()){ const f=document.exitFullscreen||document.webkitExitFullscreen; f&&f.call(document); } else enterFull(); }catch(e){} }
 
@@ -2211,7 +2238,7 @@ const SQUAD=[
  {c:'yiftach',x:76,s:.46,pose:'fly',d:6,fly:1}
 ];
 RENDER.title=function(){
- setBg('radial-gradient(ellipse at 50% 115%,#2a4bb8 0%,#14206b 32%,#08082e 62%,#03020d 100%)'); setDeco([]); musicPlay('map');
+ setBg('radial-gradient(ellipse at 50% 115%,#2a4bb8 0%,#14206b 32%,#08082e 62%,#03020d 100%)'); setDeco([]); musicPlay('hero');
  const stars=RN(70,()=>`<i style="left:${rand(0,100)}%;top:${rand(0,62)}%;--s:${rand(1,3)}px;animation-delay:-${rand(0,40)/10}s"></i>`);
  const lands=[[0,26,6],[34,18,5],[70,30,7],[110,16,4],[150,24,6],[196,20,5],[240,28,6],[290,18,5],[325,22,6]].map(([a,w,h])=>`<i class="land" style="--a:${a}deg;--w:${w}vw;--h:${h}vw"></i>`).join('')+[[18,12,3],[95,10,2.6],[205,14,3],[262,9,2.4]].map(([a,w,h])=>`<i class="cloudBand" style="--a:${a}deg;--w:${w}vw;--h:${h}vw"></i>`).join('');
  const sq=SQUAD.map((h,i)=>{ const dx=h.x-50, drop=120-Math.sqrt(120*120-dx*dx); const p={name:CHARS[h.c].name,cape:CHARS[h.c].cape,photoMode:h.c};
@@ -2224,7 +2251,7 @@ RENDER.title=function(){
  bind($('#screen'),{start(){ audioInit(); enterFull(); SFX.unlock(); go('profiles'); }});
 };
 RENDER.profiles=function(){
- setBg(BG_MAIN); setDeco(['💎','⭐','✨','🦸','🌈']); musicPlay('map');
+ setBg(BG_MAIN); setDeco(['💎','⭐','✨','🦸','🌈']); musicPlay('hero');
  const ids=DB.order.filter(id=>DB.players[id]);
  $('#screen').innerHTML=`<div class="pageHead"><button class="iconbtn" data-act="home">🏠</button><h1 class="h1">מי הגיבור היום?</h1><button class="iconbtn" data-act="full">${IC_FULL}</button></div>
  <div class="profiles">${ids.map((id,i)=>{const p=DB.players[id];return `<button class="pcard" data-act="pick" data-id="${id}" style="animation-delay:${i*.06}s">${avatarHTML(p,'clamp(84px,16vmin,130px)')}<div class="pname">${esc(p.name)}</div><div class="pstats"><span>🦸 ${heroLvl(p.xp)}</span><span>⭐ ${starsTotal(p)}</span><span><span class="coin sm"></span> ${p.coins}</span></div></button>`;}).join('')}
@@ -2290,7 +2317,7 @@ function whatsNew(){
 
 /* ====== מפה ====== */
 RENDER.map=function(){
- const p=me(); setBg(BG_MAIN); setDeco(['⭐','💎','✨','☁️','🌈']); musicPlay('map'); ensureQuests(p);
+ const p=me(); setBg(BG_MAIN); setDeco(['⭐','💎','✨','☁️','🌈']); musicPlay('hero'); ensureQuests(p);
  const cur=p.unlocked-1, nW=worldsShown(p);
  const xs=[72,30,68,34], ys=[110,215,320,425];
  const seg=k=>{ const m=(ys[k-1]+ys[k])/2; return `M${xs[k-1]*6},${ys[k-1]} C${xs[k-1]*6},${m} ${xs[k]*6},${m} ${xs[k]*6},${ys[k]}`; };
