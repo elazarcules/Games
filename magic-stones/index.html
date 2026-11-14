@@ -953,6 +953,83 @@ html,body{position:fixed;inset:0;width:100%;height:100%;touch-action:pan-x pan-y
 .cNL .nl{max-width:520px}
 .concept .tenf{margin:0 auto 6px}
 @media (max-height:520px){.cEm{font-size:40px}.cTx{font-size:16px;margin-bottom:6px}.cTitle{font-size:22px;margin:0 0 4px}.cDemo{padding:6px}}
+/* ===== תנועות MMA ===== */
+.legF{transform-box:view-box;transform-origin:85px 194px}.legK{transform-box:view-box;transform-origin:85px 194px;opacity:0}.legB{transform-box:view-box;transform-origin:115px 194px}.pouchArm{transform-box:view-box;transform-origin:134px 124px}
+.heroWrap.mma[data-mv=round] .legF,.heroWrap.mma[data-mv=knee] .legF,.heroWrap.mma[data-mv=front] .legF,.heroWrap.mma[data-mv=combo] .legF{opacity:0}
+.heroWrap.mma[data-mv=round] .legK,.heroWrap.mma[data-mv=knee] .legK,.heroWrap.mma[data-mv=front] .legK,.heroWrap.mma[data-mv=combo] .legK{opacity:1}
+.heroWrap.mma[data-mv=jab]{animation:hb_jab .6s cubic-bezier(.3,.7,.3,1)}
+@keyframes hb_jab{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}20%{transform:translate(-4%,0) rotate(-2deg) rotateY(0deg) scale(1,1)}35%{transform:translate(-1%,0) rotate(0deg) rotateY(0deg) scale(1,1)}55%{transform:translate(-7%,0) rotate(-4deg) rotateY(0deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}}
+.heroWrap.mma[data-mv=jab] .throwArm{animation:hthrowArm_jab .6s cubic-bezier(.3,.7,.3,1)}
+@keyframes hthrowArm_jab{0%{transform:rotate(0deg) scale(1)}20%{transform:rotate(74deg) scale(1.08)}35%{transform:rotate(25deg) scale(1)}55%{transform:rotate(80deg) scale(1.14)}78%{transform:rotate(55deg) scale(1)}100%{transform:rotate(0deg) scale(1)}}
+.heroWrap.mma[data-mv=upper]{animation:hb_upper .7s cubic-bezier(.3,.7,.3,1)}
+@keyframes hb_upper{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}30%{transform:translate(0,5%) rotate(0deg) rotateY(0deg) scale(1.04,.92)}55%{transform:translate(-5%,-10%) rotate(-5deg) rotateY(0deg) scale(1,1.04)}75%{transform:translate(-2%,-4%) rotate(0deg) rotateY(0deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}}
+.heroWrap.mma[data-mv=upper] .throwArm{animation:hthrowArm_upper .7s cubic-bezier(.3,.7,.3,1)}
+@keyframes hthrowArm_upper{0%{transform:rotate(0deg) scale(1)}30%{transform:rotate(-25deg) scale(1)}55%{transform:rotate(150deg) scale(1.08)}75%{transform:rotate(140deg) scale(1)}100%{transform:rotate(0deg) scale(1)}}
+.heroWrap.mma[data-mv=round]{animation:hb_round .75s cubic-bezier(.3,.7,.3,1)}
+@keyframes hb_round{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}25%{transform:translate(0,0) rotate(6deg) rotateY(0deg) scale(1,1)}50%{transform:translate(-6%,-2%) rotate(14deg) rotateY(0deg) scale(1,1)}75%{transform:translate(-2%,0) rotate(6deg) rotateY(0deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}}
+.heroWrap.mma[data-mv=round] .legK{animation:hlegK_round .75s cubic-bezier(.3,.7,.3,1)}
+@keyframes hlegK_round{0%{transform:rotate(0deg) scale(1)}25%{transform:rotate(30deg) scale(1)}50%{transform:rotate(100deg) scale(1.18)}72%{transform:rotate(55deg) scale(1.05)}100%{transform:rotate(0deg) scale(1)}}
+.heroWrap.mma[data-mv=round] .throwArm{animation:hthrowArm_round .75s cubic-bezier(.3,.7,.3,1)}
+@keyframes hthrowArm_round{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(-25deg) scale(1)}100%{transform:rotate(0deg) scale(1)}}
+.heroWrap.mma[data-mv=superman]{animation:hb_superman .7s cubic-bezier(.3,.7,.3,1)}
+@keyframes hb_superman{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}25%{transform:translate(3%,3%) rotate(4deg) rotateY(0deg) scale(1,1)}55%{transform:translate(-14%,-12%) rotate(-10deg) rotateY(0deg) scale(1,1)}80%{transform:translate(-5%,-3%) rotate(-3deg) rotateY(0deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}}
+.heroWrap.mma[data-mv=superman] .throwArm{animation:hthrowArm_superman .7s cubic-bezier(.3,.7,.3,1)}
+@keyframes hthrowArm_superman{0%{transform:rotate(0deg) scale(1)}25%{transform:rotate(-30deg) scale(1)}55%{transform:rotate(82deg) scale(1.15)}80%{transform:rotate(50deg) scale(1)}100%{transform:rotate(0deg) scale(1)}}
+.heroWrap.mma[data-mv=superman] .legB{animation:hlegB_superman .7s cubic-bezier(.3,.7,.3,1)}
+@keyframes hlegB_superman{0%{transform:rotate(0deg) scale(1)}55%{transform:rotate(-45deg) scale(1)}100%{transform:rotate(0deg) scale(1)}}
+.heroWrap.mma[data-mv=knee]{animation:hb_knee .75s cubic-bezier(.3,.7,.3,1)}
+@keyframes hb_knee{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}20%{transform:translate(0,4%) rotate(0deg) rotateY(0deg) scale(1.03,.95)}50%{transform:translate(-10%,-16%) rotate(-6deg) rotateY(0deg) scale(1,1)}75%{transform:translate(-4%,-5%) rotate(-2deg) rotateY(0deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}}
+.heroWrap.mma[data-mv=knee] .legK{animation:hlegK_knee .75s cubic-bezier(.3,.7,.3,1)}
+@keyframes hlegK_knee{0%{transform:rotate(0deg) scale(1)}20%{transform:rotate(10deg) scale(1)}50%{transform:rotate(80deg) scale(1.08)}75%{transform:rotate(30deg) scale(1)}100%{transform:rotate(0deg) scale(1)}}
+.heroWrap.mma[data-mv=knee] .throwArm{animation:hthrowArm_knee .75s cubic-bezier(.3,.7,.3,1)}
+@keyframes hthrowArm_knee{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(-35deg) scale(1)}100%{transform:rotate(0deg) scale(1)}}
+.heroWrap.mma[data-mv=spinfist]{animation:hb_spinfist .8s cubic-bezier(.3,.7,.3,1)}
+@keyframes hb_spinfist{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}65%{transform:translate(-6%,0) rotate(-3deg) rotateY(-360deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) rotateY(-360deg) scale(1,1)}}
+.heroWrap.mma[data-mv=spinfist] .throwArm{animation:hthrowArm_spinfist .8s cubic-bezier(.3,.7,.3,1)}
+@keyframes hthrowArm_spinfist{0%{transform:rotate(0deg) scale(1)}40%{transform:rotate(10deg) scale(1)}65%{transform:rotate(88deg) scale(1.12)}85%{transform:rotate(50deg) scale(1)}100%{transform:rotate(0deg) scale(1)}}
+.heroWrap.mma[data-mv=front]{animation:hb_front .6s cubic-bezier(.3,.7,.3,1)}
+@keyframes hb_front{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}45%{transform:translate(-3%,0) rotate(9deg) rotateY(0deg) scale(1,1)}70%{transform:translate(-1%,0) rotate(4deg) rotateY(0deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}}
+.heroWrap.mma[data-mv=front] .legK{animation:hlegK_front .6s cubic-bezier(.3,.7,.3,1)}
+@keyframes hlegK_front{0%{transform:rotate(0deg) scale(1)}45%{transform:rotate(86deg) scale(1.16)}70%{transform:rotate(40deg) scale(1)}100%{transform:rotate(0deg) scale(1)}}
+.heroWrap.mma[data-mv=combo]{animation:hb_combo .95s cubic-bezier(.3,.7,.3,1)}
+@keyframes hb_combo{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}35%{transform:translate(-4%,-14%) rotate(0deg) rotateY(-360deg) scale(1,1)}63%{transform:translate(-12%,-9%) rotate(12deg) rotateY(-360deg) scale(1,1)}85%{transform:translate(-4%,-2%) rotate(4deg) rotateY(-360deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) rotateY(-360deg) scale(1,1)}}
+.heroWrap.mma[data-mv=combo] .throwArm{animation:hthrowArm_combo .95s cubic-bezier(.3,.7,.3,1)}
+@keyframes hthrowArm_combo{0%{transform:rotate(0deg) scale(1)}35%{transform:rotate(85deg) scale(1.1)}63%{transform:rotate(-20deg) scale(1)}100%{transform:rotate(0deg) scale(1)}}
+.heroWrap.mma[data-mv=combo] .legK{animation:hlegK_combo .95s cubic-bezier(.3,.7,.3,1)}
+@keyframes hlegK_combo{0%{transform:rotate(0deg) scale(1)}35%{transform:rotate(20deg) scale(1)}63%{transform:rotate(108deg) scale(1.18)}85%{transform:rotate(40deg) scale(1)}100%{transform:rotate(0deg) scale(1)}}
+.heroWrap.mma[data-mv=roll]{animation:hb_roll .85s cubic-bezier(.3,.7,.3,1)}
+@keyframes hb_roll{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}20%{transform:translate(2%,2%) rotate(0deg) rotateY(0deg) scale(1.05,.92)}55%{transform:translate(-18%,0) rotate(-360deg) rotateY(0deg) scale(1,1)}75%{transform:translate(-10%,0) rotate(-360deg) rotateY(0deg) scale(1,1)}100%{transform:translate(0,0) rotate(-360deg) rotateY(0deg) scale(1,1)}}
+.heroWrap.mma[data-mv=spin]{animation:hb_spin .9s cubic-bezier(.3,.7,.3,1)}
+@keyframes hb_spin{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}30%{transform:translate(0,-10%) rotate(0deg) rotateY(-300deg) scale(1,1)}62%{transform:translate(-6%,-4%) rotate(0deg) rotateY(-720deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) rotateY(-720deg) scale(1,1)}}
+.heroWrap.mma[data-mv=stand]{animation:hb_stand .85s cubic-bezier(.3,.7,.3,1)}
+@keyframes hb_stand{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}22%{transform:translate(0,2%) rotate(0deg) rotateY(0deg) scale(1.04,.94)}50%{transform:translate(0,-3%) rotate(56deg) rotateY(0deg) scale(1,1)}70%{transform:translate(0,-5%) rotate(60deg) rotateY(0deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}}
+.heroWrap.mma[data-mv=pounce]{animation:hb_pounce .7s cubic-bezier(.3,.7,.3,1)}
+@keyframes hb_pounce{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}30%{transform:translate(4%,3%) rotate(4deg) rotateY(0deg) scale(1.06,.88)}55%{transform:translate(-22%,-20%) rotate(-14deg) rotateY(0deg) scale(1,1)}80%{transform:translate(-8%,-3%) rotate(-4deg) rotateY(0deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}}
+.heroWrap.mma[data-mv=ccombo]{animation:hb_ccombo 1.1s cubic-bezier(.3,.7,.3,1)}
+@keyframes hb_ccombo{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}40%{transform:translate(-16%,0) rotate(-360deg) rotateY(0deg) scale(1,1)}55%{transform:translate(-12%,0) rotate(-360deg) rotateY(0deg) scale(1,1)}72%{transform:translate(-8%,-5%) rotate(-302deg) rotateY(0deg) scale(1,1)}88%{transform:translate(-3%,-2%) rotate(-330deg) rotateY(0deg) scale(1,1)}100%{transform:translate(0,0) rotate(-360deg) rotateY(0deg) scale(1,1)}}
+.heroWrap.mma[data-mv=roll],.heroWrap.mma[data-mv=ccombo]{transform-origin:50% 72%}.heroWrap.mma[data-mv=stand]{transform-origin:76% 92%}
+.heroWrap .dogTail{transform-box:fill-box;transform-origin:30% 50%;animation:wag .5s ease-in-out infinite alternate}@keyframes wag{from{transform:rotate(-12deg)}to{transform:rotate(14deg)}}
+.villWrap.vmma[data-mv=charge] .vInner{animation:vm_charge .7s cubic-bezier(.3,.7,.3,1)}
+@keyframes vm_charge{0%{transform:translate(0,0) rotate(0deg) scale(1,1)}30%{transform:translate(-8%,0) rotate(-6deg) scale(.95,1.05)}50%{transform:translate(40%,0) rotate(8deg) scale(1.1,.92)}72%{transform:translate(18%,0) rotate(2deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) scale(1,1)}}
+.villWrap.vmma[data-mv=head] .vInner{animation:vm_head .7s cubic-bezier(.3,.7,.3,1)}
+@keyframes vm_head{0%{transform:translate(0,0) rotate(0deg) scale(1,1)}30%{transform:translate(-10%,0) rotate(-14deg) scale(1,1)}50%{transform:translate(28%,4%) rotate(26deg) scale(1.05,.95)}75%{transform:translate(10%,0) rotate(8deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) scale(1,1)}}
+.villWrap.vmma[data-mv=slam] .vInner{animation:vm_slam .9s cubic-bezier(.3,.7,.3,1)}
+@keyframes vm_slam{0%{transform:translate(0,0) rotate(0deg) scale(1,1)}35%{transform:translate(18%,-55%) rotate(-12deg) scale(.95,1.08)}57%{transform:translate(38%,0) rotate(0deg) scale(1.25,.75)}78%{transform:translate(18%,0) rotate(0deg) scale(.95,1.05)}100%{transform:translate(0,0) rotate(0deg) scale(1,1)}}
+.villWrap.vmma[data-mv=tornado] .vInner{animation:vm_tornado .85s cubic-bezier(.3,.7,.3,1)}
+@keyframes vm_tornado{0%{transform:translate(0,0) rotate(0deg) scale(1,1)}57%{transform:translate(30%,-8%) rotate(360deg) scale(1,1)}100%{transform:translate(0,0) rotate(360deg) scale(1,1)}}
+.villWrap.vmma[data-mv=shoot] .vInner{animation:vm_shoot .7s cubic-bezier(.3,.7,.3,1)}
+@keyframes vm_shoot{0%{transform:translate(0,0) rotate(0deg) scale(1,1)}25%{transform:translate(-4%,12%) rotate(0deg) scale(1.1,.7)}50%{transform:translate(42%,14%) rotate(0deg) scale(1.25,.65)}75%{transform:translate(20%,6%) rotate(0deg) scale(1,.9)}100%{transform:translate(0,0) rotate(0deg) scale(1,1)}}
+@keyframes vh_up{0%{transform:translate(0,0) rotate(0deg) scale(1,1);filter:brightness(3) saturate(0)}30%{transform:translate(-10%,-28%) rotate(-25deg) scale(1,1);filter:brightness(1.6)}60%{transform:translate(-6%,-8%) rotate(-8deg) scale(1,1);filter:none}82%{transform:translate(0,2%) rotate(3deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) scale(1,1)}}
+@keyframes vh_spin{0%{transform:translate(0,0) rotate(0deg) scale(1,1);filter:brightness(3) saturate(0)}40%{transform:translate(-18%,-4%) rotate(-200deg) scale(1,1);filter:brightness(1.5)}75%{transform:translate(-6%,0) rotate(-340deg) scale(1,1);filter:none}100%{transform:translate(0,0) rotate(-360deg) scale(1,1)}}
+.villWrap.vhit[data-hit=up] .vInner{animation:vh_up .65s ease-out}
+.villWrap.vhit[data-hit=spin] .vInner{animation:vh_spin .7s ease-out}
+@keyframes hh_squash{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1);filter:none}18%{transform:translate(0,12%) rotate(0deg) rotateY(0deg) scale(1.28,.62);filter:drop-shadow(0 0 14px #ff004c) brightness(1.4)}45%{transform:translate(0,-3%) rotate(0deg) rotateY(0deg) scale(.9,1.12);filter:none}70%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1.05,.96)}100%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}}
+@keyframes hh_fall{0%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1);filter:none}22%{transform:translate(5%,5%) rotate(36deg) rotateY(0deg) scale(1,1);filter:drop-shadow(0 0 14px #ff004c) brightness(1.4)}55%{transform:translate(4%,4%) rotate(32deg) rotateY(0deg) scale(1,1);filter:none}80%{transform:translate(1%,0) rotate(-4deg) rotateY(0deg) scale(1,1)}100%{transform:translate(0,0) rotate(0deg) rotateY(0deg) scale(1,1)}}
+.heroWrap.hurt[data-hit=squash]{animation:hh_squash .75s ease;transform-origin:50% 100%}
+.heroWrap.hurt[data-hit=fall]{animation:hh_fall .85s ease;transform-origin:50% 95%}
+.mvTag{position:absolute;transform:translate(-50%,-100%);white-space:nowrap;font-weight:900;font-size:clamp(18px,3.6vmin,32px);color:#fff;text-shadow:var(--ol);padding:2px 14px;border:4px solid var(--ink);border-radius:14px;background:linear-gradient(90deg,#ff006e,#ffbe0b);box-shadow:0 5px 0 var(--ink);animation:mvTag 1.2s ease forwards;z-index:5;pointer-events:none}
+.mvTag.vill{background:linear-gradient(90deg,#3c096c,#9d4edd)}
+@keyframes mvTag{0%{opacity:0;transform:translate(-50%,-100%) scale(.3) rotate(-8deg)}15%{opacity:1;transform:translate(-50%,-100%) scale(1.15) rotate(-4deg)}30%{transform:translate(-50%,-100%) scale(1) rotate(-3deg)}75%{opacity:1;transform:translate(-50%,-115%) scale(1) rotate(-3deg)}100%{opacity:0;transform:translate(-50%,-150%) scale(.9) rotate(-3deg)}}
 </style>
 </head>
 <body>
@@ -1116,7 +1193,7 @@ function V(li){
  return V_CACHE[key]=v;
 }
 /* סגנון צבע לכל שלב */
-const STYLE_KEYS=['pop','duo','teal','synth','bio','neon','tene'];
+const STYLE_KEYS=['pop','teal','synth','bio','neon','tene'];
 const DUO_PAIRS=[['#1b1464','#ffcc4d'],['#2d0b4e','#5cf2ff'],['#2a1a0e','#f2d27a'],['#0b3d2e','#b8ff6a'],['#3d0b1f','#ff9ecb'],['#002b5c','#ff8f5a'],['#251605','#7ef0c7'],['#14213d','#fca311'],['#2b0f54','#ff6ac1']];
 function worldStyles(wi){ const r=srng(GSEED(),'st',wi); let o=rShuffle(r,STYLE_KEYS).slice(0,4); if(wi>WORLDS.length){ const pv=worldStyles(wi-1); if(o[0]===pv[3]) o=[o[1],o[0],o[2],o[3]]; } return o; }
 const ST_CACHE={};
@@ -1321,6 +1398,8 @@ const SFX={
  wrong(){tone(N(60),.28,{type:'sawtooth',vol:.06,slide:N(55)});tone(N(55),.42,{type:'sawtooth',vol:.06,when:.25,slide:N(48)});},
  letter(i=0){tone(N(72+[0,2,4,7,9,12,14,16][i%8]),.14,{type:'triangle',vol:.2});},
  throw(){noise(.35,{vol:.22,f1:500,f2:5000,q:2});tone(280,.3,{type:'sine',vol:.08,slide:1000});},
+ whoosh(){noise(.22,{vol:.2,f1:300,f2:3200,q:1.5});},
+ thud(){tone(110,.18,{type:'sine',vol:.22,slide:55});noise(.12,{vol:.18,ftype:'lowpass',f1:900,f2:200});},
  hit(){tone(160,.35,{type:'sine',vol:.5,slide:40});noise(.3,{vol:.32,ftype:'lowpass',f1:3000,f2:200});},
  crit(){SFX.hit();[84,88,91,96].forEach((m,i)=>tone(N(m),.16,{type:'square',vol:.06,when:.08+i*.05}));},
  hurt(){tone(240,.25,{type:'square',vol:.09,slide:110});noise(.2,{vol:.2,ftype:'lowpass',f1:1200,f2:300});},
@@ -1509,10 +1588,104 @@ function avigailInner(){
  ${exprGroups({hair:H,ey:11,brow:-1,bw:3,my:27,rx:8.6,ry:10.4,ir:6.2,lash:true,iris:'#5a3a22',smile:`<path d="M-8,25 Q0,33 8,25 Q0,28 -8,25Z" fill="#c9184a" stroke="${K}" stroke-width="2.2" stroke-linejoin="round"/>`})}`;
 }
 const CHARS={
- ariel:{name:'אריאל',suit:['#5b95ff','#1e3fae'],bg:'radial-gradient(circle at 50% 30%,#e3f1ff,#9ccbff)',inner:arielInner,skin:'#f7d2b4',cape:'red'},
- avigail:{name:'אביגיל',suit:['#9d4edd','#3c096c'],bg:'radial-gradient(circle at 50% 30%,#f6e6ff,#d6a6ff)',inner:avigailInner,skin:'#f9dcc4',cape:'purple',tutu:true}
+ ariel:{name:'אריאל',label:'אריאל הגיבור',suit:['#5b95ff','#1e3fae'],bg:'radial-gradient(circle at 50% 30%,#e3f1ff,#9ccbff)',inner:arielInner,skin:'#f7d2b4',cape:'red'},
+ avigail:{name:'אביגיל',label:'אביגיל הגיבורה',fem:true,suit:['#9d4edd','#3c096c'],bg:'radial-gradient(circle at 50% 30%,#f6e6ff,#d6a6ff)',inner:avigailInner,skin:'#f9dcc4',cape:'purple',tutu:true}
 };
-const charOf=p=>{ if(!p) return 'ariel'; const m=p.photoMode; if(m==='avigail') return 'avigail'; if(!m||m==='ariel'||m==='kid'||(m==='custom'&&!p.photo)) return 'ariel'; return null; };
+/* רוני – בת 7, שיער חום בהיר עד הכתפיים, לחיים שמנמנות, חיוך מתוק */
+function roniInner(){
+ const K=CH_K, H='#a87a52', H2='#cfa070', SK='#fbd9c0', SK2='#e9a98a';
+ const back='M-42,-8 C-48,-34 -28,-52 0,-52 C28,-52 48,-34 42,-8 C46,10 47,30 43,46 Q36,53 28,45 C31,32 31,18 28,4 L-28,4 C-31,18 -31,32 -28,45 Q-36,53 -43,46 C-47,30 -46,10 -42,-8Z';
+ return `<path d="${back}" fill="${H}" stroke="${K}" stroke-width="2.8" stroke-linejoin="round"/>
+ <path d="M-39,16 C-41,28 -39,38 -37,44 M39,16 C41,28 39,38 37,44" stroke="${H2}" stroke-width="2" fill="none" stroke-linecap="round"/>
+ <path d="M0,10 m-35,0 a35,33 0 1,0 70,0 a35,33 0 1,0 -70,0" fill="${SK}" stroke="${K}" stroke-width="3"/>
+ <ellipse cx="-22" cy="24" rx="9" ry="6.5" fill="#ff8fa3" opacity=".62"/><ellipse cx="22" cy="24" rx="9" ry="6.5" fill="#ff8fa3" opacity=".62"/>
+ <circle cx="-25" cy="22" r="2" fill="#fff" opacity=".7"/><circle cx="19" cy="22" r="2" fill="#fff" opacity=".7"/>
+ <path d="M-1.5,16 Q1,19 3.5,16" stroke="${SK2}" stroke-width="2" fill="none" stroke-linecap="round"/>
+ <path d="M-35,0 C-38,-26 -20,-42 2,-42 C24,-42 38,-28 35,-2 Q30,-12 22,-12 Q14,-22 0,-17 Q-10,-13 -18,-14 Q-26,-12 -30,-6 Q-33,-4 -35,0Z" fill="${H}" stroke="${K}" stroke-width="2.4" stroke-linejoin="round"/>
+ <path d="M-22,-30 C-12,-36 2,-34 14,-36 M16,-28 C22,-30 28,-26 31,-20" stroke="${H2}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+ ${exprGroups({hair:'#7a5232',ey:8,brow:-7,bw:3.2,my:26,lash:true,iris:'#6b4226',smile:`<path d="M-9,24 Q0,33 9,24" stroke="${K}" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M-13,23 q-2.5,2 0,4.5 M13,23 q2.5,2 0,4.5" stroke="${SK2}" stroke-width="1.8" fill="none" stroke-linecap="round"/>`})}`;
+}
+/* טליה – בת 10, משקפיים עגולים בצבע זהב, שיער בלונד-שטני ארוך בקוקו */
+function taliaInner(){
+ const K=CH_K, H='#b8935e', H2='#dcbc84', SK='#fde7d6', SK2='#eab49a', G='#d4a017';
+ return `<path d="M18,-38 C42,-48 62,-30 58,-2 C56,18 52,36 44,54 C36,42 38,24 38,8 C38,-12 32,-24 16,-30Z" fill="${H}" stroke="${K}" stroke-width="2.6" stroke-linejoin="round"/>
+ <path d="M46,-24 C53,-6 50,16 45,38 M40,-30 C46,-14 45,6 42,22" stroke="${H2}" stroke-width="2" fill="none" stroke-linecap="round"/>
+ <ellipse cx="-33" cy="12" rx="6.5" ry="9" fill="${SK}" stroke="${K}" stroke-width="2.2"/><ellipse cx="33" cy="12" rx="6.5" ry="9" fill="${SK}" stroke="${K}" stroke-width="2.2"/>
+ <ellipse cx="0" cy="9" rx="31.5" ry="37" fill="${SK}" stroke="${K}" stroke-width="3"/>
+ <ellipse cx="-20" cy="25" rx="6" ry="3.6" fill="#ff8fa3" opacity=".42"/><ellipse cx="20" cy="25" rx="6" ry="3.6" fill="#ff8fa3" opacity=".42"/>
+ <path d="M-1.5,19 Q1,22.5 3.5,19" stroke="${SK2}" stroke-width="2" fill="none" stroke-linecap="round"/>
+ <path d="M-33,4 C-37,-26 -18,-46 0,-46 C18,-46 37,-26 33,4 C31,-8 26,-18 18,-24 C10,-30 4,-29 0,-25 C-4,-29 -10,-30 -18,-24 C-26,-18 -31,-8 -33,4Z" fill="${H}" stroke="${K}" stroke-width="2.6" stroke-linejoin="round"/>
+ <path d="M-25,-30 C-19,-38 -10,-42 -4,-43 M25,-30 C19,-38 10,-42 4,-43 M0,-45 V-27" stroke="${H2}" stroke-width="1.9" fill="none" stroke-linecap="round"/>
+ <ellipse cx="25" cy="-37" rx="6" ry="4.8" fill="#ff70a6" stroke="${K}" stroke-width="2" transform="rotate(-30 25 -37)"/>
+ ${exprGroups({hair:'#8a6a3e',ey:9,brow:-7,bw:3,my:28,rx:7,ry:8.5,ir:5,lash:true,iris:'#5b7a3a',smile:`<path d="M-9,26 Q0,34 9,26 Q0,29 -9,26Z" fill="#fff" stroke="${K}" stroke-width="2.4" stroke-linejoin="round"/>`})}
+ <g fill="none" stroke="${K}" stroke-width="1.2" opacity=".55"><circle cx="-14" cy="9" r="13.7"/><circle cx="14" cy="9" r="13.7"/></g>
+ <g fill="none" stroke="${G}" stroke-width="3.2"><circle cx="-14" cy="9" r="12"/><circle cx="14" cy="9" r="12"/><path d="M-2.2,7 Q0,4.5 2.2,7"/><path d="M-26,7 L-32,5 M26,7 L32,5" stroke-linecap="round"/></g>
+ <path d="M-20,1 l4,-3 M8,1 l4,-3" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".75"/>`;
+}
+/* אורי – בן 3, חיוך ענק מלא שיניים, עיניים כחולות, בלורית בלונד-שטנית מסורקת לצד */
+function uriInner(){
+ const K=CH_K, H='#b8935e', H2='#dcbc84', SK='#fcdcc6', SK2='#eaa98a';
+ const grin=`<path d="M-18,19 Q0,48 18,19 Q0,24 -18,19Z" fill="#7a1f2b" stroke="${K}" stroke-width="2.4" stroke-linejoin="round"/><path d="M-15.5,20.8 Q0,25.4 15.5,20.8 L14,27 Q0,30.5 -14,27Z" fill="#fff"/><path d="M-8,24.5 v4.5 M-2.7,25.4 v5 M2.7,25.4 v5 M8,24.5 v4.5" stroke="#cfcfd6" stroke-width="1.1"/><path d="M-11,30.6 Q0,33.5 11,30.6 L9,33.6 Q0,36 -9,33.6Z" fill="#fff" opacity=".9"/><path d="M-7,38 Q0,41.5 7,38 Q0,34.5 -7,38Z" fill="#ff7a8a"/>`;
+ return `<path d="M-36,8 C-42,-22 -22,-44 2,-44 C26,-44 42,-24 36,8 C34,-4 30,-10 26,-12 L-28,-12 C-32,-6 -35,0 -36,8Z" fill="${H}" stroke="${K}" stroke-width="2.8" stroke-linejoin="round"/>
+ <ellipse cx="-34" cy="14" rx="6.5" ry="8.5" fill="${SK}" stroke="${K}" stroke-width="2.2"/><ellipse cx="34" cy="14" rx="6.5" ry="8.5" fill="${SK}" stroke="${K}" stroke-width="2.2"/>
+ <ellipse cx="0" cy="12" rx="33" ry="32" fill="${SK}" stroke="${K}" stroke-width="3"/>
+ <ellipse cx="-22" cy="23" rx="7.5" ry="5" fill="#ff8fa3" opacity=".55"/><ellipse cx="22" cy="23" rx="7.5" ry="5" fill="#ff8fa3" opacity=".55"/>
+ <path d="M-1.5,16 Q1,18.5 3.5,16" stroke="${SK2}" stroke-width="2" fill="none" stroke-linecap="round"/>
+ <path d="M-31,-4 C-35,-30 -8,-50 22,-40 C34,-35 40,-24 36,-8 C30,-23 16,-27 2,-23 C-10,-20 -21,-13 -31,-4Z" fill="${H}" stroke="${K}" stroke-width="2.4" stroke-linejoin="round"/>
+ <path d="M-17,-27 C-5,-37 12,-39 28,-31 M-9,-19 C3,-27 17,-29 31,-21" stroke="${H2}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+ <path d="M-21,-35 C-25,-27 -27,-19 -29,-8" stroke="${K}" stroke-width="1.6" fill="none" opacity=".45"/>
+ ${exprGroups({hair:'#8a6a3e',ey:10,brow:-3,bw:3,my:26,rx:8.6,ry:10,ir:6.2,iris:'#2f80ed',smile:grin})}`;
+}
+/* כרמן – כלבת קורגי טריקולור */
+function carmenInner(){
+ const K=CH_K, T='#d9822b', W='#fffaf2', B='#2b2523', P='#ffadc6', P2='#ff8fb1';
+ const ear=s=>`<g transform="scale(${s},1)"><path d="M-37,-8 C-47,-28 -50,-50 -45,-61 Q-40,-70 -32,-63 C-23,-53 -15,-41 -10,-28Z" fill="${B}" stroke="${K}" stroke-width="2.6" stroke-linejoin="round"/><path d="M-32,-15 C-40,-31 -42,-47 -40,-55 Q-37,-60 -33,-56 C-26,-47 -20,-38 -16,-29Z" fill="${P}"/><path d="M-34,-22 C-36,-32 -37,-42 -36,-50" stroke="${P2}" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".8"/></g>`;
+ const tuft=(x,y,r,c)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${c}" stroke="${K}" stroke-width="2.6"/>`;
+ const fluff=[[-38,2,7],[-40,12,7],[-37,22,7],[-31,30,7],[38,2,7],[40,12,7],[37,22,7],[31,30,7]].map(([x,y,r])=>tuft(x,y,r,T)).join('')+[[-20,38,7],[-9,41,7],[2,42,7],[13,40,7],[22,36,6.5]].map(([x,y,r])=>tuft(x,y,r,W)).join('');
+ return `${ear(1)}${ear(-1)}${fluff}
+ <path d="M-37,-4 C-39,-26 -20,-37 0,-37 C20,-37 39,-26 37,-4 C37,17 26,35 0,37 C-26,35 -37,17 -37,-4Z" fill="${T}" stroke="${K}" stroke-width="3"/>
+ <path d="M-36,4 C-37,18 -30,30 -22,35 L22,35 C30,30 37,18 36,4" fill="${T}"/>
+ <path d="M-31,-22 C-20,-35 20,-35 31,-22 C23,-19 12,-24 6,-15 L-6,-15 C-12,-24 -23,-19 -31,-22Z" fill="${B}"/>
+ <path d="M-5,-31 C-3,-17 -8,-1 -16,11 C-24,20 -24,34 -10,40 L10,40 C24,34 24,20 16,11 C8,-1 3,-17 5,-31Z" fill="${W}"/>
+ <path d="M-34,-6 l-5,-2 l3,5 M34,-6 l5,-2 l-3,5 M-6,-36 l2,-5 l2,4 l2,-5 l2,5" stroke="${K}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+ <ellipse cx="-25" cy="16" rx="7" ry="4.5" fill="#ff8fa3" opacity=".5"/><ellipse cx="25" cy="16" rx="7" ry="4.5" fill="#ff8fa3" opacity=".5"/>
+ ${exprGroups({hair:'#f4b56a',ey:1,brow:-12,bw:4.4,my:22,rx:7.4,ry:8.4,ir:6.4,iris:'#3b2414',smile:`<path d="M-5.5,20 C-6.5,30 -3.5,36 0,36 C3.5,36 6.5,30 5.5,20Z" fill="${P}" stroke="${K}" stroke-width="1.8" stroke-linejoin="round"/><path d="M0,22 V31" stroke="${P2}" stroke-width="1.6" stroke-linecap="round"/><path d="M-13,16 Q-6,25 0,18 Q6,25 13,16" stroke="${B}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`})}
+ <path d="M-7.5,9 Q0,4 7.5,9 Q4.5,15.5 0,15.5 Q-4.5,15.5 -7.5,9Z" fill="${B}"/><ellipse cx="-2.5" cy="8.4" rx="2.2" ry="1.3" fill="#fff" opacity=".7"/>`;
+}
+/* גוף הקורגי (מבט מהצד, פונה אל הנבל) */
+function carmenSVG(p,id,cape,stops){
+ const K='#2b1055', T='#d9822b', W='#fffaf2', B='#2b2523';
+ const initial=esc((p.name||'').trim().charAt(0)||'★');
+ const leg=(x,h=48)=>`<rect x="${x}" y="196" width="18" height="${h}" rx="8" fill="${T}" stroke="${K}" stroke-width="4"/><ellipse cx="${x+8}" cy="${196+h-2}" rx="12" ry="7" fill="${W}" stroke="${K}" stroke-width="4"/>`;
+ return `<svg viewBox="0 0 200 270" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="cape${id}" x1="0" y1="0" x2="1" y2="1">${stops}</linearGradient>
+<radialGradient id="sack${id}" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#f1dfc0"/><stop offset="1" stop-color="#a47148"/></radialGradient></defs>
+<ellipse cx="104" cy="258" rx="82" ry="8" fill="#000" opacity=".18"/>
+<g class="dogTail">${[[178,166,11],[188,174,10],[180,184,10],[172,176,10]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${W}" stroke="${K}" stroke-width="3.5"/>`).join('')}<circle cx="180" cy="175" r="10" fill="${W}"/></g>
+${leg(150)}${leg(130,46)}
+<path d="M40,178 C38,150 66,138 106,138 C148,138 184,150 184,180 C184,206 156,216 110,216 C66,216 42,206 40,178Z" fill="${T}" stroke="${K}" stroke-width="5"/>
+<path d="M72,142 C100,132 152,134 180,162 C160,158 134,156 112,162 C94,166 80,160 72,142Z" fill="${B}"/>
+<path d="M42,182 C44,204 64,214 92,214 C76,204 66,190 64,170 C54,166 46,170 42,182Z" fill="${W}"/>
+${leg(52)}${leg(74,46)}
+<path d="M62,134 C90,124 136,128 170,148 C178,168 174,194 162,212 Q144,198 124,210 Q108,194 90,202 C84,174 76,150 62,134Z" fill="url(#cape${id})" stroke="${K}" stroke-width="4" stroke-linejoin="round"/>
+<g id="pouch${id}"><circle cx="112" cy="129" r="5.5" fill="#ff70a6" stroke="${K}" stroke-width="2.4"/><circle cx="122" cy="125" r="5.5" fill="#ffd60a" stroke="${K}" stroke-width="2.4"/><circle cx="131" cy="129" r="5" fill="#7cff8a" stroke="${K}" stroke-width="2.4"/>
+<path d="M104,131 Q98,156 120,162 Q144,158 138,132 Q128,127 120,129 Q112,127 104,131Z" fill="url(#sack${id})" stroke="${K}" stroke-width="3.5"/><path d="M108,133 Q121,140 134,133" stroke="${K}" stroke-width="3" fill="none"/></g>
+${[[38,170,9],[48,182,10],[62,188,10],[76,184,9],[84,172,8]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${W}" stroke="${K}" stroke-width="3"/>`).join('')}
+<path d="M34,158 Q60,176 88,158" stroke="#ff006e" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M34,158 Q60,176 88,158" stroke="${K}" stroke-width="2" fill="none" opacity=".35"/>
+${charHead('carmen','translate(60,122) scale(.9)')}
+<circle cx="61" cy="177" r="9.5" fill="#ffd60a" stroke="${K}" stroke-width="3"/><text x="61" y="181.5" text-anchor="middle" font-size="11.5" font-weight="900" fill="${K}" font-family="Rubik,Arial,sans-serif">${initial}</text>
+<circle id="fist${id}" cx="60" cy="142" r="1" fill="none"/><circle id="foot${id}" cx="60" cy="240" r="1" fill="none"/><circle id="knee${id}" cx="70" cy="200" r="1" fill="none"/>
+</svg>`;
+}
+const CHARS2={
+ roni:{name:'רוני',label:'רוני הגיבורה',suit:['#ff8fab','#c9184a'],bg:'radial-gradient(circle at 50% 30%,#fff0f3,#ffb3c6)',inner:roniInner,skin:'#fbd9c0',cape:'red',fem:true},
+ talia:{name:'טליה',label:'טליה הגיבורה',suit:['#5eead4','#0f766e'],bg:'radial-gradient(circle at 50% 30%,#e6fffb,#99f6e4)',inner:taliaInner,skin:'#fde7d6',cape:'blue',fem:true},
+ uri:{name:'אורי',label:'אורי הגיבור',suit:['#ffb703','#e85d04'],bg:'radial-gradient(circle at 50% 30%,#fff7e0,#ffd166)',inner:uriInner,skin:'#fcdcc6',cape:'green'},
+ carmen:{name:'כרמן',label:'כרמן הקורגית',suit:['#d9822b','#8a4b1c'],bg:'radial-gradient(circle at 50% 30%,#fff4e6,#f6c28b)',inner:carmenInner,skin:'#d9822b',cape:'red',fem:true,dog:true}
+};
+
+Object.assign(CHARS,CHARS2);
+const charOf=p=>{ if(!p) return 'ariel'; const m=p.photoMode; if(CHARS[m]) return m; if(!m||m==='ariel'||m==='kid'||(m==='custom'&&!p.photo)) return 'ariel'; return null; };
 const charHead=(c,tf='',ex='idle')=>`<g class="charHead" data-ex="${ex}" ${tf?`transform="${tf}"`:''}>${CHARS[c].inner()}</g>`;
 
 const isAriel=p=>charOf(p)==='ariel';
@@ -1528,6 +1701,7 @@ function heroSVG(p,id){
  const stops=cape.c.map((c,i)=>`<stop offset="${(i/(cape.c.length-1)).toFixed(2)}" stop-color="${c}"/>`).join('');
  const initial=esc((p.name||'').trim().charAt(0)||'★');
  const ch=charOf(p), CH=ch?CHARS[ch]:null, SK=CH?CH.skin:'#f7d2b4', SU=CH?CH.suit:['#5b95ff','#1e3fae'];
+ if(CH&&CH.dog) return carmenSVG(p,id,cape,stops);
  const face=p.photoMode==='cartoon'?cartoonFace(100,68,47,cape.c[0]):`<image class="heroFace" href="${p.photo}" x="51" y="19" width="98" height="98" clip-path="url(#clip${id})" preserveAspectRatio="xMidYMid slice"/>`;
  const boot=cape.c[cape.c.length-1];
  return `<svg viewBox="0 0 200 270" xmlns="http://www.w3.org/2000/svg">
@@ -1539,15 +1713,17 @@ function heroSVG(p,id){
 </defs>
 <ellipse cx="100" cy="262" rx="70" ry="8" fill="#000" opacity=".18"/>
 <path d="M64,112 C44,165 34,215 22,258 Q60,246 100,254 Q140,246 178,258 C166,215 156,165 136,112 Z" fill="url(#cape${id})" stroke="${K}" stroke-width="5" stroke-linejoin="round"/>
-<rect x="74" y="190" width="22" height="52" rx="10" fill="url(#suit${id})" stroke="${K}" stroke-width="5"/>
-<rect x="104" y="190" width="22" height="52" rx="10" fill="url(#suit${id})" stroke="${K}" stroke-width="5"/>
-<path d="M68,236 h30 v14 q0,8 -8,8 h-24 q-6,0 -6,-6z" fill="${boot}" stroke="${K}" stroke-width="4"/>
-<path d="M102,236 h30 v16 q0,6 -6,6 h-16 q-8,0 -8,-8z" fill="${boot}" stroke="${K}" stroke-width="4"/>
+<g class="legB"><rect x="104" y="190" width="22" height="52" rx="10" fill="url(#suit${id})" stroke="${K}" stroke-width="5"/>
+<path d="M102,236 h30 v16 q0,6 -6,6 h-16 q-8,0 -8,-8z" fill="${boot}" stroke="${K}" stroke-width="4"/></g>
+<g class="legF"><rect x="74" y="190" width="22" height="52" rx="10" fill="url(#suit${id})" stroke="${K}" stroke-width="5"/>
+<path d="M68,236 h30 v14 q0,8 -8,8 h-24 q-6,0 -6,-6z" fill="${boot}" stroke="${K}" stroke-width="4"/></g>
 <path d="M66,120 Q100,106 134,120 L140,198 Q100,210 60,198 Z" fill="url(#suit${id})" stroke="${K}" stroke-width="5" stroke-linejoin="round"/>
 ${CH&&CH.tutu?`<path d="M58,184 L142,184 L150,206 L137,199 L126,210 L113,200 L100,211 L87,200 L74,210 L63,199 L50,206Z" fill="#e0aaff" stroke="${K}" stroke-width="4" stroke-linejoin="round"/><path d="M66,192 l4,6 M84,192 l3,7 M100,192 v8 M116,192 l-3,7 M134,192 l-4,6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>`:''}
 <rect x="62" y="179" width="76" height="13" rx="5" fill="#ffd60a" stroke="${K}" stroke-width="4"/>
 <circle cx="100" cy="149" r="19" fill="#ffd60a" stroke="${K}" stroke-width="4"/>
 <text x="100" y="158" text-anchor="middle" font-size="24" font-weight="900" fill="${K}" font-family="Rubik,Arial,sans-serif">${initial}</text>
+<g class="legK"><rect x="74" y="190" width="22" height="52" rx="10" fill="url(#suit${id})" stroke="${K}" stroke-width="5"/>
+<path d="M68,236 h30 v14 q0,8 -8,8 h-24 q-6,0 -6,-6z" fill="${boot}" stroke="${K}" stroke-width="4"/><circle id="foot${id}" cx="78" cy="250" r="1" fill="none"/><circle id="knee${id}" cx="85" cy="216" r="1" fill="none"/></g>
 <g class="pouchArm">
 <path d="M134,124 Q156,140 156,170" fill="none" stroke="${K}" stroke-width="20" stroke-linecap="round"/>
 <path d="M134,124 Q156,140 156,170" fill="none" stroke="url(#suit${id})" stroke-width="11" stroke-linecap="round"/>
@@ -1561,7 +1737,7 @@ ${CH&&CH.tutu?`<path d="M58,184 L142,184 L150,206 L137,199 L126,210 L113,200 L10
 <g class="throwArm">
 <path d="M66,124 Q44,142 44,172" fill="none" stroke="${K}" stroke-width="20" stroke-linecap="round"/>
 <path d="M66,124 Q44,142 44,172" fill="none" stroke="url(#suit${id})" stroke-width="11" stroke-linecap="round"/>
-<circle cx="44" cy="176" r="10" fill="${SK}" stroke="${K}" stroke-width="4"/>
+<circle cx="44" cy="176" r="10" fill="${SK}" stroke="${K}" stroke-width="4"/><circle id="fist${id}" cx="44" cy="176" r="1" fill="none"/>
 </g>
 ${ch?`<rect x="90" y="100" width="20" height="18" rx="4" fill="${SK}" stroke="${K}" stroke-width="4"/><path d="M80,116 Q100,128 120,116" stroke="${cape.c[0]}" stroke-width="7" fill="none" stroke-linecap="round"/>${charHead(ch,'translate(100,62)')}`:`<rect x="88" y="104" width="24" height="14" fill="#ffd2a8" stroke="${K}" stroke-width="4"/>
 <circle cx="100" cy="68" r="50" fill="#ffd2a8" stroke="${K}" stroke-width="5"/>
@@ -1631,7 +1807,7 @@ const STYLES={
  neon:{name:'ניאון-נואר',ic:'🌃',d:'עיר לילית, גשם ושלטי ניאון',sw:'linear-gradient(135deg,#05050d 30%,#ff2bd6 65%,#00e5ff)'},
  tene:{name:'אור וצל (טנבריזם)',ic:'🕯️',d:'חושך דרמטי ואלומת אור אחת',sw:'radial-gradient(circle at 30% 30%,#ffd08a,#5a3a1a 35%,#0b0806 70%)'}
 };
-const LEVEL_STYLE=['pop','duo','teal','synth','bio','neon','duo','bio','neon','teal','synth','neon','tene','duo','synth','tene'];
+const LEVEL_STYLE=['pop','neon','teal','synth','bio','neon','pop','bio','neon','teal','synth','neon','tene','teal','synth','tene'];
 const DUO={1:['#1b1464','#ffcc4d'],6:['#2d0b4e','#5cf2ff'],13:['#2a1a0e','#f2d27a']};
 const styleVars=li=>{ const d=duoOf(li); return `--d1:${d[0]};--d2:${d[1]}`; };
 function styleBg(st,li){ const d=duoOf(li); return ({pop:'linear-gradient(135deg,#ffde00,#ff7b00)',duo:`linear-gradient(135deg,${d[0]},${d[1]})`,teal:'linear-gradient(180deg,#002a30,#0b5c63 60%,#c4602b)',synth:'linear-gradient(180deg,#0d0221,#2a0a4a 60%,#7a1fa2)',bio:'radial-gradient(ellipse at 50% 100%,#0b3d4a,#031018 60%,#01060b)',neon:'linear-gradient(180deg,#05050d,#120a2a)',tene:'radial-gradient(ellipse at 30% 0%,#3a2614,#0b0806 60%)'})[st]; }
@@ -1850,7 +2026,7 @@ function showConcept(s,l,kind,run){
  bind(card,{again(){ SFX.pop(); play(); }, ok(){ SFX.click(); sayStop(); closeModal(); if(myB&&!alive(myB)) return; run(); }});
 }
 /* לשון נקבה לאביגיל */
-const isFem=()=>{ const p=me(); return !!p&&charOf(p)==='avigail'; };
+const isFem=()=>{ const p=me(); return !!p&&!!(CHARS[charOf(p)]||{}).fem; };
 const FEM_PH=[['גיבור על אמיתי','גיבורת על אמיתית'],['איזה גיבור','איזו גיבורה'],['גיבור על','גיבורת על'],['גיבור-על','גיבורת-על'],['אתה יכול','את יכולה']];
 const FEM_W={'בחר':'בחרי','נסה':'נסי','לחץ':'לחצי','אתה':'את','תקן':'תקני','כתוב':'כתבי','קרא':'קראי','מתח':'מתחי','איית':'אייתי','הקשב':'הקשיבי','שחרר':'שחררי','ספור':'ספרי','בוא':'בואי','פתור':'פתרי','שים':'שימי','עקוב':'עקבי','גיבור':'גיבורה','אלוף':'אלופה','מוכן':'מוכנה','תצליח':'תצליחי','תחזור':'תחזרי','גע':'געי','גרור':'גררי','בחרת':'בחרת'};
 const FEM_NQ={'אַיֵּת':'אַיְּתִי','מְתַח':'מִתְחִי','כְּתֹב':'כִּתְבִי','פְּתֹר':'פִּתְרִי','הִצַּלְתָּ':'הִצַּלְתְּ','כָּתַבְתָּ':'כָּתַבְתְּ'};
@@ -1980,8 +2156,7 @@ function playerModal(editP){
   <input id="nm" class="inp" maxlength="14" placeholder="כתבו כאן את השם" value="${editP?esc(editP.name):(DB.order.length?'':'אריאל')}" autocomplete="off">
   <label class="lbl">תמונת הגיבור:</label>
   <div class="facePick">
-   <button class="fp" data-act="m" data-m="ariel">${avatarHTML({photoMode:'ariel'},'80px')}<span>אריאל הגיבור</span></button>
-   <button class="fp" data-act="m" data-m="avigail">${avatarHTML({photoMode:'avigail'},'80px')}<span>אביגיל הגיבורה</span></button>
+   ${Object.keys(CHARS).map(c=>`<button class="fp" data-act="m" data-m="${c}">${avatarHTML({photoMode:c},'80px')}<span>${CHARS[c].label}</span></button>`).join('')}
    <button class="fp" data-act="m" data-m="custom"><span class="av" id="upPrev">📷</span><span>להעלות תמונה</span></button>
    <button class="fp" data-act="m" data-m="cartoon">${avatarHTML({photoMode:'cartoon',cape:'red'},'80px')}<span>גיבור מצויר</span></button>
   </div>
@@ -1994,7 +2169,7 @@ function playerModal(editP){
   cancel(){ SFX.click(); closeModal(); },
   ok(){ const inp=$('#nm',card); const name=inp.value.trim(); if(!name){ reflow(inp,'err'); SFX.oops(); say('מה השם של הגיבור?'); inp.focus(); return; }
    if(mode==='custom'&&!photo) mode='ariel';
-   if(editP){ editP.name=name; const was=editP.photoMode; editP.photoMode=mode; editP.photo=mode==='custom'?photo:null; if(mode==='avigail'&&was!=='avigail'){ if(!editP.capes.includes('purple')) editP.capes.push('purple'); editP.cape='purple'; } save(); closeModal(); SFX.unlock(); go(['battle','break'].includes(SCR)?'map':SCR); return; }
+   if(editP){ editP.name=name; const was=editP.photoMode; editP.photoMode=mode; editP.photo=mode==='custom'?photo:null; if(CHARS[mode]&&was!==mode&&CHARS[mode].cape!=='red'){ const cp=CHARS[mode].cape; if(!editP.capes.includes(cp)) editP.capes.push(cp); editP.cape=cp; } save(); closeModal(); SFX.unlock(); go(['battle','break'].includes(SCR)?'map':SCR); return; }
    const p=newPlayer(name,mode,mode==='custom'?photo:null); DB.players[p.id]=p; DB.order.push(p.id); DB.current=p.id; save(); startSession(); closeModal(); SFX.unlock(); confetti(80); showStory(()=>go('map')); }
  });
  $('#file',card).onchange=e=>{ const f=e.target.files&&e.target.files[0]; if(!f) return; resizeImage(f,220).then(d=>{ photo=d; mode='custom'; refresh(); }).catch(()=>toast('לא הצלחתי לטעון את התמונה')); };
@@ -2018,7 +2193,8 @@ function showStory(done){
 function whatsNew(){
  const p=me(); ['v2seen','v3seen','v4seen','v5seen'].forEach(f=>p.flags[f]=true); save();
  const card=showModal(`<h2 class="mh">✨ חדש במשחק! ✨</h2><ul class="whatsNew">
-  <li>👧 <b>דמות חדשה: אביגיל!</b> אפשר לבחור אותה ב"עריכת הגיבור"</li>
+  <li>🦸 <b>גיבורים חדשים:</b> אביגיל, רוני, טליה, אורי והקורגית כרמן! בוחרים ב"עריכת הגיבור"</li>
+  <li>🥋 <b>תנועות לחימה</b> בכל זריקה: בעיטה סיבובית, אפרקאט, ברך מעופפת ועוד. ולכרמן: גלגולים, סיבובים ועמידה על שתיים!</li>
   <li>🌍 <b>ממלכות בלי סוף</b>: אחרי מלך השעמום נפתחות עוד ועוד ממלכות, עם נבלים חדשים בכל אחת</li>
   <li>🔥 <b>שאלות אתגר</b>: פי 2 מטבעות, ולא מאבדים לב אם טועים</li>
   <li>🔁 <b>שאלות חזרה</b> על דברים שכבר למדת, כדי לא לשכוח</li>
@@ -2079,7 +2255,6 @@ function levelIntro(li){
  const card=showModal(`<div class="intro"><div class="iWorld">${w.icon} ${w.name} • שלב ${li+1}${v.boss?' • 👑 בוס!':''}</div>
   <div class="iVill">${villainSVG(v,'i')}</div>
   <h2 class="iName">${v.name}</h2>
-  <div class="stChip" style="--sw:${STYLES[styleOf(li)].sw};${styleVars(li)}"><span class="sw"></span><span>${STYLES[styleOf(li)].ic} סגנון השלב: <b>${STYLES[styleOf(li)].name}</b></span><small>${STYLES[styleOf(li)].d}</small></div>
   <div class="iInfo"><span>⚡ כוח הנבל: ${v.hp}</span><span>❤️ הלבבות שלך: ${p.maxHearts}</span>${v.boss?'<span>🛡️ יש לו מגנים!</span>':''}${p.shields?`<span>🛡️ ${p.shields}</span>`:''}${p.supers?`<span>🌟 ${p.supers}</span>`:''}</div>
   <div class="iBest">${p.best[li]?`השיא שלך: <b>${p.best[li].toLocaleString()}</b> ${starsHTML(p.stars[li])}`:'עוד לא ניצחת את הנבל הזה!'}</div>
   <div class="row"><button class="btn gray" data-act="close">חזרה</button><button class="btn big red" data-act="fight">⚔️ להילחם!</button></div></div>`,'comic');
@@ -2521,7 +2696,7 @@ RENDER.battle=function(li){
    <div class="heroWrap" id="heroWrap">${heroSVG(p,'b')}<div class="shieldB" id="shieldB"></div></div>
    <div class="vs">⚡</div>
    <div class="villWrap ${v.boss?'boss':''}" id="villWrap"><div class="vShield" id="vShield"></div><div class="vInner">${villainSVG(v,'b')}</div><div class="bubble" id="vBubble"></div><div class="cage" id="cage"></div></div>
-  </div><div class="grade"><i class="g1"></i><i class="g2"></i></div><div class="styleTag">${STYLES[st].ic} ${STYLES[st].name}</div></div>
+  </div><div class="grade"><i class="g1"></i><i class="g2"></i></div></div>
   <div class="pouchBar"><div class="pouchLabel" id="pouchLabel">${femify('בחר אבן קסם מהשקית!')}</div><div class="stones" id="stones"></div></div>
   <div id="pz"></div>
  </div>`;
@@ -2841,13 +3016,44 @@ function afterHit(myB){
  setBusy(false);
  setPouchLabel(myB.shield?`🛡️ רק ${STONES[myB.shield].name} שוברת את המגן!`:myB.hp<=Math.ceil(myB.maxHp/3)?'עוד קצת! הנבל כמעט מובס! 💥':myB.cage.length?'🔓 יש שבוי בכלוב – שחרר אותו!':'בחר אבן קסם מהשקית!');
 }
+/* ====== תנועות לחימה בסגנון MMA ====== */
+const HMOVES={
+ jab:{n:'אֶגְרוֹף כָּפוּל!',t:330,from:'fist',react:'back',arc:.06},
+ upper:{n:'אַפֶּרְקָאט!',t:390,from:'fist',react:'up',arc:.14},
+ round:{n:'בְּעִיטָה סִבּוּבִית!',t:380,from:'foot',react:'spin',arc:.1},
+ superman:{n:'אֶגְרוֹף סוּפֶּרְמֶן!',t:390,from:'fist',react:'back',arc:.05},
+ knee:{n:'בֶּרֶךְ מְעוֹפֶפֶת!',t:380,from:'knee',react:'up',arc:.08},
+ spinfist:{n:'אֶגְרוֹף מִסְתּוֹבֵב!',t:520,from:'fist',react:'spin',arc:.07},
+ front:{n:'בְּעִיטָה קִדְמִית!',t:280,from:'foot',react:'back',arc:.06},
+ combo:{n:'קוֹמְבּוֹ־עַל!',t:600,from:'foot',react:'spin',arc:.12}
+};
+const CMOVES={
+ roll:{n:'גִּלְגּוּל!',t:470,from:'fist',react:'spin',arc:.08},
+ spin:{n:'סִבּוּב!',t:560,from:'fist',react:'spin',arc:.1},
+ stand:{n:'עֲמִידָה עַל שְׁתַּיִם!',t:430,from:'fist',react:'up',arc:.12},
+ pounce:{n:'קְפִיצַת טֶרֶף!',t:380,from:'fist',react:'back',arc:.06},
+ ccombo:{n:'גִּלְגּוּל וְעֲמִידָה!',t:760,from:'fist',react:'up',arc:.12}
+};
+const VMOVES={
+ charge:{n:'הִסְתָּעֲרוּת!',t:350,react:''},
+ head:{n:'נְגִיחָה!',t:350,react:''},
+ slam:{n:'קְפִיצַת מְעִיכָה!',t:510,react:'squash'},
+ tornado:{n:'סִבּוּב טוֹרְנָדוֹ!',t:480,react:''},
+ shoot:{n:'הַפָּלָה!',t:350,react:'fall'}
+};
+function pickMove(list,last,forced){ if(forced) return forced; const ks=Object.keys(list).filter(k=>k!=='combo'&&k!=='ccombo'&&k!==last); return pick(ks); }
+function moveTag(t,el,cls='',yf=.04){ if(!el) return; const r=el.getBoundingClientRect(), f=$('#fly').getBoundingClientRect(); const d=document.createElement('div'); d.className='mvTag '+cls; d.textContent=t; d.style.left=(r.left+r.width/2-f.left)+'px'; d.style.top=(r.top-f.top+r.height*yf)+'px'; $('#fly').appendChild(d); setTimeout(()=>d.remove(),1250); }
 async function heroAttack(s,dmg,crit,weakHit,brk){
  const myB=B, hw=$('#heroWrap'), vw=$('#villWrap'), S=STONES[s];
- setFace('attack'); reflow(hw,'throw'); SFX.throw();
- const a=($('#pouchb')||hw).getBoundingClientRect(), b=vw.getBoundingClientRect();
+ const dog=!!(CHARS[charOf(me())]||{}).dog, ML=dog?CMOVES:HMOVES;
+ const k=pickMove(ML,myB.lastMv,s==='super'?(dog?'ccombo':'combo'):brk?(dog?'stand':'upper'):(weakHit&&Math.random()<.5)?pick(dog?['roll','stand']:['knee','superman','round']):null), M=ML[k]; myB.lastMv=k;
+ setFace('attack'); hw.dataset.mv=k; reflow(hw,'mma'); SFX.whoosh(); moveTag(M.n,hw,'hero');
+ await sleep(M.t); if(!alive(myB)) return;
+ SFX.throw(); if(M.from!=='fist') SFX.thud();
+ const src=$('#'+M.from+'b')||$('#pouchb')||hw, a=src.getBoundingClientRect(), b=vw.getBoundingClientRect();
  const el=document.createElement('div'); el.className='proj3d'+(s==='super'?' super':''); el.innerHTML=gem3d(S); $('#fly').appendChild(el);
  const x1=b.left+b.width/2, y1=b.top+b.height*.5;
- await flyArc(el,a.left+a.width/2,a.top+a.height/2,x1,y1,s==='super'?760:600,Math.max(80,innerHeight*.18),(x,y)=>trail(x,y,S.c1),false);
+ await flyArc(el,a.left+a.width/2,a.top+a.height/2,x1,y1,s==='super'?520:420,Math.max(40,innerHeight*M.arc),(x,y)=>trail(x,y,S.c1),false);
  el.remove(); if(!alive(myB)) return;
  if(brk){ myB.shield=null; SFX.glass(); burst(x1,y1,['#ffffff','#9bf6ff',S.c1],50,11,'shard'); comicBurst(x1,y1-b.height*.1,'הַמָּגֵן נִשְׁבַּר!',S.c1,true); shake(); await sleep(350); }
  if(crit||weakHit) SFX.crit(); else SFX.hit();
@@ -2855,24 +3061,26 @@ async function heroAttack(s,dmg,crit,weakHit,brk){
  burst(x1,y1,[S.c1,S.c2,'#ffffff','#ffd60a'],crit||weakHit?64:34,crit||weakHit?11:8);
  if(!brk) comicBurst(x1,y1-b.height*.08,weakHit?'פְּגִיעָה כְּפוּלָה!':crit?(s==='super'?'סוּפֶּר אֶבֶן!':'סוּפֶּר מַכָּה!'):pick(POWS),S.c1,crit||weakHit);
  floatText(x1+rand(-20,20),y1,'-'+dmg,'dmg');
- reflow(vw,'vhit'); setTimeout(()=>vw.classList.remove('vhit'),520);
+ vw.dataset.hit=M.react; reflow(vw,'vhit'); setTimeout(()=>vw.classList.remove('vhit'),700);
  if(crit||weakHit) shake();
  renderHud();
  await sleep(480);
- setFace('idle'); hw.classList.remove('throw');
+ setFace('idle'); hw.classList.remove('mma','throw');
 }
 async function villainAttack(myB){
  setBusy(true); const p=me(), hw=$('#heroWrap'), vw=$('#villWrap'), v=myB.v;
+ const k=pickMove(VMOVES,myB.lastVMv), M=VMOVES[k]; myB.lastVMv=k;
  villainSay(pick(TAUNTS)); SFX.laugh();
- reflow(vw,'vatk'); setTimeout(()=>vw.classList.remove('vatk'),560);
- await sleep(380); if(!alive(myB)) return;
+ vw.dataset.mv=k; reflow(vw,'vmma'); setTimeout(()=>vw.classList.remove('vmma'),950); SFX.whoosh(); moveTag(M.n,vw,'vill',.5);
+ await sleep(M.t); if(!alive(myB)) return;
+ SFX.thud();
  const a=vw.getBoundingClientRect(), b=hw.getBoundingClientRect();
  const el=document.createElement('div'); el.className='vproj'; el.style.setProperty('--c1',v.c1); el.style.setProperty('--c2',v.c2); el.innerHTML='<i class="vring"></i>'; $('#fly').appendChild(el);
  SFX.zap(); const x1=b.left+b.width/2, y1=b.top+b.height*.4;
- await flyArc(el,a.left+a.width/2,a.top+a.height/2,x1,y1,620,innerHeight*.12,(x,y)=>trail(x,y,v.c1));
+ await flyArc(el,a.left+a.width*.75,a.top+a.height/2,x1,y1,420,innerHeight*.06,(x,y)=>trail(x,y,v.c1));
  el.remove(); if(!alive(myB)) return;
  if(p.shields>0){ p.shields--; save(); SFX.shield(); reflow($('#shieldB'),'on'); burst(x1,y1,['#9bf6ff','#ffffff','#4cc9f0'],32,8); comicBurst(x1,y1-60,'חָסוּם!','#4cc9f0'); say('המגן חסם את המכה!'); renderHud(); await sleep(800); return; }
- SFX.hurt(); setFace('hurt'); reflow(hw,'hurt'); shake();
+ SFX.hurt(); setFace('hurt'); hw.dataset.hit=M.react; reflow(hw,'hurt'); shake();
  myB.hearts=Math.max(0,myB.hearts-1); myB.heartsLost++;
  const hh=$$('#hudHearts .hh')[myB.hearts]; if(hh){ const r=hh.getBoundingClientRect(); floatText(r.left+r.width/2,r.top+r.height,'💔','big'); }
  renderHud(); burst(x1,y1,[v.c1,v.c2,'#ffffff'],24,7);
