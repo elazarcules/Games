@@ -9,6 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="גרביים">
 <meta name="theme-color" content="#17162b">
+<link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -155,6 +156,57 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
 .muted-note{margin:0;font-size:14px;line-height:1.5}
 .best-line{margin:0;text-align:center;font-size:13.5px;color:#5d5470}
 .best-line b{font-family:var(--font-display);color:var(--ink);font-size:16px}
+/* ---------- Question panel ---------- */
+#quest{pointer-events:none;display:flex;align-items:center;gap:10px;margin-top:4px;
+  background:var(--paper);color:var(--ink);border:2.5px solid var(--ink);border-radius:16px;padding:8px 10px;
+  box-shadow:0 4px 0 var(--ink);transform:rotate(-.5deg);transition:background .2s}
+#quest.done{background:#d9ffe8}
+#quest .say{pointer-events:auto;flex:none;width:48px;height:48px;border-radius:50%;border:2.5px solid var(--ink);
+  background:var(--soap);display:grid;place-items:center;box-shadow:0 3px 0 var(--ink);padding:0}
+#quest .say:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+#quest .say svg{width:26px;height:26px}
+.q-body{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.q-text{font-family:var(--font-display);font-weight:600;font-size:19px;line-height:1.25;text-wrap:balance}
+#quest.long .q-text{font-size:16px;font-family:var(--font-body);font-weight:400;line-height:1.45}
+.q-vis{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.q-vis:empty{display:none}
+.v-emoji{font-size:46px;line-height:1.05}
+.v-eq{font-family:var(--font-display);font-weight:700;font-size:34px;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.v-frame{display:grid;grid-template-columns:repeat(5,30px);gap:3px;padding:4px;border:2px solid var(--ink);border-radius:8px;background:#fff}
+.v-frame i{width:30px;height:30px;display:grid;place-items:center;font-style:normal;font-size:22px;line-height:1;border:1.5px dashed rgba(23,22,43,.28);border-radius:5px}
+.v-groups{font-size:30px;line-height:1.2;letter-spacing:1px}
+.v-groups b{font-family:var(--font-display);font-size:30px;margin:0 6px}
+.v-groups s{opacity:.35;text-decoration-thickness:3px;text-decoration-color:#d62839}
+.v-pat{font-size:30px;line-height:1.2;letter-spacing:2px}
+.v-pat .qm{display:inline-grid;place-items:center;width:36px;height:36px;margin-inline-start:6px;border:2.5px dashed var(--ink);border-radius:8px;
+  font-family:var(--font-display);font-size:22px;vertical-align:middle}
+.v-word,.v-sent{font-family:"Arial Hebrew","Noto Sans Hebrew",Arial,sans-serif;font-weight:700;color:var(--ink)}
+.v-word{font-size:34px;line-height:1.3}
+.v-sent{font-size:27px;line-height:1.6}
+.v-tens{display:flex;align-items:flex-end;gap:5px;height:84px}
+.v-tens .ten{display:block;width:13px;height:82px;border:1.5px solid var(--ink);border-radius:3px;
+  background:repeating-linear-gradient(0deg,#ffb703 0 6.6px,#17162b 6.6px 8px)}
+.v-tens .ones{display:flex;flex-direction:column-reverse;flex-wrap:wrap;height:82px;gap:2px;margin-inline-start:6px}
+.v-tens .one{display:block;width:13px;height:7px;border:1.5px solid var(--ink);border-radius:2px;background:#36a3ff}
+.v-poly{width:70px;height:70px}
+
+/* ---------- Stage picker ---------- */
+.seg4{grid-template-columns:1fr 1fr}
+.seg4 button+button{border-inline-start:0}
+.seg4 button:nth-child(2n){border-inline-start:2px solid var(--ink)}
+.seg4 button:nth-child(n+3){border-top:2px solid var(--ink)}
+.stages{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+.stage-btn{width:100%;display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:10px;text-align:start;
+  border:2px solid var(--ink);border-radius:13px;background:#fff;color:var(--ink);padding:8px 10px;box-shadow:0 2px 0 var(--ink)}
+.stage-btn[aria-checked="true"]{background:#e6fbff;box-shadow:0 2px 0 var(--ink),0 0 0 3px var(--soap)}
+.stage-btn .n{width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:700;font-size:15px}
+.stage-btn[aria-checked="true"] .n{background:var(--sock);color:#fff}
+.stage-btn b{display:block;font-family:var(--font-display);font-weight:600;font-size:15.5px;line-height:1.2}
+.stage-btn small{display:block;font-size:12px;color:#5d5470;line-height:1.3}
+.stage-btn .st{font-size:15px;letter-spacing:-1px;white-space:nowrap;color:#d6d0de}
+.stage-btn .st i{font-style:normal;color:#f2a900}
+
 /* ---------- Install ---------- */
 .install-btn{display:flex;align-items:center;justify-content:center;gap:10px}
 .install-btn svg{width:22px;height:22px;flex:none}
@@ -207,6 +259,12 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
       </div>
     </div>
     <div id="bossBar" hidden><span id="bossName"></span><div class="bar"><i id="bossFill"></i></div></div>
+    <div id="quest" hidden aria-live="polite">
+      <button id="btnSay" class="say" aria-label="להשמיע שוב את השאלה">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#17162b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="#fff"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+      </button>
+      <div class="q-body"><div id="qText" class="q-text"></div><div id="qVis" class="q-vis"></div></div>
+    </div>
   </div>
 
   <button id="btnFoam" hidden disabled aria-label="פיצוץ קצף, מנקה את כל הנעליים במסך"><span class="core">קצף!</span></button>
@@ -219,7 +277,7 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
       <p class="eyebrow">הקרב על השכונה</p>
       <h1>משחק הגרביים</h1>
       <div class="stripe" aria-hidden="true"></div>
-      <p class="story">צבא הנעליים המסריחות פלש לשכונה וחטף את כל הגרביים הבודדות. עכשיו ברור לאן הן תמיד נעלמות! רק אתם יכולים לשטוף אותן בבועות סבון.</p>
+      <p class="story">צבא הנעליים המסריחות פלש לשכונה וחטף את כל הגרביים הבודדות. עכשיו ברור לאן הן תמיד נעלמות! הנעליים מחזיקות שלטים עם תשובות. שוטפים בבועות סבון את הנעל עם התשובה הנכונה, ומצילים גרב.</p>
       <p class="section-title" id="pickLbl">בחרו גרב</p>
       <div class="socks" role="radiogroup" aria-labelledby="pickLbl">
         <button class="sock-pick" id="pick0" role="radio" aria-checked="true" data-i="0"><canvas width="144" height="168"></canvas><span>פסי</span></button>
@@ -238,7 +296,7 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
       <ul class="howto">
         <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M13 27c-3-2-6-6-6-9 0-1.5 1.8-2 3-.8l2 2V7.5a2 2 0 0 1 4 0V15h.3v-2.5a2 2 0 0 1 4 0V15h.2v-1.5a2 2 0 0 1 4 0V20c0 3.5-2 6-3.5 7z" fill="#fff" stroke="#17162b" stroke-width="2" stroke-linejoin="round"/><path d="M4 9h5M23 6l3-3M26 6h3" stroke="#17162b" stroke-width="2" stroke-linecap="round"/></svg>גוררים אצבע כדי לזוז</li>
         <li><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="18" r="8" fill="#dff9ff" stroke="#17162b" stroke-width="2"/><circle cx="23" cy="8" r="4.5" fill="#dff9ff" stroke="#17162b" stroke-width="2"/><circle cx="8" cy="7" r="3" fill="#dff9ff" stroke="#17162b" stroke-width="2"/><path d="M12 15a5 5 0 0 1 4-3" stroke="#17162b" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>הבועות יוצאות לבד</li>
-        <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M11 3h9v15h4a5 5 0 0 1 0 10h-8a5 5 0 0 1-5-5z" fill="#ffb703" stroke="#17162b" stroke-width="2" stroke-linejoin="round"/><path d="M11 8h9M11 13h9" stroke="#fb8500" stroke-width="2.4"/></svg>אוספים גרביים אבודות</li>
+        <li><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="4" width="22" height="17" rx="3" fill="#fff" stroke="#17162b" stroke-width="2"/><path d="M11 13l3.5 3.5L21 9" stroke="#2a9d8f" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 21v8" stroke="#17162b" stroke-width="2.4" stroke-linecap="round"/></svg>שוטפים את התשובה הנכונה</li>
       </ul>
       <p class="best-line">השיא שלכם: <b id="bestScore">0</b></p>
       <div class="care">
@@ -249,6 +307,33 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
           <rect x="118" y="4" width="18" height="18" rx="2"/><circle cx="127" cy="13" r="6"/>
         </svg>
         <p>לכבס ב־30°. לא להכניס לנעליים מסריחות.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 2: what are we learning today? -->
+  <section id="learn" class="overlay" hidden>
+    <div class="label">
+      <p class="eyebrow">מה לומדים היום?</p>
+      <h2>בוחרים מסלול ושלב</h2>
+      <div class="stripe" aria-hidden="true"></div>
+      <div class="seg" role="radiogroup" aria-label="שכבת גיל">
+        <button id="gradePrep" role="radio" aria-checked="true" data-grade="prep">הכנה לכיתה א<small>גן חובה</small></button>
+        <button id="gradeG1" role="radio" aria-checked="false" data-grade="g1">כיתה א<small>כל השנה</small></button>
+      </div>
+      <div class="seg seg4" role="radiogroup" aria-label="נושא">
+        <button id="subjLang" role="radio" aria-checked="true" data-subj="lang">אותיות ומילים</button>
+        <button id="subjMath" role="radio" aria-checked="false" data-subj="math">מספרים וחשבון</button>
+        <button id="subjMix" role="radio" aria-checked="false" data-subj="mix">גם וגם</button>
+        <button id="subjNone" role="radio" aria-checked="false" data-subj="none">בלי שאלות</button>
+      </div>
+      <p class="section-title" id="stagesLbl">בחרו שלב</p>
+      <ol id="stageList" class="stages" role="radiogroup" aria-labelledby="stagesLbl"></ol>
+      <p class="muted-note" id="classicNote" hidden>המשחק הרגיל: שלושה רחובות ושלושה בוסים, בלי שאלות.</p>
+      <p class="muted-note" id="voiceNote" hidden>במכשיר הזה אין קול בעברית, אז כדאי שמבוגר יקריא את השאלות.</p>
+      <div class="btn-col">
+        <button id="btnGo" class="big">יוצאים לדרך!</button>
+        <button id="btnBack" class="big alt">חזרה</button>
       </div>
     </div>
   </section>
@@ -281,6 +366,7 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
       <div class="btn-col">
         <button id="btnResume" class="big">להמשיך</button>
         <button id="btnSound" class="big alt">צלילים: פועלים</button>
+        <button id="btnVoice" class="big alt">הקראת שאלות: פועלת</button>
         <button id="btnQuit" class="big alt">לתפריט הראשי</button>
       </div>
     </div>
@@ -295,7 +381,7 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
       <dl class="stats">
         <div><dt>ניקוד</dt><dd id="oScore">0</dd></div>
         <div><dt>שיא</dt><dd id="oBest">0</dd></div>
-        <div><dt>גרביים שהצלתם</dt><dd id="oRescued">0</dd></div>
+        <div><dt id="oRescuedLbl">גרביים שהצלתם</dt><dd id="oRescued">0</dd></div>
         <div><dt>הגעתם לשלב</dt><dd id="oLevel">1</dd></div>
       </dl>
       <p class="muted-note" id="oNew" hidden>שיא חדש! הגרביים גאות בכם.</p>
@@ -312,10 +398,10 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
       <p class="eyebrow">ניצחון!</p>
       <h2>השכונה נקייה!</h2>
       <div class="stripe" aria-hidden="true"></div>
-      <p class="muted-note">מלך הנעליים הובס וכל הגרביים חזרו הביתה. טוב, חוץ מאחת. תמיד חסרה אחת.</p>
+      <p class="muted-note" id="winText">מלך הנעליים הובס וכל הגרביים חזרו הביתה. טוב, חוץ מאחת. תמיד חסרה אחת.</p>
       <dl class="stats">
         <div><dt>ניקוד</dt><dd id="wScore">0</dd></div>
-        <div><dt>גרביים שהצלתם</dt><dd id="wRescued">0</dd></div>
+        <div><dt id="wRescuedLbl">גרביים שהצלתם</dt><dd id="wRescued">0</dd></div>
       </dl>
       <div class="btn-col">
         <button id="btnHarder" class="big">סיבוב קשה יותר</button>
@@ -344,6 +430,10 @@ const pick = a => a[(Math.random() * a.length) | 0];
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const OUT = '#17162b';
 const FONT = '"Fredoka","Varela Round","Arial Rounded MT Bold",sans-serif';
+// Plain print letters for reading (with vowel marks), as in Israeli school books
+const NQFONT = '"Arial Hebrew","Noto Sans Hebrew","Arial",sans-serif';
+const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+const POLY_COLORS = { 3: '#ffb703', 4: '#2ec4b6', 5: '#9b5cff', 6: '#ff5a6a' };
 const reduceMotion = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
 
 /* ================= Data ================= */
@@ -366,18 +456,35 @@ const LEVELS = [
   { name: 'שדרות הסוליות', boss: 'מלך הנעליים', kind: 'king',    weights: [40, 35, 25] },
 ];
 const MODES = {
-  easy:   { speed: 0.72, mud: 0.6, spawn: 1.3, goal: 14, hearts: 5, bossHp: 0.7, burst: 5 },
-  normal: { speed: 1.0,  mud: 1.0, spawn: 1.0, goal: 20, hearts: 4, bossHp: 1.0, burst: 8 },
+  easy:   { speed: 0.72, mud: 0.6, spawn: 1.3, goal: 14, hearts: 5, bossHp: 0.7, burst: 5, qGoal: 5 },
+  normal: { speed: 1.0,  mud: 1.0, spawn: 1.0, goal: 20, hearts: 4, bossHp: 1.0, burst: 8, qGoal: 7 },
 };
 const COMIC = ['פוף!', 'שפריץ!', 'בום!', 'זבנג!', 'פלופ!', 'נקי!'];
 const SNEAKER_COLORS = ['#e63946', '#2a9d8f', '#f4a261', '#457b9d', '#6a4c93'];
 const FLIP_COLORS = [['#ffbe0b', '#e85d04'], ['#3a86ff', '#023e8a'], ['#ff006e', '#8a0040'], ['#8338ec', '#3c096c']];
 
 /* ================= Settings & storage ================= */
-const settings = { sock: 0, mode: 'easy' };
-let best = 0;
-function loadBest() { try { best = parseInt(localStorage.getItem('sockGame.best') || '0', 10) || 0; } catch (e) { best = 0; } }
+const settings = { sock: 0, mode: 'easy', grade: 'prep', subj: 'lang', stage: {} };
+let best = 0, STARS = {};
+function loadBest() {
+  try { best = parseInt(localStorage.getItem('sockGame.best') || '0', 10) || 0; } catch (e) { best = 0; }
+  try { STARS = JSON.parse(localStorage.getItem('sockGame.stars') || '{}') || {}; } catch (e) { STARS = {}; }
+  try {
+    const s = JSON.parse(localStorage.getItem('sockGame.settings') || 'null');
+    if (s && typeof s === 'object') {
+      if (typeof s.sock === 'number') settings.sock = s.sock;
+      if (s.mode === 'easy' || s.mode === 'normal') settings.mode = s.mode;
+      if (s.grade === 'prep' || s.grade === 'g1') settings.grade = s.grade;
+      if (['lang', 'math', 'mix', 'none'].includes(s.subj)) settings.subj = s.subj;
+      if (s.stage && typeof s.stage === 'object') settings.stage = s.stage;
+    }
+  } catch (e) {}
+}
 function saveBest() { try { localStorage.setItem('sockGame.best', String(best)); } catch (e) {} }
+function saveSettings() { try { localStorage.setItem('sockGame.settings', JSON.stringify(settings)); } catch (e) {} }
+function saveStars(id, n) { if ((STARS[id] || 0) >= n) return; STARS[id] = n; try { localStorage.setItem('sockGame.stars', JSON.stringify(STARS)); } catch (e) {} }
+const trackKey = () => settings.grade + '-' + settings.subj;
+const starsFor = wrong => wrong <= 1 ? 3 : wrong <= 4 ? 2 : 1;
 
 /* ================= Sound ================= */
 const Sound = {
@@ -432,6 +539,8 @@ const Sound = {
   stomp() { this.tone(95, 0.4, 'sine', 0.3, 38); this.noise(0.3, 0.18, 260, 0.8); },
   warn() { [196, 185, 174, 165].forEach((f, i) => this.tone(f, 0.22, 'sawtooth', 0.05, null, i * 0.2)); },
   fanfare() { [523, 659, 784, 659, 784, 1046].forEach((f, i) => this.tone(f, i === 5 ? 0.45 : 0.14, 'triangle', 0.09, null, i * 0.12)); },
+  correct() { [659, 784, 988, 1318].forEach((f, i) => this.tone(f, 0.16, 'triangle', 0.1, null, i * 0.08)); this.noise(0.4, 0.08, 3000, 0.7, 0.05); },
+  boing() { this.tone(330, 0.22, 'triangle', 0.09, 150); },
 };
 
 /* ================= Canvas & sizing ================= */
@@ -900,6 +1009,331 @@ function drawBG(c, t) {
   }
 }
 
+/* ================= Curriculum: prep for grade 1 + grade 1 =================
+   Built on the Ministry of Education programs: early literacy (rhyme, syllables, first and last sound,
+   letter names) and early math (counting, numerals, comparing, shapes, patterns) for the prep track;
+   reading with vowel marks and math to 100 (+/- within 20, word problems, whole tens, polygons) for grade 1. */
+/* CURRICULUM-START */
+const RI = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const plain = s => s.replace(/[֑-ׇ]/g, '');
+const NAMES = {
+  'א': 'אָלֶף', 'ב': 'בֵּית', 'ג': 'גִּימֶל', 'ד': 'דָּלֶת', 'ה': 'הֵא', 'ו': 'וָו', 'ז': 'זַיִן', 'ח': 'חֵית', 'ט': 'טֵית', 'י': 'יוּד', 'כ': 'כַּף',
+  'ל': 'לָמֶד', 'מ': 'מֵם', 'נ': 'נוּן', 'ס': 'סָמֶךְ', 'ע': 'עַיִן', 'פ': 'פֵּא', 'צ': 'צָדִי', 'ק': 'קוּף', 'ר': 'רֵישׁ', 'ש': 'שִׁין', 'ת': 'תָּו',
+  'ם': 'מֵם סוֹפִית', 'ן': 'נוּן סוֹפִית', 'ך': 'כַּף סוֹפִית', 'ף': 'פֵּא סוֹפִית', 'ץ': 'צָדִי סוֹפִית',
+};
+const ALL_LETTERS = 'אבגדהוזחטיכלמנסעפצקרשת'.split('');
+const AB1 = 'אבגדהוזחטיכ'.split(''), AB2 = 'למנסעפצקרשת'.split('');
+const SIMILAR = [['ב', 'כ'], ['ד', 'ר'], ['ה', 'ח', 'ת'], ['ו', 'ז', 'ן'], ['ג', 'נ'], ['ס', 'ם'], ['ע', 'צ'], ['ט', 'מ']];
+const SOUNDALIKE = [['א', 'ע', 'ה'], ['ב', 'ו'], ['כ', 'ק', 'ח'], ['ט', 'ת'], ['ס', 'ש']];
+const groupMates = (groups, l) => { const s = new Set(); for (const g of groups) if (g.includes(l)) g.forEach(x => s.add(x)); s.delete(l); return s; };
+const FINALS = { 'מ': 'ם', 'נ': 'ן', 'כ': 'ך', 'פ': 'ף', 'צ': 'ץ' };
+const REGULAR = { 'ם': 'מ', 'ן': 'נ', 'ך': 'כ', 'ף': 'פ', 'ץ': 'צ' };
+const FINAL_LOOK = { 'ם': 'ס', 'ן': 'ו', 'ך': 'ר', 'ף': 'ק', 'ץ': 'ע' };
+// [vocalized word, picture, syllables (0 = not used for syllable counting)]
+const WORDS = [
+  ['אַרְנָב', '🐰', 2], ['אַרְיֵה', '🦁', 2], ['בַּיִת', '🏠', 2], ['בָּלוֹן', '🎈', 2], ['בָּנָנָה', '🍌', 3], ['בֵּיצָה', '🥚', 2],
+  ['גָּמָל', '🐫', 2], ['גֶּזֶר', '🥕', 2], ['גֶּרֶב', '🧦', 2], ['גְּלִידָה', '🍦', 0], ['דָּג', '🐟', 1], ['דֹּב', '🐻', 1],
+  ['דֶּלֶת', '🚪', 2], ['דְּבַשׁ', '🍯', 0], ['הַר', '⛰️', 1], ['וֶרֶד', '🌹', 2], ['זַיִת', '🫒', 2], ['זֶבְּרָה', '🦓', 2],
+  ['חָתוּל', '🐱', 2], ['חַלּוֹן', '🪟', 2], ['טַוָּס', '🦚', 2], ['טְרַקְטוֹר', '🚜', 0], ['יָם', '🌊', 1], ['יָד', '✋', 1],
+  ['יוֹנָה', '🕊️', 2], ['כֶּלֶב', '🐕', 2], ['כַּדּוּר', '⚽', 2], ['כּוֹכָב', '⭐', 2], ['כֶּתֶר', '👑', 2], ['כּוֹבַע', '🧢', 2],
+  ['כִּסֵּא', '🪑', 2], ['כַּף', '🥄', 1], ['לִימוֹן', '🍋', 2], ['לֶחֶם', '🍞', 2], ['לֵב', '❤️', 1], ['מָטוֹס', '✈️', 2],
+  ['מְכוֹנִית', '🚗', 3], ['מַתָּנָה', '🎁', 3], ['מִטְרִיָּה', '☂️', 3], ['נָחָשׁ', '🐍', 2], ['נַעַל', '👟', 2], ['נֵר', '🕯️', 1],
+  ['סֵפֶר', '📕', 2], ['סוּס', '🐴', 1], ['סִירָה', '⛵', 2], ['עוּגָה', '🎂', 2], ['עָנָן', '☁️', 2], ['עֲנָבִים', '🍇', 3],
+  ['עֵץ', '🌳', 1], ['עַכְבָּר', '🐭', 2], ['פִּיל', '🐘', 1], ['פֶּרַח', '🌸', 2], ['פָּרָה', '🐄', 2], ['פִּיצָה', '🍕', 2],
+  ['פַּרְפַּר', '🦋', 2], ['צָב', '🐢', 1], ['צְפַרְדֵּעַ', '🐸', 0], ['קוֹף', '🐒', 1], ['קֶשֶׁת', '🌈', 2], ['קִפּוֹד', '🦔', 2],
+  ['רַכֶּבֶת', '🚂', 3], ['רֶגֶל', '🦵', 2], ['שֶׁמֶשׁ', '☀️', 2], ['שָׁעוֹן', '⏰', 2], ['שַׁבְּלוּל', '🐌', 2], ['שׁוֹקוֹלָד', '🍫', 3],
+  ['תּוּת', '🍓', 1], ['תַּרְנְגוֹל', '🐓', 0], ['יָרֵחַ', '🌙', 0], ['תַּפּוּחַ', '🍎', 0], ['מַפְתֵּחַ', '🔑', 0],
+];
+const EMO = Object.fromEntries(WORDS.map(w => [w[0], w[1]]));
+const RHYMES = [['לִימוֹן', 'שָׁעוֹן', 'בָּלוֹן', 'חַלּוֹן'], ['בַּיִת', 'זַיִת', 'מְכוֹנִית'], ['כֶּלֶב', 'לֵב', 'גֶּרֶב'], ['יָרֵחַ', 'פֶּרַח']];
+const NONRHYME = ['דָּג', 'פִּיל', 'סוּס', 'עֵץ', 'קוֹף', 'תּוּת', 'נֵר', 'יָד', 'עוּגָה', 'פָּרָה'];
+// opening consonant + vowel (צירוף פותח): [word, opening, vowel class]
+const CVW = [
+  ['בָּנָנָה', 'בָּ', 'a'], ['מָטוֹס', 'מָ', 'a'], ['שָׁעוֹן', 'שָׁ', 'a'], ['גָּמָל', 'גָּ', 'a'], ['חָתוּל', 'חָ', 'a'], ['נָחָשׁ', 'נָ', 'a'],
+  ['כַּדּוּר', 'כַּ', 'a'], ['פָּרָה', 'פָּ', 'a'], ['לִימוֹן', 'לִ', 'i'], ['פִּיצָה', 'פִּ', 'i'], ['פִּיל', 'פִּ', 'i'], ['כִּסֵּא', 'כִּ', 'i'],
+  ['מִטְרִיָּה', 'מִ', 'i'], ['סִירָה', 'סִ', 'i'], ['סוּס', 'סוּ', 'u'], ['תּוּת', 'תּוּ', 'u'], ['עוּגָה', 'עוּ', 'u'], ['יוֹנָה', 'יוֹ', 'o'],
+  ['כּוֹבַע', 'כּוֹ', 'o'], ['כּוֹכָב', 'כּוֹ', 'o'], ['שׁוֹקוֹלָד', 'שׁוֹ', 'o'], ['קוֹף', 'קוֹ', 'o'], ['סֵפֶר', 'סֵ', 'e'], ['בֵּיצָה', 'בֵּ', 'e'],
+  ['לֵב', 'לֵ', 'e'], ['נֵר', 'נֵ', 'e'], ['עֵץ', 'עֵ', 'e'],
+];
+const consOf = cv => { let s = cv[0]; for (let i = 1; i < cv.length && /[ּׁׂ]/.test(cv[i]); i++) s += cv[i]; return s; };
+const syl = (c, v) => c + ({ a: 'ָ', i: 'ִ', o: 'וֹ', u: 'וּ', e: 'ֵ' })[v];
+const FINAL_WORDS = ['בָּלוֹן', 'חַלּוֹן', 'שָׁעוֹן', 'לִימוֹן', 'לֶחֶם', 'יָם', 'עֵץ', 'קוֹף', 'כַּף'];
+const SENTS = [
+  ['הַדָּג שׂוֹחֶה בַּיָּם.', '🐟'], ['הַכֶּלֶב נוֹבֵחַ.', '🐕'], ['הֶחָתוּל שׁוֹתֶה חָלָב.', '🐱'], ['הַצִּפּוֹר עָפָה.', '🐦'],
+  ['הַשֶּׁמֶשׁ זוֹרַחַת.', '☀️'], ['הַגֶּשֶׁם יוֹרֵד.', '🌧️'], ['הַפָּרָה אוֹכֶלֶת עֵשֶׂב.', '🐄'], ['הַמָּטוֹס טָס בַּשָּׁמַיִם.', '✈️'],
+  ['הָרַכֶּבֶת נוֹסַעַת.', '🚂'], ['הַיֶּלֶד אוֹכֵל גְּלִידָה.', '🍦'], ['הַבָּלוֹן אָדֹם.', '🎈'], ['הַגֶּרֶב עַל הַחֶבֶל.', '🧦'],
+  ['הַקּוֹף אוֹכֵל בָּנָנָה.', '🐒'], ['הָעוּגָה מְתוּקָה.', '🎂'],
+];
+const NOUNS = [['🧦', 'גרביים'], ['🍎', 'תפוחים'], ['⭐', 'כוכבים'], ['🐟', 'דגים'], ['🎈', 'בלונים'], ['🌸', 'פרחים']];
+const SHAPES = { circle: 'עיגול', triangle: 'משולש', square: 'ריבוע', rect: 'מלבן' };
+const POLY = { 3: 'משולש', 4: 'מרובע', 5: 'מחומש', 6: 'משושה' };
+const PRAISE = ['כל הכבוד!', 'נכון מאוד!', 'יופי!', 'מעולה!', 'אלופים!'];
+const NUMW = { 1: 'אחת', 2: 'שתי', 3: 'שלוש' };
+
+function fin(q) { shuffle(q.opts); q.ans = q.opts.findIndex(o => o.c); return q; }
+function others(answer, pool, ok, n = 2) {
+  const out = [];
+  for (const x of shuffle(pool.slice())) { if (out.length >= n) break; if (x !== answer && !out.includes(x) && (!ok || ok(x))) out.push(x); }
+  return out;
+}
+function numOpts(ans, lo, hi, step = 1) {
+  const c = shuffle([1, -1, 2, -2, 3, -3].map(d => ans + d * step)).filter(x => x >= lo && x <= hi);
+  const out = [];
+  for (const x of c) if (out.length < 2 && !out.includes(x)) out.push(x);
+  while (out.length < 2) { const x = RI(lo, hi); if (x !== ans && !out.includes(x)) out.push(x); }
+  return out;
+}
+const numQ = (ans, ds, extra) => ({ opts: [{ k: 'num', v: String(ans), c: true }].concat(ds.map(d => ({ k: 'num', v: String(d), no: 'זה ' + d + '. נסו שוב.' }))), ...extra });
+
+/* ---- Language ---- */
+function gLetters(pool) {
+  const t = pick(pool), bad = groupMates(SIMILAR, t);
+  const ds = others(t, pool, x => !bad.has(x));
+  return fin({ say: `איפה האות ${NAMES[t]}?`, text: `איפה האות ${NAMES[t]}?`, ok: `זאת האות ${NAMES[t]}.`,
+    opts: [{ k: 'text', v: t, c: true }].concat(ds.map(l => ({ k: 'text', v: l, no: `זאת האות ${NAMES[l]}. חפשו את ${NAMES[t]}.` }))) });
+}
+function gRhyme() {
+  const [t, a] = shuffle(pick(RHYMES).slice());
+  const ds = others(null, NONRHYME);
+  return fin({ say: `מה מתחרז עם ${t}?`, text: `מה מתחרז עם ${t}?`, vis: { t: 'emoji', v: EMO[t] }, ok: `${t} מתחרז עם ${a}.`,
+    opts: [{ k: 'emoji', v: EMO[a], c: true }].concat(ds.map(d => ({ k: 'emoji', v: EMO[d], no: `${d} לא מתחרז עם ${t}. נסו שוב.` }))) });
+}
+function gSyllables() {
+  const [w, e, n] = pick(WORDS.filter(x => x[2] > 0));
+  return fin({ say: `כמה הברות יש במילה ${w}? מחאו כפיים וספרו.`, text: `כמה הברות במילה ${w}?`, vis: { t: 'emoji', v: e },
+    ok: `במילה ${w} יש ${n === 1 ? 'הברה אחת' : NUMW[n] + ' הברות'}.`,
+    opts: [1, 2, 3].map(x => ({ k: 'num', v: String(x), c: x === n, no: `נמחא כפיים שוב: ${w}.` })) });
+}
+const LAST_OK = 'בגדזטכלמנסצקרשתח';
+function gSound(first) {
+  const cands = first ? WORDS : WORDS.filter(([w]) => { const p = plain(w); return LAST_OK.includes(p[p.length - 1]) && !['יָרֵחַ', 'תַּפּוּחַ', 'מַפְתֵּחַ'].includes(w); });
+  const [w, e] = pick(cands), p = plain(w), t = first ? p[0] : p[p.length - 1];
+  const bad = new Set([...groupMates(SOUNDALIKE, t), ...groupMates(SIMILAR, t)]);
+  const ds = others(t, ALL_LETTERS, x => !bad.has(x));
+  const verb = first ? 'מתחילה' : 'נגמרת';
+  return fin({ say: `באיזו אות ${verb} המילה ${w}?`, text: `באיזו אות ${verb} המילה?`, vis: { t: 'emoji', v: e }, ok: `${w} ${verb} באות ${NAMES[t]}.`,
+    opts: [{ k: 'text', v: t, c: true }].concat(ds.map(l => ({ k: 'text', v: l, no: `זאת האות ${NAMES[l]}. הקשיבו: ${w}.` }))) });
+}
+function gCV() {
+  const [w, cv, v] = pick(CVW), c = consOf(cv);
+  const vs = others(v, ['a', 'i', 'o', 'u', 'e']);
+  return fin({ say: `באיזה צירוף מתחילה המילה ${w}?`, text: 'באיזה צירוף מתחילה המילה?', vis: { t: 'emoji', v: EMO[w] }, ok: `${w}.`,
+    opts: [{ k: 'text', v: cv, c: true }].concat(vs.map(x => ({ k: 'text', v: syl(c, x), no: `נסו שוב. הקשיבו: ${w}.` }))) });
+}
+function gRead() {
+  const pool = WORDS.filter(x => plain(x[0]).length <= 6);
+  const [w, e] = pick(pool), f = plain(w)[0];
+  const same = pool.filter(x => x[0] !== w && plain(x[0])[0] === f).map(x => x[0]);
+  let ds = others(w, same);
+  if (ds.length < 2) ds = ds.concat(others(w, pool.map(x => x[0]), x => !ds.includes(x), 2 - ds.length));
+  return fin({ say: 'איזו מילה מתאימה לתמונה?', text: 'איזו מילה מתאימה לתמונה?', vis: { t: 'emoji', v: e }, ok: `כתוב כאן ${w}.`,
+    opts: [{ k: 'text', v: w, c: true }].concat(ds.map(d => ({ k: 'text', v: d, no: `כתוב כאן ${d}. נסו שוב.` }))) });
+}
+function gSimilar() {
+  const g = pick(SIMILAR), t = pick(g);
+  let set = g.slice();
+  if (set.length < 3) set = set.concat(others(null, ALL_LETTERS, x => !set.includes(x), 1));
+  return fin({ say: `איפה האות ${NAMES[t]}?`, text: `איפה האות ${NAMES[t]}?`, ok: `זאת האות ${NAMES[t]}.`,
+    opts: set.map(l => ({ k: 'text', v: l, c: l === t, no: l === t ? '' : `זאת האות ${NAMES[l]}. חפשו את ${NAMES[t]}.` })) });
+}
+function gFinal() {
+  if (Math.random() < 0.45) {
+    const r = pick(Object.keys(FINALS)), f = FINALS[r];
+    return fin({ say: `איך כותבים את האות ${NAMES[r]} בסוף מילה?`, text: `איך כותבים ${NAMES[r]} בסוף מילה?`, ok: `זאת ${NAMES[f]}.`,
+      opts: [{ k: 'text', v: f, c: true }, { k: 'text', v: r, no: `זאת ${NAMES[r]} רגילה. בסוף מילה כותבים אחרת.` }, { k: 'text', v: FINAL_LOOK[f], no: `זאת האות ${NAMES[FINAL_LOOK[f]]}. נסו שוב.` }] });
+  }
+  const w = pick(FINAL_WORDS), p = plain(w), f = p[p.length - 1];
+  const other = pick(Object.values(FINALS).filter(x => x !== f));
+  return fin({ say: `השלימו את המילה ${w}.`, text: 'השלימו את המילה', vis: { t: 'word', e: EMO[w], v: w.slice(0, -1) + '_' }, ok: `${w}.`,
+    opts: [{ k: 'text', v: f, c: true }, { k: 'text', v: REGULAR[f], no: 'בסוף מילה כותבים אות סופית. נסו שוב.' }, { k: 'text', v: other, no: `זאת ${NAMES[other]}. נסו שוב.` }] });
+}
+function gSentence() {
+  const [s, e] = pick(SENTS);
+  const ds = others(e, SENTS.map(x => x[1]));
+  return fin({ say: 'קראו את המשפט ובחרו את התמונה המתאימה.', text: 'קראו את המשפט ובחרו תמונה', vis: { t: 'sentence', v: s }, ok: s,
+    opts: [{ k: 'emoji', v: e, c: true }].concat(ds.map(d => ({ k: 'emoji', v: d, no: 'נסו לקרוא שוב את המשפט.' }))) });
+}
+
+/* ---- Math ---- */
+function gCount(lo, hi, cells) {
+  const n = RI(lo, hi), [e, noun] = pick(NOUNS);
+  return fin(numQ(n, numOpts(n, 1, hi), { say: `כמה ${noun} יש?`, text: `כמה ${noun} יש?`, vis: { t: 'frame', e, n, cells }, ok: `יש ${n} ${noun}.` }));
+}
+function gDigits(lo, hi) {
+  const n = RI(lo, hi), ds = others(n, Array.from({ length: hi - lo + 1 }, (_, i) => lo + i));
+  return fin(numQ(n, ds, { say: `איפה המספר ${n}?`, text: `איפה המספר ${n}?`, ok: `זה המספר ${n}.` }));
+}
+function cmpQ(vals) {
+  const big = Math.random() < 0.6, ans = big ? Math.max(...vals) : Math.min(...vals), word = big ? 'גדול' : 'קטן';
+  return fin({ say: `איזה מספר הכי ${word}?`, text: `איזה מספר הכי ${word}?`, ok: `${ans} הכי ${word}.`,
+    opts: vals.map(v => ({ k: 'num', v: String(v), c: v === ans, no: `לא ${v}. השוו שוב.` })) });
+}
+function gCompare10() { const v = []; while (v.length < 3) { const x = RI(0, 10); if (!v.includes(x)) v.push(x); } return cmpQ(v); }
+function gCompare100() {
+  let n; do { n = RI(12, 98); } while (n % 10 === 0 || n % 11 === 0);
+  const rev = (n % 10) * 10 + Math.floor(n / 10), v = [n, rev];
+  while (v.length < 3) { const x = n + pick([-1, 1]) * RI(1, 9); if (x >= 10 && x <= 99 && !v.includes(x)) v.push(x); }
+  return cmpQ(v);
+}
+function gNeighbors(lo, hi) {
+  const n = RI(lo + 1, hi - 1), after = Math.random() < 0.6, ans = after ? n + 1 : n - 1;
+  return fin(numQ(ans, numOpts(ans, lo, hi), { say: `איזה מספר בא ${after ? 'אחרי' : 'לפני'} ${n}?`, text: `איזה מספר בא ${after ? 'אחרי' : 'לפני'} ${n}?`,
+    vis: { t: 'eq', v: after ? `${n} , ?` : `? , ${n}` }, ok: `${after ? 'אחרי' : 'לפני'} ${n} בא ${ans}.` }));
+}
+function gShapes() {
+  const keys = Object.keys(SHAPES), t = pick(keys);
+  const ds = others(t, keys, k => !(t === 'rect' && k === 'square'));
+  return fin({ say: `מצאו את ה${SHAPES[t]}.`, text: `מצאו את ה${SHAPES[t]}`, ok: `זה ${SHAPES[t]}.`,
+    opts: [{ k: 'shape', v: t, c: true }].concat(ds.map(d => ({ k: 'shape', v: d, no: `זה ${SHAPES[d]}. חפשו את ה${SHAPES[t]}.` }))) });
+}
+function gPattern() {
+  const s = shuffle(pick([['🔴', '🔵', '🟡'], ['🍎', '🍌', '🍇'], ['🧦', '👟', '⭐']]).slice());
+  const unit = pick([[0, 1], [0, 0, 1], [0, 1, 1], [0, 1, 2]]).map(i => s[i]);
+  const len = unit.length === 2 ? 6 : unit.length * 2;
+  const items = Array.from({ length: len }, (_, i) => unit[i % unit.length]), next = unit[len % unit.length];
+  return fin({ say: 'מה בא אחר כך בתבנית?', text: 'מה בא אחר כך?', vis: { t: 'pattern', items }, ok: 'התבנית ממשיכה.',
+    opts: s.map(x => ({ k: 'emoji', v: x, c: x === next, no: 'הסתכלו שוב על התבנית.' })) });
+}
+function gJoin5() {
+  const [e] = pick(NOUNS);
+  if (Math.random() < 0.6) {
+    const a = RI(1, 3), b = RI(1, 5 - a), s = a + b;
+    return fin(numQ(s, numOpts(s, 1, 6), { say: `${a} ועוד ${b}. כמה ביחד?`, text: 'כמה ביחד?', vis: { t: 'groups', e, a, b, op: '+' }, ok: `${a} ועוד ${b} זה ${s}.` }));
+  }
+  const a = RI(2, 5), b = RI(1, a - 1), r = a - b;
+  return fin(numQ(r, numOpts(r, 0, 5), { say: `היו ${a}. ${b} הלכו. כמה נשארו?`, text: 'כמה נשארו?', vis: { t: 'groups', e, a, b, op: '-' }, ok: `${a} פחות ${b} זה ${r}.` }));
+}
+function arith(a, b, op, hi, step = 1) {
+  const ans = op === '+' ? a + b : a - b, w = op === '+' ? 'ועוד' : 'פחות';
+  return fin(numQ(ans, numOpts(ans, 0, hi, step), { say: `כמה זה ${a} ${w} ${b}?`, text: `כמה זה?`, vis: { t: 'eq', v: `${a} ${op === '+' ? '+' : '−'} ${b} = ?` }, ok: `${a} ${w} ${b} זה ${ans}.` }));
+}
+function gAdd10() { const a = RI(1, 9); return arith(a, RI(1, 10 - a), '+', 10); }
+function gSub10() { const a = RI(2, 10); return arith(a, RI(1, a - 1), '-', 10); }
+function gMake10() {
+  const a = RI(1, 9), ans = 10 - a;
+  return fin(numQ(ans, numOpts(ans, 0, 10), { say: `כמה צריך להוסיף ל-${a} כדי להגיע לעשר?`, text: 'כמה חסר עד 10?', vis: { t: 'eq', v: `${a} + ? = 10` }, ok: `${a} ועוד ${ans} זה עשר.` }));
+}
+function gAdd20() {
+  if (Math.random() < 0.5) { const a = RI(5, 9); return arith(a, RI(11 - a, 9), '+', 20); }
+  const a = RI(11, 15); return arith(a, RI(1, 20 - a), '+', 20);
+}
+function gSub20() {
+  if (Math.random() < 0.5) { const a = RI(11, 19); return arith(a, RI(1, a - 10), '-', 20); }
+  const a = RI(11, 18); return arith(a, RI(a - 9, 9), '-', 20);
+}
+function gStory() {
+  const k = RI(0, 2);
+  let a, b, ans, s;
+  if (k === 0) { a = RI(2, 12); b = RI(2, Math.min(8, 20 - a)); ans = a + b; s = `על החבל תלויות ${a} גרביים. אמא תלתה עוד ${b}. כמה גרביים יש עכשיו על החבל?`; }
+  else if (k === 1) { a = RI(8, 20); b = RI(2, Math.min(9, a - 1)); ans = a - b; s = `בסל היו ${a} גרביים. הנעליים חטפו ${b}. כמה גרביים נשארו בסל?`; }
+  else { a = RI(3, 11); b = RI(2, Math.min(9, 20 - a)); ans = a + b; s = `בבוקר הצלתם ${a} גרביים, ובערב עוד ${b}. כמה גרביים הצלתם בסך הכול?`; }
+  return fin(numQ(ans, numOpts(ans, 0, 20), { say: s, text: s, cls: 'long', ok: `התשובה היא ${ans}.` }));
+}
+function gTens() {
+  let n, t, u, tries = 0;
+  do { n = RI(11, 99); t = Math.floor(n / 10); u = n % 10; } while ((u === 0 || u === t) && ++tries < 20);
+  const v = [n], rev = u * 10 + t;
+  if (u > 0 && rev !== n) v.push(rev);
+  for (const x of shuffle([n + 10, n - 10, n + 1, n - 1])) if (v.length < 3 && x >= 10 && x <= 99 && !v.includes(x)) v.push(x);
+  return fin(numQ(n, v.slice(1), { say: 'איזה מספר מוצג? כל מקל הוא עשר.', text: 'איזה מספר מוצג? (מקל = 10)', vis: { t: 'tens', n }, ok: `זה ${n}.` }));
+}
+function gWholeTens() {
+  if (Math.random() < 0.5) { const a = 10 * RI(1, 8); return arith(a, 10 * RI(1, (100 - a) / 10), '+', 100, 10); }
+  const a = 10 * RI(2, 10); return arith(a, 10 * RI(1, a / 10 - 1), '-', 100, 10);
+}
+function gPoly() {
+  const n = RI(3, 6), ds = others(n, [3, 4, 5, 6]);
+  if (Math.random() < 0.5) {
+    return fin({ say: `לאיזו צורה יש ${n} צלעות?`, text: `לאיזו צורה יש ${n} צלעות?`, ok: `ל${POLY[n]} יש ${n} צלעות.`,
+      opts: [{ k: 'shape', v: 'poly' + n, c: true }].concat(ds.map(d => ({ k: 'shape', v: 'poly' + d, no: `לצורה הזאת יש ${d} צלעות. נסו שוב.` }))) });
+  }
+  return fin(numQ(n, ds, { say: 'כמה צלעות יש לצורה?', text: 'כמה צלעות יש לצורה?', vis: { t: 'poly', n }, ok: `ל${POLY[n]} יש ${n} צלעות.` }));
+}
+
+const GEN = {
+  letters1: () => gLetters(AB1), letters2: () => gLetters(AB2), rhyme: gRhyme, syllables: gSyllables,
+  firstSound: () => gSound(true), lastSound: () => gSound(false), cvOpen: gCV, readWords: gRead,
+  similarLetters: gSimilar, finalLetters: gFinal, sentences: gSentence,
+  count5: () => gCount(2, 5, 5), count10: () => gCount(4, 10, 10), digits5: () => gDigits(1, 5), digits10: () => gDigits(0, 10),
+  compare10: gCompare10, neighbors10: () => gNeighbors(0, 10), shapes: gShapes, patterns: gPattern, join5: gJoin5,
+  add10: gAdd10, sub10: gSub10, make10: gMake10, add20: gAdd20, sub20: gSub20, story20: gStory,
+  tens: gTens, neighbors100: () => gNeighbors(10, 100), compare100: gCompare100, wholeTens: gWholeTens, polygons: gPoly,
+};
+const CURR = {
+  prep: {
+    name: 'הכנה לכיתה א',
+    lang: [
+      { title: 'מכירים אותיות א–כ', sub: 'שמות האותיות וצורתן', topics: ['letters1'] },
+      { title: 'מכירים אותיות ל–ת', sub: 'שמות האותיות וצורתן', topics: ['letters2'] },
+      { title: 'חרוזים והברות', sub: 'מה מתחרז, וכמה מחיאות כפיים', topics: ['rhyme', 'syllables'] },
+      { title: 'הצליל הראשון', sub: 'באיזו אות מתחילה המילה', topics: ['firstSound'] },
+      { title: 'הצליל האחרון', sub: 'באיזו אות נגמרת המילה', topics: ['lastSound', 'firstSound'] },
+    ],
+    math: [
+      { title: 'סופרים עד 5', sub: 'כמה יש, ואיפה המספר', topics: ['count5', 'digits5'] },
+      { title: 'סופרים עד 10', sub: 'כמה יש, ואיפה המספר', topics: ['count10', 'digits10'] },
+      { title: 'גדול, קטן ושכנים', sub: 'מי הכי גדול, מה בא לפני ואחרי', topics: ['compare10', 'neighbors10'] },
+      { title: 'צורות ותבניות', sub: 'עיגול, משולש, ריבוע, מלבן', topics: ['shapes', 'patterns'] },
+      { title: 'מוסיפים ומורידים', sub: 'חיבור וחיסור עם תמונות עד 5', topics: ['join5'] },
+    ],
+  },
+  g1: {
+    name: 'כיתה א',
+    lang: [
+      { title: 'צירוף פותח', sub: 'קמץ, חיריק, חולם, שורוק, צירה', topics: ['cvOpen'] },
+      { title: 'קוראים מילים', sub: 'מילה מנוקדת לכל תמונה', topics: ['readWords'] },
+      { title: 'אותיות דומות', sub: 'ב/כ, ד/ר, ה/ח/ת ועוד', topics: ['similarLetters'] },
+      { title: 'אותיות סופיות', sub: 'ם ן ך ף ץ', topics: ['finalLetters'] },
+      { title: 'קוראים משפטים', sub: 'משפט קצר ותמונה', topics: ['sentences', 'readWords'] },
+    ],
+    math: [
+      { title: 'חיבור וחיסור עד 10', sub: 'עובדות היסוד', topics: ['add10', 'sub10'] },
+      { title: 'השלמה לעשר ועד 20', sub: 'כמה חסר עד 10, חיבור עד 20', topics: ['make10', 'add20'] },
+      { title: 'חיסור עד 20 וסיפורים', sub: 'חיסור ובעיות מילוליות', topics: ['sub20', 'story20'] },
+      { title: 'מספרים עד 100', sub: 'עשרות ויחידות, לפני ואחרי, השוואה', topics: ['tens', 'neighbors100', 'compare100'] },
+      { title: 'עשרות שלמות ומצולעים', sub: '30 + 20, וכמה צלעות', topics: ['wholeTens', 'polygons'] },
+    ],
+  },
+};
+function buildStages(grade, subj) {
+  const C = CURR[grade];
+  if (subj === 'lang' || subj === 'math') return C[subj].map((s, i) => ({ ...s, id: `${grade}-${subj}-${i}` }));
+  return C.lang.map((s, i) => ({ title: s.title, sub: 'וגם: ' + C.math[i].title, topics: s.topics.concat(C.math[i].topics), id: `${grade}-mix-${i}` }));
+}
+/* CURRICULUM-END */
+
+/* ---------- Voice (Hebrew speech) ---------- */
+const Speech = {
+  ok: typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined',
+  on: true, voice: null, loaded: false,
+  pick() {
+    try {
+      const vs = speechSynthesis.getVoices();
+      if (vs.length) this.loaded = true;
+      this.voice = vs.find(v => /^he|^iw/i.test(v.lang)) || null;
+    } catch (e) {}
+  },
+  get usable() { return this.ok && (!this.loaded || !!this.voice); },
+  say(text) {
+    if (!this.ok || !this.on || !text || !this.usable) return;
+    try {
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'he-IL'; if (this.voice) u.voice = this.voice;
+      u.rate = 0.9; u.pitch = 1.05;
+      speechSynthesis.speak(u);
+    } catch (e) {}
+  },
+  stop() { try { if (this.ok) speechSynthesis.cancel(); } catch (e) {} },
+  unlock() { // iOS needs the first utterance inside a tap
+    if (!this.ok) return;
+    try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; u.lang = 'he-IL'; speechSynthesis.speak(u); } catch (e) {}
+  },
+};
+if (Speech.ok) { Speech.pick(); try { speechSynthesis.addEventListener('voiceschanged', () => { Speech.pick(); refreshVoiceNote(); }); } catch (e) {} }
+function refreshVoiceNote() { const n = document.getElementById('voiceNote'); if (n) n.hidden = Speech.usable; }
+
 /* ================= Game state ================= */
 let state = 'menu';
 let G = null, M = MODES.easy, player = null;
@@ -908,11 +1342,14 @@ const keys = {};
 
 function newGame() {
   M = MODES[settings.mode];
+  const learn = settings.subj !== 'none';
   G = {
     level: 0, loop: 0, score: 0, hearts: M.hearts, maxHearts: 5,
     kills: 0, goal: M.goal, enemies: [], bubbles: [], muds: [], pickups: [], parts: [], texts: [], buddies: [],
     boss: null, bossPending: false, bossTimer: 0, clearT: 0,
     spawnT: 2, fireT: 0, foam: 0, wave: null, triple: 0, inv: 0, shake: 0, t: 0, rescued: 0, killsSincePower: 0,
+    learn, stages: learn ? buildStages(settings.grade, settings.subj) : null,
+    q: null, qWait: 2.5, qT: 0, correct: 0, wrong: 0, totalCorrect: 0, lastFeedback: -9, lastTopic: '', lastKey: '',
     hud: {},
   };
   player = { x: W / 2, y: H - 130, tx: W / 2, ty: H - 130, t: 0 };
@@ -923,7 +1360,16 @@ function clampTargets() {
   player.tx = clamp(player.tx, 22, W - 22);
   player.ty = clamp(player.ty, hudH + 60, H - 44);
 }
-function diffSpeed() { return M.speed * (1 + G.level * 0.12 + G.loop * 0.25); }
+// In the learning tracks the action ramps up more gently: the questions are the challenge.
+const actionLevel = () => G.learn ? Math.min(G.level, 2) * 0.5 : G.level;
+function diffSpeed() { return M.speed * (1 + actionLevel() * 0.12 + G.loop * 0.25); }
+function lvlInfo() {
+  if (!G.learn) return LEVELS[G.level];
+  const last = G.level === G.stages.length - 1;
+  const kind = last ? 'king' : (G.level % 2 ? 'boot' : 'sneaker');
+  return { name: G.stages[G.level].title, kind, weights: LEVELS[Math.min(G.level, 2)].weights,
+    boss: kind === 'king' ? 'מלך הנעליים' : kind === 'boot' ? 'מגף הבוץ' : 'הסניקר הענק' };
+}
 
 function makeEnemy(type, x, y) {
   const sp = G ? diffSpeed() : 0.6;
@@ -956,8 +1402,8 @@ function aimAt(x, y) { return Math.atan2(player.y - y, player.x - x); }
 
 /* ---------- Boss ---------- */
 function spawnBoss() {
-  const L = LEVELS[G.level];
-  const hp = Math.round((60 + G.level * 30) * M.bossHp * (1 + G.loop * 0.5));
+  const L = lvlInfo();
+  const hp = Math.round((G.learn ? 45 + actionLevel() * 30 : 60 + G.level * 30) * M.bossHp * (1 + G.loop * 0.5));
   const b = { boss: true, kind: L.kind, name: L.boss, x: W / 2, y: -140, t: 0, face: -1, flash: 0, squash: 0, carry: null,
     hp, maxHp: hp, state: 'enter', stT: 0, mudT: 2.2, stompT: 7, spawnT: 6, color: L.kind === 'king' ? '#4a2c5a' : L.kind === 'boot' ? '#6b3f26' : '#e63946', printT: 0 };
   if (b.kind === 'sneaker') { b.s = 2.5; b.hw = 62; b.hh = 40; }
@@ -974,7 +1420,7 @@ function updateBoss(b, dt) {
   b.t += dt; b.stT += dt;
   if (b.flash > 0) b.flash -= dt;
   b.squash = Math.max(0, b.squash - dt * 3);
-  const lvl = G.level;
+  const lvl = actionLevel();
   const range = W / 2 - b.hw * 1.3 - 8;
   if (b.state === 'enter') {
     b.y += (b.baseY - b.y) * (1 - Math.exp(-2.2 * dt));
@@ -1037,7 +1483,14 @@ function bossDefeated(b) {
   G.enemies = []; G.muds = [];
   G.pickups.push({ kind: 'sock', pal: pick(STRAYS), x: b.x - 30, y: b.y, vy: 50, t: 0 });
   G.pickups.push({ kind: 'heart', x: b.x + 30, y: b.y, vy: 50, t: 0 });
-  showBanner('ניצחתם את ' + b.name + '!', bonus + ' נקודות בונוס');
+  if (G.learn) {
+    const st = G.stages[G.level], stars = starsFor(G.wrong);
+    saveStars(st.id, stars);
+    const next = Math.min(G.level + 1, G.stages.length - 1);
+    settings.stage[trackKey()] = next; saveSettings();
+    showBanner('שלב ' + (G.level + 1) + ' הושלם!', '⭐'.repeat(stars) + '  ' + bonus + ' נקודות');
+    Speech.say(stars === 3 ? 'שלב מושלם! שלושה כוכבים!' : 'כל הכבוד! השלב הושלם.');
+  } else showBanner('ניצחתם את ' + b.name + '!', bonus + ' נקודות בונוס');
   G.clearT = 3.4;
 }
 
@@ -1079,8 +1532,8 @@ function killEnemy(e) {
 }
 function fire(x, y) {
   if (G.triple > 0) {
-    for (const vx of [-130, 0, 130]) G.bubbles.push({ x, y, vx, vy: -560, r: 7, t: rand(0, 3) });
-  } else G.bubbles.push({ x, y, vx: 0, vy: -560, r: 7, t: rand(0, 3) });
+    for (const vx of [-130, 0, 130]) G.bubbles.push({ x, y, vx, vy: -560, r: 7, t: rand(0, 3), main: vx === 0 });
+  } else G.bubbles.push({ x, y, vx: 0, vy: -560, r: 7, t: rand(0, 3), main: true });
   Sound.shoot();
 }
 function triggerFoam() {
@@ -1094,14 +1547,121 @@ function triggerFoam() {
 
 /* ---------- Level flow ---------- */
 function startLevel(i) {
-  G.level = i; G.kills = 0; G.goal = M.goal + i * 4 + G.loop * 4;
+  G.level = i; G.kills = 0; G.goal = G.learn ? M.qGoal + (G.loop ? 2 : 0) : M.goal + i * 4 + G.loop * 4;
   G.bossPending = false; G.boss = null; G.clearT = 0; G.spawnT = 2.2;
+  G.correct = 0; G.wrong = 0; G.q = null; G.qWait = 2.6;
+  G.enemies = G.enemies.filter(e => e.type !== 'answer');
+  hideQuest();
   $('#bossBar').hidden = true;
-  const L = LEVELS[i];
+  const L = lvlInfo();
   $('#lvlName').textContent = (G.loop ? 'סיבוב ' + (G.loop + 1) + ' · ' : '') + 'שלב ' + (i + 1) + ' · ' + L.name;
   showBanner('שלב ' + (i + 1), L.name);
   measureHud();
 }
+
+/* ---------- Questions: shoes hold the answers hostage ---------- */
+const WASH_HITS = 3; // bubbles in a row to pick a card, so passing under one does not choose it
+function askQuestion() {
+  const st = G.stages[G.level];
+  let q, topic, tries = 0;
+  do {
+    const pool = st.topics.length > 1 ? st.topics.filter(t => t !== G.lastTopic) : st.topics;
+    topic = pick(pool); q = GEN[topic]();
+  } while (q.say === G.lastKey && ++tries < 6);
+  G.lastTopic = topic; G.lastKey = q.say;
+  G.q = q; G.qT = 0; q.hinted = 0;
+  showQuest(q);
+  const hoverY = hudH + 132; // card top sits clear of the question panel
+  // four lanes; the one above the player stays empty, so the player has to move to choose
+  const lanes = [0, 1, 2, 3].map(i => W * (0.125 + 0.25 * i));
+  let near = 0; lanes.forEach((x, i) => { if (Math.abs(x - player.x) < Math.abs(lanes[near] - player.x)) near = i; });
+  const xs = lanes.filter((_, i) => i !== near);
+  q.opts.forEach((o, i) => G.enemies.push(makeAnswer(o, i === q.ans, xs[i], -100 - i * 40, hoverY + (i % 2 ? 12 : 0))));
+  Speech.say(q.say);
+}
+function makeAnswer(opt, correct, x, y, hoverY) {
+  let cw = 78;
+  if (opt.k === 'text') {
+    ctx.save(); ctx.font = '700 30px ' + NQFONT; cw = clamp(ctx.measureText(opt.v).width + 24, 78, 98); ctx.restore();
+  }
+  return { type: 'answer', opt, correct, x, y, baseX: x, hoverY, t: rand(0, 5), phase: rand(0, TAU), face: Math.random() < 0.5 ? 1 : -1,
+    color: pick(SNEAKER_COLORS), hw: Math.min(cw / 2 - 8, 38), hh: 58, oy: -40, cw, hp: 1, maxHp: 1, value: 0, flash: 0, shake: 0, wrongT: 0,
+    printT: rand(0, 0.3), s: 1, carry: null, hits: 0, lastHit: -9 };
+}
+function answerCorrect(e) {
+  const q = G.q;
+  if (!q || q.done) return;
+  q.done = true;
+  G.correct++; G.totalCorrect++;
+  G.score += 50 * (1 + G.loop);
+  G.foam = Math.min(1, G.foam + 0.2);
+  Sound.correct();
+  burst(e.x, e.y - 50, 40, true);
+  popText(e.x, e.y - 120, pick(['נכון!', 'כל הכבוד!', 'יופי!', 'מעולה!']), '#8fe9ff', 34, 0);
+  for (const o of G.enemies) if (o.type === 'answer') { o.dead = true; if (o !== e) burst(o.x, o.y - 40, 10, false); }
+  G.pickups.push({ kind: 'sock', pal: pick(STRAYS), x: e.x, y: e.y, vy: 60, t: 0 });
+  Speech.say(pick(PRAISE) + ' ' + (q.ok || ''));
+  questDone();
+  G.q = null; G.qWait = 2.8;
+}
+function answerWrong(e) {
+  e.shake = 0.35; e.wrongT = 0.6;
+  Sound.boing();
+  for (let i = 0; i < 4; i++) G.parts.push({ kind: 'foam', x: e.x + rand(-10, 10), y: e.y - 20, vx: rand(-80, 80), vy: rand(40, 140), r: rand(2, 4), life: 0.4, max: 0.4 });
+  G.wrong++;
+  if (G.t - G.lastFeedback > 2.8) { G.lastFeedback = G.t; Speech.say(e.opt.no || 'נסו שוב!'); }
+}
+function updateQuestion(dt) {
+  if (!G.q) { G.qWait -= dt; if (G.qWait <= 0) askQuestion(); return; }
+  G.qT += dt;
+  if (G.qT > 14 && G.q.hinted === 0) { G.q.hinted = 1; Speech.say(G.q.say); }
+  if (G.qT > 28 && G.q.hinted === 1) { G.q.hinted = 2; Speech.say('רמז: חפשו את הכרטיס שזוהר.'); }
+}
+
+/* ---------- Question panel ---------- */
+const rep = (s, n) => Array.from({ length: n }, () => s).join('');
+function polyPoints(n, r, cx, cy) {
+  if (n === 4) return [[-0.9, -0.55], [0.8, -0.85], [0.95, 0.7], [-0.7, 0.8]].map(([x, y]) => [cx + x * r, cy + y * r]);
+  return Array.from({ length: n }, (_, i) => { const a = -PI / 2 + i * TAU / n; return [cx + Math.cos(a) * r, cy + Math.sin(a) * r]; });
+}
+function visHTML(v) {
+  if (!v) return '';
+  switch (v.t) {
+    case 'emoji': return `<span class="v-emoji">${v.v}</span>`;
+    case 'frame': return `<span class="v-frame" style="--cols:5">${Array.from({ length: v.cells }, (_, i) => `<i>${i < v.n ? v.e : ''}</i>`).join('')}</span>`;
+    case 'eq': return `<bdi dir="ltr" class="v-eq">${v.v}</bdi>`;
+    case 'groups': return v.op === '+'
+      ? `<bdi dir="ltr" class="v-groups">${rep(v.e, v.a)} <b>+</b> ${rep(v.e, v.b)}</bdi>`
+      : `<bdi dir="ltr" class="v-groups">${rep(v.e, v.a - v.b)}<s>${rep(v.e, v.b)}</s></bdi>`;
+    case 'pattern': return `<span class="v-pat" dir="rtl">${v.items.join('')}<b class="qm">?</b></span>`;
+    case 'tens': {
+      const t = Math.floor(v.n / 10), u = v.n % 10;
+      return `<span class="v-tens" dir="ltr">${rep('<i class="ten"></i>', t)}<span class="ones">${rep('<i class="one"></i>', u)}</span></span>`;
+    }
+    case 'word': return `<span class="v-emoji">${v.e}</span><span class="v-word">${v.v}</span>`;
+    case 'sentence': return `<span class="v-sent">${v.v}</span>`;
+    case 'poly': return `<svg class="v-poly" viewBox="0 0 80 80" aria-hidden="true"><polygon points="${polyPoints(v.n, 32, 40, 42).map(p => p.join(',')).join(' ')}" fill="${POLY_COLORS[v.n]}" stroke="#17162b" stroke-width="3" stroke-linejoin="round"/></svg>`;
+  }
+  return '';
+}
+function showQuest(q) {
+  const el = $('#quest');
+  $('#qText').textContent = q.text;
+  $('#qVis').innerHTML = visHTML(q.vis);
+  el.classList.toggle('long', q.cls === 'long');
+  el.classList.remove('done');
+  $('#btnSay').hidden = !Speech.usable;
+  el.hidden = false;
+  measureHud();
+}
+let questTimer = 0;
+function questDone() {
+  const el = $('#quest');
+  el.classList.add('done');
+  clearTimeout(questTimer);
+  questTimer = setTimeout(() => { if (!G || !G.q) { el.hidden = true; measureHud(); } }, 1200);
+}
+function hideQuest() { clearTimeout(questTimer); $('#quest').hidden = true; measureHud(); }
 let bannerTimer = 0;
 function showBanner(title, sub) {
   const b = $('#banner');
@@ -1152,24 +1712,29 @@ function update(dt) {
   if (G.clearT > 0) {
     G.clearT -= dt;
     if (G.clearT <= 0) {
-      if (G.level < LEVELS.length - 1) startLevel(G.level + 1);
+      if (G.level < (G.learn ? G.stages.length : LEVELS.length) - 1) startLevel(G.level + 1);
       else return win();
     }
   } else if (G.bossPending) {
     G.bossTimer -= dt;
     if (G.bossTimer <= 0) { G.bossPending = false; spawnBoss(); }
   } else if (!G.boss) {
-    if (G.kills >= G.goal) {
+    if ((G.learn ? G.correct : G.kills) >= G.goal && !G.q) {
       G.bossPending = true; G.bossTimer = 2.6;
-      showBanner('זהירות!', LEVELS[G.level].boss + ' מגיע');
+      showBanner('זהירות!', lvlInfo().boss + ' מגיע');
       Sound.warn();
     } else {
+      if (G.learn) updateQuestion(dt);
       G.spawnT -= dt;
-      const maxE = 5 + G.level * 2 + G.loop * 2 - (settings.mode === 'easy' ? 1 : 0);
-      if (G.spawnT <= 0 && G.enemies.length < maxE) {
-        if (Math.random() < 0.13 + G.level * 0.04) spawnFormation();
-        else spawnOne(weighted(LEVELS[G.level].weights));
-        G.spawnT = Math.max(0.42, (1.3 - G.level * 0.14 - G.loop * 0.12) * M.spawn) * rand(0.75, 1.25);
+      const lv = actionLevel(), easy = settings.mode === 'easy';
+      const regular = G.enemies.reduce((n, e) => n + (e.type === 'answer' ? 0 : 1), 0);
+      const maxE = G.learn ? (easy ? 2 : 3) + Math.round(lv) + G.loop : 5 + G.level * 2 + G.loop * 2 - (easy ? 1 : 0);
+      if (G.spawnT <= 0 && regular < maxE) {
+        if (!G.learn && Math.random() < 0.13 + G.level * 0.04) spawnFormation();
+        else spawnOne(weighted(lvlInfo().weights));
+        // fewer regular shoes while a question is on the street
+        const calm = G.learn ? (G.q ? (easy ? 3 : 2) : 1.4) : 1;
+        G.spawnT = Math.max(0.42, (1.3 - lv * 0.14 - G.loop * 0.12) * M.spawn) * rand(0.75, 1.25) * calm;
       }
     }
   }
@@ -1178,6 +1743,15 @@ function update(dt) {
   for (const e of G.enemies) {
     e.t += dt;
     if (e.flash > 0) e.flash -= dt;
+    if (e.type === 'answer') {
+      // answer shoes march in and wait for the player; they never hurt
+      e.y = e.y < e.hoverY ? Math.min(e.hoverY, e.y + 170 * dt) : e.hoverY + Math.sin(e.t * 2 + e.phase) * 4;
+      e.x = e.baseX + Math.sin(e.t * 1.1 + e.phase) * 6;
+      if (e.shake > 0) e.shake -= dt;
+      if (e.wrongT > 0) e.wrongT -= dt;
+      if (e.hits > 0 && G.t - e.lastHit > 0.45) e.hits = Math.max(0, e.hits - dt * 3);
+      continue;
+    }
     e.y += e.vy * dt;
     if (e.type === 'sneaker') e.x = e.baseX + Math.sin(e.t * 1.6 + e.phase) * 22;
     else if (e.type === 'flip') e.x = e.baseX + Math.sin(e.t * 2.6 + e.phase) * e.amp;
@@ -1185,7 +1759,7 @@ function update(dt) {
       e.x = e.baseX + Math.sin(e.t * 0.9 + e.phase) * 14;
       e.mudT -= dt;
       if (e.mudT <= 0 && e.y > hudH && e.y < H * 0.62) {
-        throwMud(e.x, e.y + 24, aimAt(e.x, e.y + 24), 165 * M.mud * (1 + G.level * 0.08));
+        throwMud(e.x, e.y + 24, aimAt(e.x, e.y + 24), 165 * M.mud * (1 + actionLevel() * 0.08));
         e.squash = 1;
         e.mudT = rand(2.6, 3.8) / M.mud;
       }
@@ -1219,7 +1793,16 @@ function update(dt) {
     for (const e of G.enemies) {
       if (e.dead) continue;
       if (rectCircle(e, p.x, p.y, p.r)) {
-        p.dead = true; e.hp -= 1; e.flash = 0.08; hitFx(p.x, p.y);
+        // only the hero's own straight shots choose an answer; helpers' and side shots pass through
+        if (e.type === 'answer' && !p.main) continue;
+        p.dead = true;
+        if (e.type === 'answer') {
+          if (e.y < e.hoverY - 6) break; // still arriving
+          e.hits++; e.lastHit = G.t; hitFx(p.x, p.y);
+          if (e.hits >= WASH_HITS) { e.hits = 0; if (e.correct) answerCorrect(e); else answerWrong(e); }
+          break;
+        }
+        e.hp -= 1; e.flash = 0.08; hitFx(p.x, p.y);
         if (e.hp <= 0) killEnemy(e);
         break;
       }
@@ -1257,7 +1840,7 @@ function update(dt) {
     const w = G.wave;
     w.r += 820 * dt;
     for (const e of G.enemies) {
-      if (e.dead || w.hit.has(e)) continue;
+      if (e.dead || e.type === 'answer' || w.hit.has(e)) continue;
       const dx = e.x - w.x, dy = e.y - w.y;
       if (dx * dx + dy * dy < w.r * w.r) { w.hit.add(e); e.hp -= 10; if (e.hp <= 0) killEnemy(e); }
     }
@@ -1321,7 +1904,7 @@ function collect(p) {
   }
 }
 function rectCircle(e, x, y, r) {
-  const dx = Math.abs(x - e.x) - e.hw, dy = Math.abs(y - e.y) - e.hh;
+  const dx = Math.abs(x - e.x) - e.hw, dy = Math.abs(y - (e.y + (e.oy || 0))) - e.hh;
   if (dx > r || dy > r) return false;
   if (dx <= 0 || dy <= 0) return true;
   return dx * dx + dy * dy <= r * r;
@@ -1339,7 +1922,7 @@ function updateHud() {
     $('#hearts').setAttribute('aria-label', G.hearts + ' לבבות');
   }
   if (h.score !== G.score) { h.score = G.score; $('#score').textContent = G.score; }
-  const prog = G.boss || G.bossPending || G.clearT > 0 ? 1 : Math.min(1, G.kills / G.goal);
+  const prog = G.boss || G.bossPending || G.clearT > 0 ? 1 : Math.min(1, (G.learn ? G.correct : G.kills) / G.goal);
   if (h.prog !== prog) { h.prog = prog; $('#progFill').style.width = (prog * 100).toFixed(1) + '%'; }
   const foam = Math.round(G.foam * 100);
   if (h.foam !== foam) {
@@ -1425,8 +2008,60 @@ function render(now) {
   }
   ctx.restore();
 }
+function drawShapeIcon(c, key, r) {
+  c.beginPath();
+  if (key === 'circle') { c.arc(0, 0, r, 0, TAU); c.fillStyle = '#36a3ff'; }
+  else if (key === 'triangle') { c.moveTo(0, -r); c.lineTo(r * 1.05, r * 0.8); c.lineTo(-r * 1.05, r * 0.8); c.closePath(); c.fillStyle = '#ffb703'; }
+  else if (key === 'square') { c.rect(-r * 0.85, -r * 0.85, r * 1.7, r * 1.7); c.fillStyle = '#ff5a6a'; }
+  else if (key === 'rect') { c.rect(-r * 1.25, -r * 0.65, r * 2.5, r * 1.3); c.fillStyle = '#2ec4b6'; }
+  else { const n = +key.slice(4); polyPoints(n, r, 0, 0).forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y)); c.closePath(); c.fillStyle = POLY_COLORS[n]; }
+  c.fill(); c.lineWidth = 2.6; c.lineJoin = 'round'; c.strokeStyle = OUT; c.stroke();
+}
+function drawAnswer(e) {
+  drawSneaker(ctx, e, 1, false);
+  const o = e.opt, cw = e.cw, ch = 62, cy = e.y - 66;
+  const sx = e.shake > 0 ? Math.sin(e.shake * 70) * 5 : 0;
+  ctx.strokeStyle = OUT; ctx.lineWidth = 3.5; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(e.x, e.y - 18); ctx.lineTo(e.x + sx, cy + ch / 2); ctx.stroke();
+  ctx.save();
+  ctx.translate(e.x + sx, cy);
+  ctx.rotate(Math.sin(e.t * 1.7 + e.phase) * 0.04);
+  // hint: after a long wait the right card starts to glow
+  if (e.correct && G.q && G.q.hinted === 2) {
+    ctx.fillStyle = 'rgba(143,233,255,' + (0.35 + Math.sin(e.t * 6) * 0.2) + ')';
+    rr(ctx, -cw / 2 - 9, -ch / 2 - 9, cw + 18, ch + 18, 16); ctx.fill();
+  }
+  ctx.fillStyle = 'rgba(0,0,0,.3)'; rr(ctx, -cw / 2 + 3, -ch / 2 + 4, cw, ch, 11); ctx.fill();
+  rr(ctx, -cw / 2, -ch / 2, cw, ch, 11);
+  ctx.fillStyle = e.wrongT > 0 ? '#ffe1e1' : '#fffaf0'; ctx.fill();
+  if (e.hits > 0) {
+    ctx.save(); rr(ctx, -cw / 2, -ch / 2, cw, ch, 11); ctx.clip();
+    const fh = ch * Math.min(1, e.hits / WASH_HITS);
+    ctx.fillStyle = 'rgba(143,233,255,.55)'; ctx.fillRect(-cw / 2, ch / 2 - fh, cw, fh);
+    ctx.fillStyle = 'rgba(255,255,255,.7)';
+    for (let i = 0; i < 5; i++) dot(ctx, -cw / 2 + (i + 0.5) * cw / 5, ch / 2 - fh, 5 + (i % 2) * 2);
+    ctx.restore();
+  }
+  ctx.lineWidth = 3; ctx.strokeStyle = e.wrongT > 0 ? '#d62839' : OUT; ctx.stroke();
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  if (o.k === 'emoji') { ctx.font = '38px ' + EMOJI_FONT; ctx.fillText(o.v, 0, 3); }
+  else if (o.k === 'shape') drawShapeIcon(ctx, o.v, 21);
+  else {
+    if (!o.fs) {
+      const fam = o.k === 'text' ? NQFONT : FONT;
+      let size = o.k === 'text' ? (plain(o.v).length <= 1 ? 46 : plain(o.v).length <= 2 ? 40 : 32) : 40;
+      for (; size > 14; size -= 2) { ctx.font = '700 ' + size + 'px ' + fam; if (ctx.measureText(o.v).width <= cw - 14) break; }
+      o.fs = '700 ' + size + 'px ' + fam;
+    }
+    ctx.font = o.fs; ctx.direction = o.k === 'text' ? 'rtl' : 'ltr';
+    ctx.fillStyle = OUT; ctx.fillText(o.v, 0, o.k === 'text' ? 4 : 3);
+    ctx.direction = 'inherit';
+  }
+  ctx.restore();
+}
 function drawEnemy(e) {
   const s = e.s || 1, fl = e.flash > 0;
+  if (e.type === 'answer') { drawAnswer(e); return; }
   // soft shadow
   ctx.fillStyle = 'rgba(0,0,0,.22)';
   ctx.beginPath(); ctx.ellipse(e.x + 6, e.y + (e.hh || 20) + 4, (e.hw || 24) * 0.9, 5 * s, 0, 0, TAU); ctx.fill();
@@ -1441,21 +2076,24 @@ function drawEnemy(e) {
 }
 
 /* ================= Screens ================= */
-const screens = ['menu', 'pause', 'over', 'win', 'install'];
+const screens = ['menu', 'learn', 'pause', 'over', 'win', 'install'];
 function show(id) { for (const s of screens) $('#' + s).hidden = s !== id; }
 function setPlayUI(on) {
   hudEl.hidden = !on; $('#btnFoam').hidden = !on;
+  if (!on) hideQuest();
   measureHud();
 }
 function startGame() {
   Sound.init();
+  Speech.unlock();
   enterFull();
   newGame();
   initBG();
   show(null);
   setPlayUI(true);
   G.hud = {};
-  startLevel(0);
+  const first = G.learn ? clamp(settings.stage[trackKey()] || 0, 0, G.stages.length - 1) : 0;
+  startLevel(first);
   clampTargets(); player.x = player.tx; player.y = player.ty;
   updateHud();
   state = 'play';
@@ -1463,6 +2101,7 @@ function startGame() {
 function pauseGame() {
   if (state !== 'play') return;
   state = 'pause'; drag = null;
+  Speech.stop();
   show('pause');
   $('#btnResume').focus({ preventScroll: true });
 }
@@ -1470,9 +2109,11 @@ function resumeGame() {
   if (state !== 'pause' || isLandscapeBlocked()) return;
   enterFull();
   show(null); state = 'play'; last = performance.now();
+  if (G && G.q) Speech.say(G.q.say);
 }
 function toMenu() {
   state = 'menu'; G = null; drag = null;
+  Speech.stop();
   setPlayUI(false); $('#bossBar').hidden = true;
   $('#bestScore').textContent = best;
   show('menu');
@@ -1480,18 +2121,28 @@ function toMenu() {
 }
 function gameOver() {
   state = 'over';
+  Speech.stop();
   const isNew = G.score > best;
   if (isNew) { best = G.score; saveBest(); }
+  if (G.learn) { settings.stage[trackKey()] = G.level; saveSettings(); }
   $('#oScore').textContent = G.score; $('#oBest').textContent = best;
-  $('#oRescued').textContent = G.rescued; $('#oLevel').textContent = G.level + 1;
+  $('#oRescuedLbl').textContent = G.learn ? 'תשובות נכונות' : 'גרביים שהצלתם';
+  $('#oRescued').textContent = G.learn ? G.totalCorrect : G.rescued; $('#oLevel').textContent = G.level + 1;
   $('#oNew').hidden = !isNew;
-  setTimeout(() => { if (state === 'over') { show('over'); $('#btnAgain').focus({ preventScroll: true }); } }, 650);
+  setTimeout(() => { if (state === 'over') { hideQuest(); show('over'); $('#btnAgain').focus({ preventScroll: true }); } }, 650);
 }
 function win() {
   state = 'win';
   if (G.score > best) { best = G.score; saveBest(); }
   Sound.fanfare();
-  $('#wScore').textContent = G.score; $('#wRescued').textContent = G.rescued;
+  hideQuest();
+  $('#wScore').textContent = G.score;
+  $('#wRescuedLbl').textContent = G.learn ? 'תשובות נכונות' : 'גרביים שהצלתם';
+  $('#wRescued').textContent = G.learn ? G.totalCorrect : G.rescued;
+  $('#winText').textContent = G.learn
+    ? `סיימתם את כל השלבים של ${CURR[settings.grade].name}, ${SUBJ_NAMES[settings.subj]}. מלך הנעליים הובס וכל הגרביים חזרו הביתה. טוב, חוץ מאחת. תמיד חסרה אחת.`
+    : 'מלך הנעליים הובס וכל הגרביים חזרו הביתה. טוב, חוץ מאחת. תמיד חסרה אחת.';
+  if (G.learn) Speech.say('ניצחתם! סיימתם את כל השלבים.');
   show('win');
 }
 function harder() {
@@ -1513,14 +2164,40 @@ function drawPickers() {
   });
 }
 function selectSock(i) {
-  settings.sock = i;
+  settings.sock = i; saveSettings();
   document.querySelectorAll('.sock-pick').forEach(b => b.setAttribute('aria-checked', String(+b.dataset.i === i)));
 }
 function selectMode(m) {
-  settings.mode = m;
+  settings.mode = m; saveSettings();
   $('#modeEasy').setAttribute('aria-checked', String(m === 'easy'));
   $('#modeNormal').setAttribute('aria-checked', String(m === 'normal'));
 }
+
+/* ================= Menu: track and stage ================= */
+const SUBJ_NAMES = { lang: 'אותיות ומילים', math: 'מספרים וחשבון', mix: 'אותיות וגם חשבון', none: 'בלי שאלות' };
+function renderLearn() {
+  document.querySelectorAll('[data-grade]').forEach(b => b.setAttribute('aria-checked', String(b.dataset.grade === settings.grade)));
+  document.querySelectorAll('[data-subj]').forEach(b => b.setAttribute('aria-checked', String(b.dataset.subj === settings.subj)));
+  const none = settings.subj === 'none';
+  $('#stageList').hidden = none; $('#stagesLbl').hidden = none; $('#classicNote').hidden = !none;
+  refreshVoiceNote();
+  if (none) return;
+  const stages = buildStages(settings.grade, settings.subj);
+  const sel = clamp(settings.stage[trackKey()] || 0, 0, stages.length - 1);
+  $('#stageList').innerHTML = stages.map((s, i) => {
+    const n = STARS[s.id] || 0;
+    return `<li><button class="stage-btn" role="radio" aria-checked="${i === sel}" data-stage="${i}">` +
+      `<span class="n">${i + 1}</span><span><b>${s.title}</b><small>${s.sub}</small></span>` +
+      `<span class="st" aria-label="${n} כוכבים"><i>${'★'.repeat(n)}</i>${'★'.repeat(3 - n)}</span></button></li>`;
+  }).join('');
+}
+$('#stageList').addEventListener('click', e => {
+  const b = e.target.closest('[data-stage]');
+  if (!b) return;
+  settings.stage[trackKey()] = +b.dataset.stage; saveSettings(); renderLearn();
+});
+document.querySelectorAll('[data-grade]').forEach(b => b.addEventListener('click', () => { settings.grade = b.dataset.grade; saveSettings(); renderLearn(); }));
+document.querySelectorAll('[data-subj]').forEach(b => b.addEventListener('click', () => { settings.subj = b.dataset.subj; saveSettings(); renderLearn(); }));
 function resetAttract() {
   attract.length = 0;
   const types = ['sneaker', 'flip', 'boot', 'sneaker'];
@@ -1568,7 +2245,18 @@ window.addEventListener('keyup', e => { if (KEYMAP[e.code]) keys[KEYMAP[e.code]]
 window.addEventListener('blur', () => { for (const k in keys) keys[k] = false; });
 document.addEventListener('visibilitychange', () => { if (document.hidden) pauseGame(); });
 
-$('#btnStart').addEventListener('click', startGame);
+$('#btnStart').addEventListener('click', () => {
+  Sound.init(); Speech.unlock(); saveSettings();
+  renderLearn(); show('learn');
+  $('#btnGo').focus({ preventScroll: true });
+});
+$('#btnGo').addEventListener('click', () => { saveSettings(); startGame(); });
+$('#btnBack').addEventListener('click', () => show('menu'));
+$('#btnSay').addEventListener('click', () => { if (G && G.q) Speech.say(G.q.say); });
+$('#btnVoice').addEventListener('click', () => {
+  Speech.on = !Speech.on;
+  $('#btnVoice').textContent = 'הקראת שאלות: ' + (Speech.on ? 'פועלת' : 'כבויה');
+});
 $('#btnPause').addEventListener('click', pauseGame);
 $('#btnResume').addEventListener('click', resumeGame);
 $('#btnQuit').addEventListener('click', toMenu);
@@ -1636,6 +2324,8 @@ function start(data) {
   if (typeof data.best === 'number' && data.best > best) best = data.best;
   if (typeof data.sock === 'number' && HEROES[data.sock]) settings.sock = data.sock;
   if (data.mode === 'easy' || data.mode === 'normal') settings.mode = data.mode;
+  if (data.grade === 'prep' || data.grade === 'g1') settings.grade = data.grade;
+  if (['lang', 'math', 'mix', 'none'].includes(data.subj)) settings.subj = data.subj;
   if (typeof data.muted === 'boolean') { Sound.muted = data.muted; $('#btnSound').textContent = 'צלילים: ' + (Sound.muted ? 'כבויים' : 'פועלים'); }
   selectSock(settings.sock); selectMode(settings.mode);
   $('#bestScore').textContent = best;
@@ -1647,9 +2337,11 @@ function start(data) {
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawPickers).catch(() => {});
   requestAnimationFrame(t => { last = t; frame(t); });
 }
-try { window.claude?.hot?.snapshot?.(() => ({ best, sock: settings.sock, mode: settings.mode, muted: Sound.muted })); } catch (e) {}
+try { window.claude?.hot?.snapshot?.(() => ({ best, sock: settings.sock, mode: settings.mode, grade: settings.grade, subj: settings.subj, muted: Sound.muted })); } catch (e) {}
 const hot = window.claude?.hot;
 if (hot?.ready) hot.ready(start); else start(hot?.data ?? {});
+// test hook, only with ?debug in the address
+if (/[?&]debug\b/.test(location.search)) window.__sg = { get G() { return G; }, get player() { return player; }, get state() { return state; }, settings, GEN };
 })();
 </script>
 </body>
