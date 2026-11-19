@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="גרביים">
 <meta name="theme-color" content="#17162b">
 <link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Varela+Round&display=swap" rel="stylesheet">
@@ -30,7 +31,10 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none !important}
-html,body{height:100%;margin:0}
+html,body{height:100%;margin:0;overscroll-behavior:none}
+button{touch-action:manipulation}
+/* Interface scales up on tablets so it keeps pace with the enlarged street */
+#hud,#btnFoam,#banner,.label{zoom:var(--uiz,1)}
 body{
   background:var(--ink);
   color:var(--paper);
@@ -151,6 +155,25 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
 .muted-note{margin:0;font-size:14px;line-height:1.5}
 .best-line{margin:0;text-align:center;font-size:13.5px;color:#5d5470}
 .best-line b{font-family:var(--font-display);color:var(--ink);font-size:16px}
+/* ---------- Install ---------- */
+.install-btn{display:flex;align-items:center;justify-content:center;gap:10px}
+.install-btn svg{width:22px;height:22px;flex:none}
+.steps{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;counter-reset:step}
+.steps li{display:grid;grid-template-columns:34px 1fr 40px;align-items:center;gap:10px;border:2px solid var(--ink);border-radius:14px;background:#fff;padding:10px 12px;font-size:15px;line-height:1.4}
+.steps li::before{counter-increment:step;content:counter(step);width:30px;height:30px;border-radius:50%;background:var(--sock);color:#fff;border:2px solid var(--ink);
+  display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:16px}
+.steps b{font-family:var(--font-display);font-weight:600}
+.steps small{display:block;font-size:12.5px;color:#5d5470}
+.steps svg{width:34px;height:34px;justify-self:end}
+
+/* ---------- Portrait only on phones and tablets ---------- */
+#rotate{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;padding:16px;background:var(--ink)}
+@media (orientation:landscape){html.mobile #rotate{display:flex}}
+#rotate .label{width:min(100%,360px);text-align:center;align-items:center}
+.rot-icon{width:58px;height:84px;margin:6px auto 2px;border:4px solid var(--ink);border-radius:12px;background:#e6fbff;position:relative;animation:rot 2.6s ease-in-out infinite}
+.rot-icon::after{content:"";position:absolute;bottom:6px;left:50%;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:var(--ink)}
+@keyframes rot{0%,25%{transform:rotate(-90deg)}60%,100%{transform:rotate(0)}}
+
 @media (max-height:640px){
   .label{gap:10px;padding:24px 20px 16px}
   h1{font-size:40px}
@@ -160,6 +183,7 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
 @media (prefers-reduced-motion:reduce){
   #btnFoam.ready{animation:none;box-shadow:0 4px 0 var(--ink),0 0 0 5px rgba(143,233,255,.6)}
   #banner.show{animation:bannerFade 2.3s linear forwards}
+  .rot-icon{animation:none}
   @keyframes bannerFade{0%{opacity:0;transform:none}10%,85%{opacity:1;transform:none}100%{opacity:0;transform:none}}
 }
 </style>
@@ -207,6 +231,10 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
         <button id="modeNormal" role="radio" aria-checked="false" data-mode="normal">רגיל<small>לגיבורים ותיקים</small></button>
       </div>
       <button id="btnStart" class="big">יאללה, לשחק!</button>
+      <button id="btnInstall" class="big alt install-btn" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M12 7v7M8.8 11l3.2 3.2 3.2-3.2M10 18.5h4"/></svg>
+        התקנה כאפליקציה
+      </button>
       <ul class="howto">
         <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M13 27c-3-2-6-6-6-9 0-1.5 1.8-2 3-.8l2 2V7.5a2 2 0 0 1 4 0V15h.3v-2.5a2 2 0 0 1 4 0V15h.2v-1.5a2 2 0 0 1 4 0V20c0 3.5-2 6-3.5 7z" fill="#fff" stroke="#17162b" stroke-width="2" stroke-linejoin="round"/><path d="M4 9h5M23 6l3-3M26 6h3" stroke="#17162b" stroke-width="2" stroke-linecap="round"/></svg>גוררים אצבע כדי לזוז</li>
         <li><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="18" r="8" fill="#dff9ff" stroke="#17162b" stroke-width="2"/><circle cx="23" cy="8" r="4.5" fill="#dff9ff" stroke="#17162b" stroke-width="2"/><circle cx="8" cy="7" r="3" fill="#dff9ff" stroke="#17162b" stroke-width="2"/><path d="M12 15a5 5 0 0 1 4-3" stroke="#17162b" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>הבועות יוצאות לבד</li>
@@ -222,6 +250,25 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
         </svg>
         <p>לכבס ב־30°. לא להכניס לנעליים מסריחות.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- Install steps for iPad / iPhone (Safari has no install prompt) -->
+  <section id="install" class="overlay" hidden>
+    <div class="label">
+      <p class="eyebrow">שלושה צעדים, פעם אחת</p>
+      <h2>מתקינים את המשחק</h2>
+      <div class="stripe" aria-hidden="true"></div>
+      <ol class="steps">
+        <li><span><b>לוחצים על כפתור השיתוף</b><small>בסרגל של ספארי. לא רואים אותו? לוחצים על ••• ואז על "שיתוף".</small></span>
+          <svg viewBox="0 0 34 34" aria-hidden="true" fill="none" stroke="#2f7cf6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13H9.5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h15a2 2 0 0 0 2-2V15a2 2 0 0 0-2-2H22"/><path d="M17 4v16M12 9l5-5 5 5"/></svg></li>
+        <li><span><b>בוחרים "הוסף למסך הבית"</b><small>גוללים קצת למטה ברשימה אם צריך.</small></span>
+          <svg viewBox="0 0 34 34" aria-hidden="true" fill="none" stroke="#17162b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="22" height="22" rx="5"/><path d="M17 11.5v11M11.5 17h11"/></svg></li>
+        <li><span><b>לוחצים "הוסף"</b><small>הגרב המפוספסת תופיע במסך הבית.</small></span>
+          <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="3" y="3" width="28" height="28" rx="7" fill="#262844"/><path d="M13 8h8v11h3a4 4 0 0 1 0 8h-7a4 4 0 0 1-4-4z" fill="#ff5a6a" stroke="#17162b" stroke-width="1.6" stroke-linejoin="round"/><path d="M13 12h8M13 16h8" stroke="#fff" stroke-width="2"/></svg></li>
+      </ol>
+      <p class="muted-note">מהאייקון המשחק נפתח במסך מלא, לאורך, ועובד גם בלי אינטרנט.</p>
+      <button id="btnInstallDone" class="big">הבנתי</button>
     </div>
   </section>
 
@@ -276,6 +323,15 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
       </div>
     </div>
   </section>
+</div>
+
+<!-- Phones and tablets: portrait only -->
+<div id="rotate" role="alertdialog" aria-labelledby="rotTitle">
+  <div class="label">
+    <div class="rot-icon" aria-hidden="true"></div>
+    <h2 id="rotTitle">סובבו לעמידה</h2>
+    <p class="muted-note">משחק הגרביים משוחק לאורך. סובבו את המכשיר והמשחק ימשיך מאיפה שעצרתם.</p>
+  </div>
 </div>
 
 <script>
@@ -381,20 +437,47 @@ const Sound = {
 /* ================= Canvas & sizing ================= */
 const cvs = $('#game'), ctx = cvs.getContext('2d');
 const stage = $('#stage'), hudEl = $('#hud');
-const W = 400;
-let H = 720, scale = 1, dpr = 1, hudH = 70;
+let W = 400, H = 720, scale = 1, dpr = 1, hudH = 70;
+
+/* ---------- Device: phone/tablet, installed app, fullscreen ---------- */
+const UA = navigator.userAgent || '';
+const isIOS = /iPad|iPhone|iPod/.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isAndroid = /Android/i.test(UA);
+const isMobile = isIOS || isAndroid;
+const topLevel = (() => { try { return window.self === window.top; } catch (e) { return false; } })();
+const isStandalone = () => !!((window.matchMedia && (matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches)) || navigator.standalone === true);
+if (isMobile) document.documentElement.classList.add('mobile');
+const isLandscapeBlocked = () => isMobile && window.innerWidth > window.innerHeight;
+const isFull = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
+function lockPortrait() {
+  try { const p = screen.orientation && screen.orientation.lock && screen.orientation.lock('portrait'); if (p && p.catch) p.catch(() => {}); } catch (e) {}
+}
+function enterFull() {
+  // Called from a tap. iPad Safari and Android browsers go fullscreen; the installed app already is.
+  if (!isMobile || !topLevel || isStandalone() || isFull()) { lockPortrait(); return; }
+  try {
+    const el = document.documentElement;
+    if (el.requestFullscreen) { const r = el.requestFullscreen({ navigationUI: 'hide' }); if (r && r.then) r.then(lockPortrait, () => {}); }
+    else if (el.webkitRequestFullscreen) { el.webkitRequestFullscreen(); lockPortrait(); }
+  } catch (e) {}
+}
 
 function resize() {
   const vw = window.innerWidth, vh = window.innerHeight;
-  const colW = Math.max(280, Math.min(vw, Math.round(vh * 0.66), 620));
+  // On a phone or tablet the street fills the whole screen; on a computer it is a portrait column.
+  const colW = isMobile ? vw : Math.max(280, Math.min(vw, Math.round(vh * 0.66), 620));
+  // Logical width grows on wide portrait screens (iPad) so the street stays about 760 units tall.
+  W = clamp(Math.round(colW / vh * 760), 400, 560);
   stage.style.width = colW + 'px';
   scale = colW / W;
   H = Math.round(vh / scale);
+  document.documentElement.style.setProperty('--uiz', clamp(Math.min(colW / 430, vh / 900), 1, 1.5).toFixed(3));
   dpr = Math.min(window.devicePixelRatio || 1, 2.5);
   cvs.width = Math.round(colW * dpr);
   cvs.height = Math.round(vh * dpr);
   measureHud();
   if (player) clampTargets();
+  if (isLandscapeBlocked() && state === 'play') pauseGame();
 }
 function measureHud() {
   const r = hudEl.hidden ? 70 * scale : hudEl.getBoundingClientRect().height;
@@ -695,11 +778,14 @@ function drawWasher(c, x, y, t) {
 /* ================= Background: the neighborhood ================= */
 const BG = { items: [], lines: [], marks: [], prints: [], dash: 0, tile: 0 };
 const ROOFS = ['#d9643a', '#c44f2f', '#e8a33d', '#b9b2a8', '#8f9bb3', '#d77a61'];
-function makeItem(side, bottomY) {
-  const kind = Math.random() < 0.72 ? 'house' : 'tree';
+function makeItem(side, col, bottomY) {
+  const kind = Math.random() < (col ? 0.5 : 0.72) ? 'house' : 'tree';
   const h = kind === 'house' ? rand(84, 130) : rand(46, 60);
-  return { side, kind, h, y: bottomY - h, roof: pick(ROOFS), dud: Math.random() < 0.55, w: kind === 'house' ? rand(48, 58) : 0, r: rand(16, 22) };
+  return { side, col, kind, h, y: bottomY - h, roof: pick(ROOFS), dud: Math.random() < 0.55, w: kind === 'house' ? rand(48, 58) : 0, r: rand(16, 22) };
 }
+// Street geometry: a 208-wide road centered in the field, sidewalks, then lots out to the edges.
+function geo() { const cx = W / 2, roadL = cx - 104, roadR = cx + 104; return { cx, roadL, roadR, swL: roadL - 22, swR: roadR + 22 }; }
+const SIDES = [['L', 0], ['R', 0], ['L', 1], ['R', 1]];
 function makeLine(y) {
   const n = 3 + ((Math.random() * 3) | 0), socks = [];
   for (let i = 0; i < n; i++) socks.push({ u: 0.18 + (i / (n - 1 || 1)) * 0.64 + rand(-0.03, 0.03), pal: pick(STRAYS.concat(HEROES)), rot: rand(-0.15, 0.15) });
@@ -707,9 +793,9 @@ function makeLine(y) {
 }
 function initBG() {
   BG.items = []; BG.lines = []; BG.marks = []; BG.prints = [];
-  for (const side of ['L', 'R']) {
-    let y = H + 120;
-    while (y > -200) { const it = makeItem(side, y); BG.items.push(it); y = it.y - rand(8, 20); }
+  for (const [side, col] of SIDES) {
+    let y = H + 120 + col * rand(0, 60);
+    while (y > -200) { const it = makeItem(side, col, y); BG.items.push(it); y = it.y - rand(8, 20); }
   }
   BG.lines.push(makeLine(H * 0.32));
   BG.marks.push({ y: H * 0.7 });
@@ -722,10 +808,11 @@ function scrollBG(dt, speed) {
   for (const m of BG.marks) m.y += d;
   for (const p of BG.prints) p.y += d;
   BG.items = BG.items.filter(it => it.y < H + 160);
-  for (const side of ['L', 'R']) {
+  for (const [side, col] of SIDES) {
     let top = Infinity;
-    for (const it of BG.items) if (it.side === side && it.y < top) top = it.y;
-    while (top > -200) { const it = makeItem(side, top - rand(8, 20)); BG.items.push(it); top = it.y; }
+    for (const it of BG.items) if (it.side === side && it.col === col && it.y < top) top = it.y;
+    if (top === Infinity) top = H + 100;
+    while (top > -200) { const it = makeItem(side, col, top - rand(8, 20)); BG.items.push(it); top = it.y; }
   }
   BG.lines = BG.lines.filter(l => l.y < H + 80);
   let lt = Infinity; for (const l of BG.lines) lt = Math.min(lt, l.y);
@@ -736,23 +823,25 @@ function scrollBG(dt, speed) {
   BG.prints = BG.prints.filter(p => p.y < H + 30);
 }
 function drawBG(c, t) {
+  const { cx: mid, roadL, roadR, swL, swR } = geo();
   // lots (grass)
-  c.fillStyle = '#35553c'; c.fillRect(0, 0, 74, H); c.fillRect(326, 0, 74, H);
+  c.fillStyle = '#35553c'; c.fillRect(0, 0, swL, H); c.fillRect(swR, 0, W - swR, H);
   // sidewalks
-  c.fillStyle = '#8e93ab'; c.fillRect(74, 0, 22, H); c.fillRect(304, 0, 22, H);
+  c.fillStyle = '#8e93ab'; c.fillRect(swL, 0, 22, H); c.fillRect(roadR, 0, 22, H);
   c.strokeStyle = 'rgba(23,22,43,.22)'; c.lineWidth = 1;
   for (let y = -26 + BG.tile; y < H; y += 26) {
-    c.beginPath(); c.moveTo(74, y); c.lineTo(96, y); c.moveTo(304, y); c.lineTo(326, y); c.stroke();
+    c.beginPath(); c.moveTo(swL, y); c.lineTo(roadL, y); c.moveTo(roadR, y); c.lineTo(swR, y); c.stroke();
   }
   // road
-  c.fillStyle = '#262844'; c.fillRect(96, 0, 208, H);
-  c.fillStyle = '#d8d3c4'; c.fillRect(95, 0, 3, H); c.fillRect(302, 0, 3, H);
+  c.fillStyle = '#262844'; c.fillRect(roadL, 0, 208, H);
+  c.fillStyle = '#d8d3c4'; c.fillRect(roadL - 1, 0, 3, H); c.fillRect(roadR - 2, 0, 3, H);
   // center dashes
   c.fillStyle = 'rgba(255,246,230,.5)';
-  for (let y = -44 + BG.dash; y < H; y += 44) c.fillRect(198, y, 4, 24);
+  for (let y = -44 + BG.dash; y < H; y += 44) c.fillRect(mid - 2, y, 4, 24);
   // crosswalks
+  c.fillStyle = 'rgba(255,246,230,.75)';
   for (const m of BG.marks) {
-    for (let x = 104; x < 298; x += 22) { c.fillStyle = 'rgba(255,246,230,.75)'; c.fillRect(x, m.y, 12, 44); }
+    for (let x = roadL + 8; x < roadR - 6; x += 22) c.fillRect(x, m.y, 12, 44);
   }
   // footprints of the shoes
   c.fillStyle = '#7b4a2a';
@@ -763,10 +852,13 @@ function drawBG(c, t) {
     c.restore();
   }
   // houses & trees
+  const outerRow = swL >= 118; // room for a second row of houses on wide screens
   for (const it of BG.items) {
     if (it.y > H + 10 || it.y + it.h < -10) continue;
+    if (it.col === 1 && !outerRow) continue;
+    const off = it.col === 1 ? 80 : 8;
     if (it.kind === 'house') {
-      const x = it.side === 'L' ? 8 : 400 - 8 - it.w;
+      const x = it.side === 'L' ? swL - off - it.w : swR + off;
       c.fillStyle = 'rgba(0,0,0,.25)'; c.fillRect(x + 4, it.y + 5, it.w, it.h);
       c.fillStyle = it.roof; c.fillRect(x, it.y, it.w, it.h);
       c.fillStyle = 'rgba(0,0,0,.18)'; c.fillRect(x + it.w / 2, it.y, it.w / 2, it.h);
@@ -784,7 +876,8 @@ function drawBG(c, t) {
         c.fillStyle = '#7a4b3a'; c.fillRect(x + it.w - 16, it.y + it.h - 26, 8, 10);
       }
     } else {
-      const cx = it.side === 'L' ? 40 : 360, cy = it.y + it.h / 2;
+      const tOff = it.col === 1 ? 108 : 34;
+      const cx = it.side === 'L' ? swL - tOff : swR + tOff, cy = it.y + it.h / 2;
       c.fillStyle = 'rgba(0,0,0,.25)'; dot(c, cx + 4, cy + 5, it.r);
       c.fillStyle = '#3f8f4a'; dot(c, cx, cy, it.r);
       c.fillStyle = '#58b061'; dot(c, cx - it.r * 0.3, cy - it.r * 0.3, it.r * 0.55);
@@ -794,11 +887,12 @@ function drawBG(c, t) {
   // clotheslines with socks hanging out to dry
   for (const l of BG.lines) {
     if (l.y < -60 || l.y > H + 60) continue;
+    const x0 = swL - 22, x1 = swR + 22;
     c.strokeStyle = 'rgba(255,246,230,.75)'; c.lineWidth = 1.6;
-    c.beginPath(); c.moveTo(52, l.y); c.quadraticCurveTo(200, l.y + 26, 348, l.y); c.stroke();
-    c.fillStyle = '#d8d3c4'; dot(c, 52, l.y, 3.5); dot(c, 348, l.y, 3.5);
+    c.beginPath(); c.moveTo(x0, l.y); c.quadraticCurveTo(mid, l.y + 26, x1, l.y); c.stroke();
+    c.fillStyle = '#d8d3c4'; dot(c, x0, l.y, 3.5); dot(c, x1, l.y, 3.5);
     for (const s of l.socks) {
-      const u = s.u, sx = (1 - u) * (1 - u) * 52 + 2 * u * (1 - u) * 200 + u * u * 348;
+      const u = s.u, sx = (1 - u) * (1 - u) * x0 + 2 * u * (1 - u) * mid + u * u * x1;
       const sy = (1 - u) * (1 - u) * l.y + 2 * u * (1 - u) * (l.y + 26) + u * u * l.y;
       drawSock(c, sx, sy + 13, 0.42, s.pal, t * 0.6 + u * 5, { noFace: true, tilt: s.rot + Math.sin(t * 1.5 + u * 9) * 0.08 });
       c.fillStyle = '#c9a26b'; c.fillRect(sx - 4.5, sy - 3, 3, 7);
@@ -1347,7 +1441,7 @@ function drawEnemy(e) {
 }
 
 /* ================= Screens ================= */
-const screens = ['menu', 'pause', 'over', 'win'];
+const screens = ['menu', 'pause', 'over', 'win', 'install'];
 function show(id) { for (const s of screens) $('#' + s).hidden = s !== id; }
 function setPlayUI(on) {
   hudEl.hidden = !on; $('#btnFoam').hidden = !on;
@@ -1355,6 +1449,7 @@ function setPlayUI(on) {
 }
 function startGame() {
   Sound.init();
+  enterFull();
   newGame();
   initBG();
   show(null);
@@ -1371,7 +1466,11 @@ function pauseGame() {
   show('pause');
   $('#btnResume').focus({ preventScroll: true });
 }
-function resumeGame() { if (state !== 'pause') return; show(null); state = 'play'; last = performance.now(); }
+function resumeGame() {
+  if (state !== 'pause' || isLandscapeBlocked()) return;
+  enterFull();
+  show(null); state = 'play'; last = performance.now();
+}
 function toMenu() {
   state = 'menu'; G = null; drag = null;
   setPlayUI(false); $('#bossBar').hidden = true;
@@ -1396,6 +1495,7 @@ function win() {
   show('win');
 }
 function harder() {
+  enterFull();
   G.loop++;
   G.hearts = Math.min(G.maxHearts, G.hearts + 1); G.hud = {};
   show(null);
@@ -1487,6 +1587,37 @@ document.querySelectorAll('.sock-pick').forEach(b => b.addEventListener('click',
 $('#modeEasy').addEventListener('click', () => selectMode('easy'));
 $('#modeNormal').addEventListener('click', () => selectMode('normal'));
 window.addEventListener('resize', resize);
+window.addEventListener('orientationchange', () => setTimeout(resize, 300));
+['fullscreenchange', 'webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, () => setTimeout(resize, 120)));
+
+/* ================= Install as an app (PWA) ================= */
+let installPrompt = null;
+function refreshInstall() {
+  // Android / desktop Chrome and Edge hand us a native prompt; iPad and iPhone get the step-by-step sheet.
+  const can = topLevel && !isStandalone() && (!!installPrompt || isIOS);
+  $('#btnInstall').hidden = !can;
+}
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installPrompt = e; refreshInstall(); });
+window.addEventListener('appinstalled', () => {
+  installPrompt = null; refreshInstall();
+  if (state === 'menu') showBanner('הותקן!', 'הגרב מחכה במסך הבית');
+});
+$('#btnInstall').addEventListener('click', async () => {
+  if (installPrompt) {
+    const p = installPrompt; installPrompt = null;
+    try { await p.prompt(); await p.userChoice; } catch (e) {}
+    refreshInstall();
+  } else {
+    show('install');
+    $('#btnInstallDone').focus({ preventScroll: true });
+  }
+});
+$('#btnInstallDone').addEventListener('click', () => show('menu'));
+try {
+  if ('serviceWorker' in navigator && location.protocol === 'https:' && topLevel) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+} catch (e) {}
 
 /* ================= Loop & boot ================= */
 let last = performance.now();
@@ -1508,6 +1639,8 @@ function start(data) {
   if (typeof data.muted === 'boolean') { Sound.muted = data.muted; $('#btnSound').textContent = 'צלילים: ' + (Sound.muted ? 'כבויים' : 'פועלים'); }
   selectSock(settings.sock); selectMode(settings.mode);
   $('#bestScore').textContent = best;
+  refreshInstall();
+  if (isStandalone()) lockPortrait();
   resize();
   initBG(); resetAttract();
   drawPickers();
