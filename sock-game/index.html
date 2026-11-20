@@ -156,6 +156,21 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
 .muted-note{margin:0;font-size:14px;line-height:1.5}
 .best-line{margin:0;text-align:center;font-size:13.5px;color:#5d5470}
 .best-line b{font-family:var(--font-display);color:var(--ink);font-size:16px}
+/* ---------- Big broken heart (a wrong answer) ---------- */
+#heartbreak{position:absolute;inset:0;z-index:9;display:none;align-items:center;justify-content:center;pointer-events:none}
+#heartbreak.on{display:flex;animation:hbFlash 1.7s ease-out forwards}
+#heartbreak svg{width:min(78%,440px);height:auto;overflow:visible;filter:drop-shadow(0 10px 0 rgba(0,0,0,.35))}
+#heartbreak .half{transform-box:fill-box;transform-origin:50% 100%}
+#heartbreak.on svg{animation:hbPop .38s cubic-bezier(.2,1.6,.4,1) both}
+#heartbreak.on .crack{stroke-dasharray:260;stroke-dashoffset:260;animation:hbCrack .25s .32s linear forwards}
+#heartbreak.on .l{animation:hbL 1.1s .6s cubic-bezier(.5,0,.8,.6) forwards}
+#heartbreak.on .r{animation:hbR 1.1s .6s cubic-bezier(.5,0,.8,.6) forwards}
+@keyframes hbFlash{0%{background:rgba(214,40,57,.45)}30%{background:rgba(214,40,57,.18)}100%{background:rgba(214,40,57,0)}}
+@keyframes hbPop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes hbCrack{to{stroke-dashoffset:0}}
+@keyframes hbL{0%{transform:none;opacity:1}25%{transform:translateX(-14%) rotate(-12deg)}100%{transform:translate(-30%,90%) rotate(-38deg);opacity:0}}
+@keyframes hbR{0%{transform:none;opacity:1}25%{transform:translateX(14%) rotate(12deg)}100%{transform:translate(30%,90%) rotate(38deg);opacity:0}}
+
 /* ---------- Question panel ---------- */
 #quest{pointer-events:none;display:flex;align-items:center;gap:10px;margin-top:4px;
   background:var(--paper);color:var(--ink);border:2.5px solid var(--ink);border-radius:16px;padding:8px 10px;
@@ -233,6 +248,7 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
   .sock-pick canvas{width:56px;height:66px}
 }
 @media (prefers-reduced-motion:reduce){
+  #heartbreak.on svg,#heartbreak.on .l,#heartbreak.on .r,#heartbreak.on .crack{animation:none;stroke-dashoffset:0}
   #btnFoam.ready{animation:none;box-shadow:0 4px 0 var(--ink),0 0 0 5px rgba(143,233,255,.6)}
   #banner.show{animation:bannerFade 2.3s linear forwards}
   .rot-icon{animation:none}
@@ -269,6 +285,15 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
 
   <button id="btnFoam" hidden disabled aria-label="פיצוץ קצף, מנקה את כל הנעליים במסך"><span class="core">קצף!</span></button>
 
+  <div id="heartbreak" aria-hidden="true">
+    <svg viewBox="-20 -10 240 200" aria-hidden="true">
+      <path class="half l" d="M100,35 C90,18 72,5 50,5 C22,5 0,25 0,55 C0,95 40,130 100,170 L106,138 L90,112 L108,86 L88,62 Z" fill="#e5383b" stroke="#17162b" stroke-width="7" stroke-linejoin="round"/>
+      <path class="half r" d="M100,35 C110,18 128,5 150,5 C178,5 200,25 200,55 C200,95 160,130 100,170 L106,138 L90,112 L108,86 L88,62 Z" fill="#e5383b" stroke="#17162b" stroke-width="7" stroke-linejoin="round"/>
+      <path class="half l" d="M30,40 C36,28 48,24 58,26" fill="none" stroke="#ffb3b3" stroke-width="9" stroke-linecap="round"/>
+      <path class="crack" d="M100,35 L88,62 L108,86 L90,112 L106,138 L100,170" fill="none" stroke="#17162b" stroke-width="6" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
   <div id="banner" aria-live="polite"><div class="b-title"></div><div class="b-sub"></div></div>
 
   <!-- Main menu -->
@@ -277,7 +302,7 @@ h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:30px;line-
       <p class="eyebrow">הקרב על השכונה</p>
       <h1>משחק הגרביים</h1>
       <div class="stripe" aria-hidden="true"></div>
-      <p class="story">צבא הנעליים המסריחות פלש לשכונה וחטף את כל הגרביים הבודדות. עכשיו ברור לאן הן תמיד נעלמות! הנעליים מחזיקות שלטים עם תשובות. שוטפים בבועות סבון את הנעל עם התשובה הנכונה, ומצילים גרב.</p>
+      <p class="story">צבא הנעליים המסריחות פלש לשכונה וחטף את כל הגרביים הבודדות. עכשיו ברור לאן הן תמיד נעלמות! הנעליים מחזיקות שלטים עם תשובות. מקשיבים לשאלה, חושבים, ושוטפים בבועות סבון את הנעל עם התשובה הנכונה. טעות שוברת לב!</p>
       <p class="section-title" id="pickLbl">בחרו גרב</p>
       <div class="socks" role="radiogroup" aria-labelledby="pickLbl">
         <button class="sock-pick" id="pick0" role="radio" aria-checked="true" data-i="0"><canvas width="144" height="168"></canvas><span>פסי</span></button>
@@ -541,6 +566,7 @@ const Sound = {
   fanfare() { [523, 659, 784, 659, 784, 1046].forEach((f, i) => this.tone(f, i === 5 ? 0.45 : 0.14, 'triangle', 0.09, null, i * 0.12)); },
   correct() { [659, 784, 988, 1318].forEach((f, i) => this.tone(f, 0.16, 'triangle', 0.1, null, i * 0.08)); this.noise(0.4, 0.08, 3000, 0.7, 0.05); },
   boing() { this.tone(330, 0.22, 'triangle', 0.09, 150); },
+  heartbreak() { this.noise(0.12, 0.25, 1600, 0.8); [392, 370, 349, 262].forEach((f, i) => this.tone(f, i === 3 ? 0.55 : 0.26, 'sawtooth', 0.07, i === 3 ? 196 : null, 0.18 + i * 0.26)); },
 };
 
 /* ================= Canvas & sizing ================= */
@@ -1350,6 +1376,7 @@ function newGame() {
     spawnT: 2, fireT: 0, foam: 0, wave: null, triple: 0, inv: 0, shake: 0, t: 0, rescued: 0, killsSincePower: 0,
     learn, stages: learn ? buildStages(settings.grade, settings.subj) : null,
     q: null, qWait: 2.5, qT: 0, correct: 0, wrong: 0, totalCorrect: 0, lastFeedback: -9, lastTopic: '', lastKey: '',
+    retryQ: [], qFail: null, freeze: 0,
     hud: {},
   };
   player = { x: W / 2, y: H - 130, tx: W / 2, ty: H - 130, t: 0 };
@@ -1549,7 +1576,7 @@ function triggerFoam() {
 function startLevel(i) {
   G.level = i; G.kills = 0; G.goal = G.learn ? M.qGoal + (G.loop ? 2 : 0) : M.goal + i * 4 + G.loop * 4;
   G.bossPending = false; G.boss = null; G.clearT = 0; G.spawnT = 2.2;
-  G.correct = 0; G.wrong = 0; G.q = null; G.qWait = 2.6;
+  G.correct = 0; G.wrong = 0; G.q = null; G.qWait = 2.6; G.qFail = null; G.retryQ = [];
   G.enemies = G.enemies.filter(e => e.type !== 'answer');
   hideQuest();
   $('#bossBar').hidden = true;
@@ -1564,12 +1591,21 @@ const WASH_HITS = 3; // bubbles in a row to pick a card, so passing under one do
 function askQuestion() {
   const st = G.stages[G.level];
   let q, topic, tries = 0;
-  do {
-    const pool = st.topics.length > 1 ? st.topics.filter(t => t !== G.lastTopic) : st.topics;
-    topic = pick(pool); q = GEN[topic]();
-  } while (q.say === G.lastKey && ++tries < 6);
+  G.retryQ.forEach(r => r.after--);
+  const due = G.retryQ.findIndex(r => r.after <= 0);
+  if (due >= 0) {
+    q = G.retryQ.splice(due, 1)[0].q;
+    q.done = false; fin(q); topic = G.lastTopic;
+  } else {
+    do {
+      const pool = st.topics.length > 1 ? st.topics.filter(t => t !== G.lastTopic) : st.topics;
+      topic = pick(pool); q = GEN[topic]();
+    } while (q.say === G.lastKey && ++tries < 6);
+  }
   G.lastTopic = topic; G.lastKey = q.say;
   G.q = q; G.qT = 0; q.hinted = 0;
+  // listen first: the cards can't be chosen until the question has been read out
+  q.lockT = 1.2 + clamp(q.say.length * 0.075, 1.2, 6);
   showQuest(q);
   const hoverY = hudH + 132; // card top sits clear of the question panel
   // four lanes; the one above the player stays empty, so the player has to move to choose
@@ -1604,18 +1640,49 @@ function answerCorrect(e) {
   questDone();
   G.q = null; G.qWait = 2.8;
 }
+// A wrong answer costs a heart (big broken heart), closes the question, shows the right answer,
+// and brings the same question back two questions later. Guessing never pays.
+function heartBreak() {
+  const el = $('#heartbreak');
+  el.classList.remove('on'); void el.offsetWidth; el.classList.add('on');
+  Sound.heartbreak();
+  try { navigator.vibrate && navigator.vibrate([80, 60, 160]); } catch (err) {}
+  clearTimeout(heartBreak.t); heartBreak.t = setTimeout(() => el.classList.remove('on'), 1800);
+}
 function answerWrong(e) {
-  e.shake = 0.35; e.wrongT = 0.6;
-  Sound.boing();
-  for (let i = 0; i < 4; i++) G.parts.push({ kind: 'foam', x: e.x + rand(-10, 10), y: e.y - 20, vx: rand(-80, 80), vy: rand(40, 140), r: rand(2, 4), life: 0.4, max: 0.4 });
+  const q = G.q;
+  if (!q || q.done) return;
+  q.done = true;
   G.wrong++;
-  if (G.t - G.lastFeedback > 2.8) { G.lastFeedback = G.t; Speech.say(e.opt.no || 'נסו שוב!'); }
+  e.shake = 0.5; e.wrongT = 3.2;
+  Speech.stop();
+  heartBreak();
+  G.hearts--;
+  G.freeze = 1.6;
+  G.qFail = { t: 0, revealed: false };
+  G.retryQ.push({ q, after: 2 });
+  updateHud();
 }
 function updateQuestion(dt) {
+  if (G.qFail) {
+    const f = G.qFail; f.t += dt;
+    if (!f.revealed) {
+      f.revealed = true;
+      if (G.hearts <= 0) { G.qFail = null; gameOver(); return; }
+      for (const o of G.enemies) if (o.type === 'answer' && o.correct) o.reveal = true;
+      $('#qText').textContent = 'התשובה הנכונה:';
+      Speech.say('לא נכון. התשובה הנכונה: ' + (G.q.ok || ''));
+    }
+    if (f.t > 2.6) {
+      for (const o of G.enemies) if (o.type === 'answer') { o.dead = true; burst(o.x, o.y - 40, 8, false); }
+      G.qFail = null; G.q = null; G.qWait = 1.6;
+      $('#quest').hidden = true; measureHud();
+    }
+    return;
+  }
   if (!G.q) { G.qWait -= dt; if (G.qWait <= 0) askQuestion(); return; }
   G.qT += dt;
   if (G.qT > 14 && G.q.hinted === 0) { G.q.hinted = 1; Speech.say(G.q.say); }
-  if (G.qT > 28 && G.q.hinted === 1) { G.q.hinted = 2; Speech.say('רמז: חפשו את הכרטיס שזוהר.'); }
 }
 
 /* ---------- Question panel ---------- */
@@ -1674,6 +1741,7 @@ function showBanner(title, sub) {
 
 /* ================= Update ================= */
 function update(dt) {
+  if (G.freeze > 0) { G.freeze -= dt; return; }
   G.t += dt; player.t += dt;
   scrollBG(dt, 70);
 
@@ -1797,7 +1865,7 @@ function update(dt) {
         if (e.type === 'answer' && !p.main) continue;
         p.dead = true;
         if (e.type === 'answer') {
-          if (e.y < e.hoverY - 6) break; // still arriving
+          if (e.y < e.hoverY - 6 || !G.q || G.q.done || G.qT < G.q.lockT) { hitFx(p.x, p.y); break; } // arriving, closed, or still listening
           e.hits++; e.lastHit = G.t; hitFx(p.x, p.y);
           if (e.hits >= WASH_HITS) { e.hits = 0; if (e.correct) answerCorrect(e); else answerWrong(e); }
           break;
@@ -2026,10 +2094,10 @@ function drawAnswer(e) {
   ctx.save();
   ctx.translate(e.x + sx, cy);
   ctx.rotate(Math.sin(e.t * 1.7 + e.phase) * 0.04);
-  // hint: after a long wait the right card starts to glow
-  if (e.correct && G.q && G.q.hinted === 2) {
-    ctx.fillStyle = 'rgba(143,233,255,' + (0.35 + Math.sin(e.t * 6) * 0.2) + ')';
-    rr(ctx, -cw / 2 - 9, -ch / 2 - 9, cw + 18, ch + 18, 16); ctx.fill();
+  // after a wrong answer the right card is shown, without credit
+  if (e.reveal) {
+    ctx.fillStyle = 'rgba(74,222,128,' + (0.45 + Math.sin(e.t * 8) * 0.2) + ')';
+    rr(ctx, -cw / 2 - 10, -ch / 2 - 10, cw + 20, ch + 20, 16); ctx.fill();
   }
   ctx.fillStyle = 'rgba(0,0,0,.3)'; rr(ctx, -cw / 2 + 3, -ch / 2 + 4, cw, ch, 11); ctx.fill();
   rr(ctx, -cw / 2, -ch / 2, cw, ch, 11);
@@ -2042,8 +2110,10 @@ function drawAnswer(e) {
     for (let i = 0; i < 5; i++) dot(ctx, -cw / 2 + (i + 0.5) * cw / 5, ch / 2 - fh, 5 + (i % 2) * 2);
     ctx.restore();
   }
-  ctx.lineWidth = 3; ctx.strokeStyle = e.wrongT > 0 ? '#d62839' : OUT; ctx.stroke();
+  ctx.lineWidth = 3; ctx.strokeStyle = e.wrongT > 0 ? '#d62839' : e.reveal ? '#15803d' : OUT; ctx.stroke();
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  const listening = G.q && !G.q.done && G.qT < G.q.lockT;
+  if (listening) { ctx.save(); ctx.globalAlpha = 0.5; }
   if (o.k === 'emoji') { ctx.font = '38px ' + EMOJI_FONT; ctx.fillText(o.v, 0, 3); }
   else if (o.k === 'shape') drawShapeIcon(ctx, o.v, 21);
   else {
@@ -2056,6 +2126,11 @@ function drawAnswer(e) {
     ctx.font = o.fs; ctx.direction = o.k === 'text' ? 'rtl' : 'ltr';
     ctx.fillStyle = OUT; ctx.fillText(o.v, 0, o.k === 'text' ? 4 : 3);
     ctx.direction = 'inherit';
+  }
+  if (listening) {
+    ctx.restore();
+    ctx.font = '22px ' + EMOJI_FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('👂', cw / 2 - 6, -ch / 2 + 4);
   }
   ctx.restore();
 }

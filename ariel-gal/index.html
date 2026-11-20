@@ -135,6 +135,23 @@ button:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
 @keyframes hop{0%,100%{transform:none}50%{transform:translateY(-10px)}}
 .r-msg{margin:0;min-height:1.5em;text-align:center;font-family:var(--font-ui);font-size:16px}
 
+/* ---------- Big broken heart (a wrong choice) ---------- */
+#heartbreak{position:absolute;inset:0;z-index:30;display:none;align-items:center;justify-content:center;pointer-events:none}
+#heartbreak.on{display:flex;animation:hbFlash 1.7s ease-out forwards}
+#heartbreak svg{width:min(80%,460px);height:auto;overflow:visible;filter:drop-shadow(0 10px 0 rgba(0,0,0,.35))}
+#heartbreak .half{transform-box:fill-box;transform-origin:50% 100%}
+#heartbreak.on svg{animation:hbPop .38s cubic-bezier(.2,1.6,.4,1) both}
+#heartbreak.on .crack{stroke-dasharray:260;stroke-dashoffset:260;animation:hbCrack .25s .32s linear forwards}
+#heartbreak.on .l{animation:hbL 1.1s .6s cubic-bezier(.5,0,.8,.6) forwards}
+#heartbreak.on .r{animation:hbR 1.1s .6s cubic-bezier(.5,0,.8,.6) forwards}
+@keyframes hbFlash{0%{background:rgba(214,40,57,.45)}30%{background:rgba(214,40,57,.18)}100%{background:rgba(214,40,57,0)}}
+@keyframes hbPop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes hbCrack{to{stroke-dashoffset:0}}
+@keyframes hbL{0%{transform:none;opacity:1}25%{transform:translateX(-14%) rotate(-12deg)}100%{transform:translate(-30%,90%) rotate(-38deg);opacity:0}}
+@keyframes hbR{0%{transform:none;opacity:1}25%{transform:translateX(14%) rotate(12deg)}100%{transform:translate(30%,90%) rotate(38deg);opacity:0}}
+.dogs.wait .dog{opacity:.45}
+.dog.right{background:#d9ffe8;box-shadow:0 3px 0 var(--ink),0 0 0 4px #22c55e;opacity:1 !important}
+
 /* ---------- Action (Gal's rescue on site) ---------- */
 #actCv{width:100%;height:auto;aspect-ratio:400/300;display:block;border:3px solid var(--ink);border-radius:4px;touch-action:none;background:#9bd4f5}
 .act-bar{height:16px;border:2.5px solid var(--ink);border-radius:9px;background:#eee;overflow:hidden}
@@ -159,6 +176,7 @@ button:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
 @keyframes rot{0%,25%{transform:rotate(-90deg)}60%,100%{transform:rotate(0)}}
 @media (max-height:660px){.shout{font-size:50px}.panel{gap:9px;padding:14px}#cover{aspect-ratio:400/190}}
 @media (prefers-reduced-motion:reduce){
+  #heartbreak.on svg,#heartbreak.on .l,#heartbreak.on .r,#heartbreak.on .crack{animation:none;stroke-dashoffset:0}
   #btnWatch.ready,.rot-icon,.dog.go{animation:none}
   #banner.show{animation:bannerFade 2.4s linear forwards}
   @keyframes bannerFade{0%{opacity:0}10%,85%{opacity:1}100%{opacity:0}}
@@ -185,6 +203,14 @@ button:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
   </button>
   <div id="laneHint" dir="ltr" hidden aria-hidden="true"><span>◀</span><span>▶</span></div>
 
+  <div id="heartbreak" aria-hidden="true">
+    <svg viewBox="-20 -10 240 200" aria-hidden="true">
+      <path class="half l" d="M100,35 C90,18 72,5 50,5 C22,5 0,25 0,55 C0,95 40,130 100,170 L106,138 L90,112 L108,86 L88,62 Z" fill="#e5383b" stroke="#1b1530" stroke-width="7" stroke-linejoin="round"/>
+      <path class="half r" d="M100,35 C110,18 128,5 150,5 C178,5 200,25 200,55 C200,95 160,130 100,170 L106,138 L90,112 L108,86 L88,62 Z" fill="#e5383b" stroke="#1b1530" stroke-width="7" stroke-linejoin="round"/>
+      <path class="half l" d="M30,40 C36,28 48,24 58,26" fill="none" stroke="#ffb3b3" stroke-width="9" stroke-linecap="round"/>
+      <path class="crack" d="M100,35 L88,62 L108,86 L90,112 L106,138 L100,170" fill="none" stroke="#1b1530" stroke-width="6" stroke-linejoin="round"/>
+    </svg>
+  </div>
   <div id="banner" aria-live="polite"><div class="b-title"></div><div class="b-sub"></div></div>
 
   <!-- Title: choose who plays -->
@@ -388,6 +414,7 @@ const Sound = {
   water() { this.noise(0.35, 0.12, 2400, 0.5); },
   dig() { this.noise(0.12, 0.14, 300, 1.2); },
   tick() { this.tone(1800, 0.03, 'square', 0.03); },
+  heartbreak() { this.noise(0.12, 0.25, 1600, 0.8); [392, 370, 349, 262].forEach((f, i) => this.tone(f, i === 3 ? 0.55 : 0.26, 'sawtooth', 0.07, i === 3 ? 196 : null, 0.18 + i * 0.26)); },
   bump() { this.tone(140, 0.2, 'sine', 0.2, 60); this.noise(0.12, 0.1, 500, 1); },
   fanfare() { [523, 659, 784, 659, 784, 1046].forEach((f, i) => this.tone(f, i === 5 ? 0.45 : 0.14, 'triangle', 0.09, null, i * 0.12)); },
 };
@@ -528,15 +555,15 @@ function drawGal(c, x, y, s, o = {}) {
 // Gal's rescue unit: original dogs in the five colors, each with a job and a vehicle
 const DOGS = [
   { id: 'red', name: 'סולמי', job: 'סולם ומנוף', color: '#e63946', color2: '#9d0208', fur: '#e0a458', fur2: '#a66a2c', ears: 'flop', tool: 'ladder', veh: 'crane',
-    no: 'הסולם שלי לא יעזור כאן. נסו מישהו אחר!', go: 'סולמי והמנוף יוצאים לדרך!', act: 'לחצו כדי להרים את הסולם', fem: false },
+    no: 'הסולם שלי לא יעזור כאן.', go: 'סולמי והמנוף יוצאים לדרך!', act: 'לחצו כדי להרים את הסולם', fem: false },
   { id: 'blue', name: 'שפריץ', job: 'מים ואש', color: '#2f80ed', color2: '#1b4f9c', fur: '#f5efe6', fur2: '#8a5a3c', ears: 'flop', spot: true, tool: 'water', veh: 'fire',
-    no: 'אני מכבה אש עם מים. כאן צריך מישהו אחר!', go: 'שפריץ והכבאית יוצאים לדרך!', act: 'לחצו על האש כדי להתיז מים', fem: false },
+    no: 'אני מכבה אש עם מים, וכאן אין אש.', go: 'שפריץ והכבאית יוצאים לדרך!', act: 'לחצו על האש כדי להתיז מים', fem: false },
   { id: 'yellow', name: 'זמזום', job: 'עף במסוק', color: '#ffc300', color2: '#c99700', fur: '#cfd4da', fur2: '#7d8590', ears: 'up', tool: 'prop', veh: 'heli',
-    no: 'אני עף, אבל כאן צריך משהו אחר!', go: 'זמזום והמסוק ממריאים!', act: 'לחצו כדי לעוף למעלה', fem: false },
+    no: 'אני עף במסוק, אבל כאן זה לא עוזר.', go: 'זמזום והמסוק ממריאים!', act: 'לחצו כדי לעוף למעלה', fem: false },
   { id: 'pink', name: 'רחרחה', job: 'מוצאת באף', color: '#ff70a6', color2: '#c9184a', fur: '#f6e3c6', fur2: '#c99a6b', ears: 'long', bow: true, tool: 'nose', veh: 'scooter',
-    no: 'האף שלי מוצא דברים שהלכו לאיבוד. כאן צריך מישהו אחר!', go: 'רחרחה והטוסטוס יוצאים לחפש!', act: 'לחצו על השיחים ומצאו', fem: true },
+    no: 'האף שלי מוצא דברים שהלכו לאיבוד, וכאן שום דבר לא אבד.', go: 'רחרחה והטוסטוס יוצאים לחפש!', act: 'הסתכלו מאיפה עולה הריח ולחצו על השיח', fem: true },
   { id: 'purple', name: 'חפרי', job: 'חופר בדחפור', color: '#8e44ec', color2: '#5a189a', fur: '#7a5236', fur2: '#4a3122', ears: 'flop', tool: 'shovel', veh: 'digger',
-    no: 'אני חופר בורות. לא הפעם!', go: 'חפרי והדחפור יוצאים לחפור!', act: 'לחצו מהר כדי לחפור', fem: false },
+    no: 'אני חופר בורות, וכאן לא צריך לחפור.', go: 'חפרי והדחפור יוצאים לחפור!', act: 'לחצו מהר כדי לחפור', fem: false },
 ];
 const DOG = Object.fromEntries(DOGS.map(d => [d.id, d]));
 function toolIcon(c, tool, x, y, r) {
@@ -1014,6 +1041,9 @@ function drawEvent(c, ev, cy, t) {
     const p = 1 + Math.sin(t * 8) * 0.12;
     c.save(); c.translate(dir * 30, -62); c.scale(p, p);
     ell(c, 0, 0, 15, 15, 0, '#fff', 2.4); c.fillStyle = '#ef233c'; c.font = '700 26px ' + FONT; c.fillText('!', 0, 2); c.restore();
+  } else if (ev.failed) {
+    c.globalAlpha = 0.6; c.fillText(ev.sc.e, dir * 30, -24); c.globalAlpha = 1;
+    c.font = '22px ' + EMOJI_FONT; c.fillText('💔', dir * 50, -46);
   } else {
     if (ev.dog) drawDog(c, dir * 30, -22, 0.75, DOG[ev.dog], { t });
     c.font = '20px ' + EMOJI_FONT; c.fillText('💖', dir * 50, -44 + Math.sin(t * 3) * 3);
@@ -1198,25 +1228,69 @@ function buildDogButtons() {
     b.addEventListener('click', () => chooseDog(d, b));
   });
 }
+// One choice per emergency. A wrong dog costs a heart (big broken heart), the right dog is shown,
+// and the emergency comes back later, so guessing never pays.
+function heartBreak() {
+  const el = $('#heartbreak');
+  el.classList.remove('on'); void el.offsetWidth; el.classList.add('on');
+  Sound.heartbreak();
+  try { navigator.vibrate && navigator.vibrate([80, 60, 160]); } catch (err) {}
+  clearTimeout(heartBreak.t); heartBreak.t = setTimeout(() => el.classList.remove('on'), 1800);
+}
+let listenTimer = 0;
 function openRescue(sc, from, ev) {
   state = 'rescue';
-  rescueCtx = { sc, from, ev, wrong: 0, locked: false };
-  $('#rEmoji').textContent = sc.e; $('#rTitle').textContent = sc.title; $('#rMsg').textContent = '';
+  const listen = 1000 * clamp((sc.say.length + 16) * 0.075, 2.2, 5);
+  rescueCtx = { sc, from, ev, wrong: 0, locked: false, listenUntil: performance.now() + listen };
+  $('#rEmoji').textContent = sc.e; $('#rTitle').textContent = sc.title; $('#rMsg').textContent = 'מקשיבים...';
   $('#rAsk').textContent = from === 'ariel' ? 'אריאל קורא לגל: את מי שולחים?' : 'גל, את מי שולחים?';
-  document.querySelectorAll('.dog').forEach(b => { b.classList.remove('nope', 'go'); b.disabled = false; });
+  if (from === 'gal') $('#lvlName').textContent = 'יחידת החילוץ של גל · משימה ' + (G.mi + 1) + ' מתוך ' + G.missions.length;
+  document.querySelectorAll('.dog').forEach(b => { b.classList.remove('nope', 'go', 'right'); b.disabled = false; });
+  $('#dogBtns').classList.add('wait');
+  clearTimeout(listenTimer);
+  listenTimer = setTimeout(() => { $('#dogBtns').classList.remove('wait'); if (rescueCtx && !rescueCtx.locked) $('#rMsg').textContent = 'חושבים, ובוחרים כלב אחד.'; }, listen);
   show('rescue');
   Sound.siren();
   Speech.say(sc.say + ' גל, את מי שולחים?');
 }
+function failRescue() {
+  const r = rescueCtx; rescueCtx = null;
+  if (G.hearts <= 0) { show(null); gameOver(); return; }
+  const alt = SCEN.filter(x => x.dog === r.sc.dog && x !== r.sc), nsc = alt.length ? pick(alt) : r.sc;
+  show(null); state = 'play'; last = performance.now();
+  if (r.from === 'ariel') {
+    r.ev.done = true; r.ev.failed = true;
+    let ny = G.A.wy - 950;
+    while (G.events.some(e => Math.abs(e.y - ny) < 320)) ny -= 320;
+    if (ny > -G.B.len + 420) {
+      G.events.push({ y: ny, side: Math.random() < 0.5 ? -1 : 1, sc: nsc, done: false, dog: null });
+      G.obs = G.obs.filter(o => Math.abs(o.y - ny) > 170);
+      showBanner('החילוץ נכשל', 'עוד מקרה מחכה למעלה');
+    } else showBanner('החילוץ נכשל', '');
+  } else {
+    G.missions.push(nsc); G.mi++;
+    showBanner('המשימה חוזרת בסוף', '');
+    setTimeout(() => { if (G && G.mode === 'gal' && state === 'play' && G.phase === 'call') openRescue(G.missions[G.mi], 'gal'); }, 1400);
+  }
+}
 function chooseDog(d, btn) {
   if (!rescueCtx || rescueCtx.locked) return;
+  if (performance.now() < rescueCtx.listenUntil) { $('#rMsg').textContent = 'קודם מקשיבים עד הסוף...'; return; }
   const sc = rescueCtx.sc;
   if (d.id !== sc.dog) {
-    rescueCtx.wrong++; btn.classList.remove('nope'); void btn.offsetWidth; btn.classList.add('nope');
-    $('#rMsg').textContent = d.name + ': ' + d.no; Sound.nope(); Speech.say(d.no);
+    const right = DOG[sc.dog];
+    rescueCtx.locked = true;
+    document.querySelectorAll('.dog').forEach(b => { b.disabled = true; });
+    btn.classList.add('nope');
+    document.querySelector('.dog[data-i="' + DOGS.indexOf(right) + '"]').classList.add('right');
+    Speech.stop(); heartBreak(); G.hearts--; updateHud();
+    $('#rMsg').textContent = d.name + ': ' + d.no + ' היה צריך את ' + right.name + ' (' + right.job + ').';
+    setTimeout(() => Speech.say('לא נכון. ' + d.no + ' היה צריך את ' + right.name + '.'), 900);
+    setTimeout(failRescue, 4200);
     return;
   }
   rescueCtx.locked = true;
+  document.querySelectorAll('.dog').forEach(b => { b.disabled = true; });
   btn.classList.add('go'); Sound.bark();
   $('#rMsg').textContent = d.go; Speech.say(d.go);
   setTimeout(() => {
@@ -1255,7 +1329,12 @@ function actTap(px, py) {
     if (ACT.tried.includes(bi)) return;
     ACT.tried.push(bi);
     if (bi === ACT.bush) { ACT.n = 1; Sound.bark(); finishAction(); }
-    else { Sound.nope(); ACT.fx.push({ k: 'sniff', x: 66 + bi * 133, y: 220, life: 0.8 }); $('#aMsg').textContent = 'לא כאן... רחרחה מרחרחת. נסו שיח אחר!'; Speech.say('לא כאן. נסו שיח אחר!'); }
+    else {
+      ACT.fx.push({ k: 'sniff', x: 66 + bi * 133, y: 220, life: 0.8 });
+      heartBreak(); G.hearts--; updateHud();
+      $('#aMsg').textContent = 'לא כאן! הסתכלו מאיפה עולה הריח.'; Speech.say('לא כאן! הסתכלו מאיפה עולה הריח.');
+      if (G.hearts <= 0) { ACT.done = true; setTimeout(() => { ACT = null; show(null); gameOver(); }, 1500); }
+    }
     return;
   }
   ACT.n++; Sound.tap();
@@ -1315,6 +1394,17 @@ function renderAction(t) {
       for (let k = 0; k < 3; k++) ell(c, bx - 22 + k * 22, 225 - (k % 2) * 12, 28, 24, 0, k % 2 ? '#58b061' : '#3f8f4a', 2);
       c.globalAlpha = 1;
       if (A.done && i === A.bush) { c.font = '42px ' + EMOJI_FONT; c.fillText(A.sc.e, bx, 170); }
+      if (!A.done && i === A.bush) {
+        // the scent: pink wisps rising from the right bush
+        c.strokeStyle = 'rgba(255,79,145,.95)'; c.lineWidth = 5; c.lineCap = 'round';
+        for (let k = 0; k < 4; k++) {
+          const ph = (t * 0.6 + k / 4) % 1, x0 = bx - 24 + k * 16, y0 = 205 - ph * 95;
+          c.globalAlpha = 1 - ph; c.beginPath(); c.moveTo(x0, y0);
+          for (let j = 1; j <= 4; j++) c.quadraticCurveTo(x0 + (j % 2 ? 7 : -7), y0 - j * 7 + 3.5, x0, y0 - j * 7);
+          c.stroke();
+        }
+        c.globalAlpha = 1;
+      }
     }
     for (const e of A.fx) if (e.k === 'sniff') { c.globalAlpha = Math.max(0, e.life); c.font = '700 22px ' + FONT; c.fillStyle = K; c.fillText('סניף סניף', e.x, e.y - 60 + (1 - e.life) * -20); c.globalAlpha = 1; }
     drawDog(c, 200, 120, 1.1, d, { t });
@@ -1543,7 +1633,7 @@ function boot() {
   requestAnimationFrame(t => { last = t; frame(t); });
 }
 boot();
-if (/[?&]debug\b/.test(location.search)) window.__ag = { get G() { return G; }, get state() { return state; }, get ACT() { return ACT; }, actTap, DOGS, drawAriel, drawGal, drawDog, drawRaccoon, drawVehicle, drawMoto };
+if (/[?&]debug\b/.test(location.search)) window.__ag = { get G() { return G; }, get state() { return state; }, get ACT() { return ACT; }, actTap, forceAction: id => { G.dog = DOG[id]; G.missions[G.mi] = SCEN.find(x => x.dog === id); G.phase = 'arrive'; show(null); openAction(); }, DOGS, drawAriel, drawGal, drawDog, drawRaccoon, drawVehicle, drawMoto };
 })();
 </script>
 </body>
