@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>אריאל וגל: אפשר לסמוך עלינו</title>
+<meta name="theme-color" content="#1b1530">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Karantina:wght@700&family=Secular+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout: one comic-cover poster, centered, with two actions under it. Single dark theme. */
+  --ink:#1b1530; --paper:#fffaf0; --sun:#ffd23f; --alarm:#ef233c;
+  --font-ui:"Secular One","Varela Round",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(circle,rgba(255,255,255,.08) 1.6px,transparent 2px) 0 0/14px 14px,var(--ink);color:var(--paper);font-family:var(--font-ui);
+  display:flex;align-items:center;justify-content:center;padding:max(14px,env(safe-area-inset-top)) 14px max(14px,env(safe-area-inset-bottom))}
+main{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%}
+#poster{display:block;width:min(100%,calc((100vh - 120px) * .8),640px);height:auto;aspect-ratio:4/5;border:4px solid var(--ink);border-radius:6px;
+  box-shadow:9px 9px 0 #000,0 0 0 3px var(--paper)}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.big{border:3px solid var(--ink);border-radius:14px;background:var(--alarm);color:#fff;padding:12px 18px;font:inherit;font-size:20px;line-height:1.1;
+  box-shadow:0 5px 0 #000;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.big:active{transform:translateY(3px);box-shadow:0 2px 0 #000}
+.big.alt{background:var(--paper);color:var(--ink)}
+.big:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+.big svg{width:20px;height:20px}
+#msg{margin:0;min-height:1.3em;font-size:14px;color:#cfc8e6}
+</style>
+</head>
+<body>
+<main>
+  <canvas id="poster" width="1080" height="1350" role="img" aria-label="אריאל הנינג'ה וגל עומדים גב אל גב בידיים משולבות, ומתחתם הכיתוב: אפשר לסמוך עלינו"></canvas>
+  <div class="row">
+    <button id="save" class="big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>שמירה כתמונה</button>
+    <a class="big alt" href="./">למשחק</a>
+  </div>
+  <p id="msg" aria-live="polite"></p>
+</main>
+<script>
+(() => {
+'use strict';
+const TAU = Math.PI * 2, PI = Math.PI;
+const lerp = (a, b, t) => a + (b - a) * t;
+const K = '#1b1530';
+const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+/* ================= Drawing helpers ================= */
+function rr(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+function dot(c, x, y, r) { c.beginPath(); c.arc(x, y, r, 0, TAU); c.fill(); }
+function ln(c, w = 2.4) { c.lineWidth = w; c.strokeStyle = K; c.lineJoin = 'round'; c.lineCap = 'round'; }
+function fs(c, fill, w) { c.fillStyle = fill; c.fill(); ln(c, w); c.stroke(); }
+function circ(c, x, y, r, fill, w) { c.beginPath(); c.arc(x, y, r, 0, TAU); fs(c, fill, w); }
+function ell(c, x, y, rx, ry, rot, fill, w) { c.beginPath(); c.ellipse(x, y, rx, ry, rot, 0, TAU); fs(c, fill, w); }
+function starPath(c, x, y, R, r, n = 5, rot = 0) { c.beginPath(); for (let i = 0; i < n * 2; i++) { const a = -PI / 2 + rot + i * PI / n, d = i % 2 ? r : R; c.lineTo(x + Math.cos(a) * d, y + Math.sin(a) * d); } c.closePath(); }
+function limb(c, x1, y1, x2, y2, w, fill) { c.lineCap = 'round'; c.strokeStyle = K; c.lineWidth = w + 3.4; c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke(); c.strokeStyle = fill; c.lineWidth = w; c.stroke(); }
+function eyes(c, xs, y, o = {}) {
+  for (const x of xs) {
+    ell(c, x, y, o.rx || 4.4, o.ry || 5, 0, '#fff', 1.6);
+    c.fillStyle = K; dot(c, x + (o.lx || 0), y + (o.ly || 0), o.pr || 2.4);
+    c.fillStyle = '#fff'; dot(c, x + (o.lx || 0) + 0.9, y + (o.ly || 0) - 1, 0.9);
+  }
+}
+function smile(c, x, y, r, open) {
+  if (open) { c.beginPath(); c.ellipse(x, y + 1, r * 0.8, r * 0.9, 0, 0, PI); c.closePath(); fs(c, '#7a1f2b', 1.8); c.fillStyle = '#ff8fab'; dot(c, x, y + r * 0.55, r * 0.35); return; }
+  ln(c, 2); c.beginPath(); c.arc(x, y - r * 0.4, r, PI * 0.15, PI * 0.85); c.stroke();
+}
+function cheeks(c, x1, x2, y) { c.fillStyle = 'rgba(255,120,150,.5)'; dot(c, x1, y, 2.8); dot(c, x2, y, 2.8); }
+
+/* ================= Characters ================= */
+// arms crossed over the chest: the forearms stack, the left hand rests on the right arm
+function crossedArms(c, sleeve, skin, watch) {
+  limb(c, 11, -6, 14.5, -0.5, 6.5, sleeve);
+  limb(c, 14.5, -0.5, -11, -3.5, 6.5, sleeve);
+  limb(c, -11, -6, -14.5, -0.5, 6.5, sleeve);
+  limb(c, -14.5, 0.5, 11, 1.5, 6.5, sleeve);
+  circ(c, 12.5, 1.2, 4.3, skin, 1.8);
+  if (watch) { rr(c, 2, -1.8, 7, 6.4, 2); fs(c, '#ffd23f', 1.4); circ(c, 5.5, 1.4, 2.8, '#ef233c', 1.2); }
+}
+function smirk(c, x, y) { ln(c, 2.2); c.beginPath(); c.moveTo(x - 4.5, y - 0.5); c.quadraticCurveTo(x + 0.5, y + 2.6, x + 5, y - 2.4); c.stroke(); }
+// Ariel: black spiky hair, purple ninja mask around the head, green shirt, belly shield, cape, ninja watch
+const AR = { skin: '#f5cfae', hair: '#141414', mask: '#7b2cbf', mask2: '#5a189a', shirt: '#3fbf4f', shirt2: '#2c9a3b', cape: '#6a1fb0', cape2: '#9d4edd', pants: '#2b2d42', shield: '#ffd23f', shield2: '#ff9f1c' };
+function drawAriel(c, x, y, s, o = {}) {
+  const t = o.t || 0, run = o.run || 0, pose = o.pose || 'stand', f = o.face || 1;
+  c.save(); c.translate(x, y); if (o.spin) c.rotate(o.spin); c.scale(s * f, s);
+  if (o.alpha != null) c.globalAlpha = o.alpha;
+  const fl = Math.sin(t * 9) * 3;
+  // mask tails flutter behind the head
+  c.fillStyle = AR.mask;
+  for (const [dy, len] of [[-4, 22], [3, 18]]) {
+    c.beginPath(); c.moveTo(13, -29 + dy);
+    c.quadraticCurveTo(22, -33 + dy + fl, 13 + len, -30 + dy + fl * 1.4);
+    c.quadraticCurveTo(22, -24 + dy + fl, 13, -24 + dy); c.closePath(); fs(c, AR.mask, 2);
+  }
+  // cape
+  c.beginPath(); c.moveTo(-11, -9);
+  c.quadraticCurveTo(-25 - fl, 12, -21 - fl * 1.6, 33);
+  c.quadraticCurveTo(-2, 29 + fl, 19 + fl * 0.5, 33);
+  c.quadraticCurveTo(23, 10, 11, -9); c.closePath(); fs(c, AR.cape);
+  c.fillStyle = AR.cape2; c.beginPath(); c.moveTo(-6, -6); c.quadraticCurveTo(-13 - fl, 12, -11 - fl, 28); c.lineTo(-4, 28); c.quadraticCurveTo(-6, 10, -2, -6); c.closePath(); c.fill();
+  // legs
+  const a = pose === 'climb' ? Math.sin(run) * 5 : pose === 'air' ? 4 : 0;
+  for (const [lx, d] of [[-6, a], [6, -a]]) {
+    rr(c, lx - 4.5, 10, 9, 17 + d, 4); fs(c, AR.pants);
+    ell(c, lx + (lx < 0 ? -1.5 : 1.5), 28 + d, 6.5, 3.6, 0, K, 1.2);
+  }
+  // arms
+  let hands;
+  if (pose === 'climb') hands = [[-17, -16 - a * 1.6], [17, -16 + a * 1.6]];
+  else if (pose === 'air') hands = [[-22, -2], [20, -16]];
+  else if (pose === 'cheer') hands = [[-17, -26], [17, -26]];
+  else hands = [[-16, 9], [16, 9]];
+  const sh = [[-11, -5], [11, -5]], cross = pose === 'cross';
+  if (!cross) hands.forEach(([hx, hy], i) => limb(c, sh[i][0], sh[i][1], hx, hy, 6.5, AR.shirt));
+  // body + belly shield
+  rr(c, -13, -11, 26, 26, 9); fs(c, AR.shirt);
+  c.fillStyle = AR.shirt2; rr(c, 6, -9, 6, 22, 4); c.fill();
+  c.beginPath(); c.moveTo(-8.5, -2); c.lineTo(8.5, -2); c.lineTo(8.5, 6); c.quadraticCurveTo(8, 13, 0, 17); c.quadraticCurveTo(-8, 13, -8.5, 6); c.closePath(); fs(c, AR.shield, 2);
+  c.beginPath(); c.moveTo(-5.5, 0.5); c.lineTo(5.5, 0.5); c.lineTo(5.5, 6); c.quadraticCurveTo(5, 10.5, 0, 13.5); c.quadraticCurveTo(-5, 10.5, -5.5, 6); c.closePath(); c.fillStyle = AR.shield2; c.fill();
+  starPath(c, 0, 6.5, 4.2, 1.8); c.fillStyle = '#fff'; c.fill(); ln(c, 1); c.stroke();
+  // hands + ninja watch on the left wrist
+  if (cross) crossedArms(c, AR.shirt, AR.skin, true);
+  else {
+    hands.forEach(([hx, hy]) => circ(c, hx, hy, 4.3, AR.skin, 1.8));
+    const [wx, wy] = [lerp(sh[0][0], hands[0][0], 0.72), lerp(sh[0][1], hands[0][1], 0.72)];
+    rr(c, wx - 4.5, wy - 3, 9, 6, 2); fs(c, '#ffd23f', 1.6); circ(c, wx, wy, 3.2, '#ef233c', 1.4);
+  }
+  // head
+  circ(c, 0, -27, 17, AR.skin);
+  // hair: black spikes on top
+  c.beginPath(); c.moveTo(-17, -30);
+  c.quadraticCurveTo(-19, -44, -9, -46); c.lineTo(-7, -54); c.lineTo(-1, -47); c.lineTo(4, -55); c.lineTo(8, -46);
+  c.quadraticCurveTo(18, -45, 17.5, -31); c.lineTo(13, -36); c.lineTo(8, -32.5); c.lineTo(3, -37); c.lineTo(-2, -33); c.lineTo(-7, -37); c.lineTo(-11.5, -33); c.closePath();
+  fs(c, AR.hair); c.strokeStyle = '#3d3d3d'; c.lineWidth = 1.6; c.beginPath(); c.moveTo(-8, -43); c.quadraticCurveTo(-3, -45, 1, -42); c.stroke();
+  // mask band wraps around the head
+  c.save(); c.beginPath(); c.arc(0, -27, 17, 0, TAU); c.clip();
+  c.fillStyle = AR.mask; c.fillRect(-20, -33.5, 40, 11); c.fillStyle = AR.mask2; c.fillRect(-20, -24.5, 40, 2);
+  c.restore();
+  ln(c, 1.6); c.beginPath(); c.moveTo(-16.5, -33.5); c.lineTo(16.5, -33.5); c.moveTo(-16.5, -22.5); c.lineTo(16.5, -22.5); c.stroke();
+  circ(c, 0, -27, 17, 'rgba(0,0,0,0)');
+  circ(c, 15.5, -28, 3.3, AR.mask2, 1.6);
+  eyes(c, [-6, 6], -28, { rx: 4.6, ry: 3.9, lx: o.lookX || 0, ly: o.look != null ? o.look : -0.6, pr: 2.2 });
+  if (o.hurt) { ln(c, 2); c.beginPath(); c.moveTo(-4, -16); c.quadraticCurveTo(0, -19, 4, -16); c.stroke(); }
+  else if (o.smirk) smirk(c, 0, -16.5);
+  else smile(c, 0, -16.5, 4, o.shout);
+  cheeks(c, -10, 10, -19);
+  c.restore();
+}
+
+// Gal: blond, rescue vest, walkie-talkie
+const GL = { skin: '#f9d9be', hair: '#f2c94c', hair2: '#ffe38a', hair3: '#d4a72c', shirt: '#2f80ed', vest: '#ff7b00', vest2: '#e85d04', jeans: '#3d5a99' };
+function drawGal(c, x, y, s, o = {}) {
+  const t = o.t || 0, pose = o.pose || 'radio';
+  c.save(); c.translate(x, y); c.scale(s * (o.face || 1), s);
+  for (const lx of [-6, 6]) { rr(c, lx - 4.5, 10, 9, 18, 4); fs(c, GL.jeans); ell(c, lx + (lx < 0 ? -1.5 : 1.5), 29, 6.8, 3.8, 0, '#fff', 1.4); c.fillStyle = GL.vest; c.fillRect(lx - 4, 28.5, 8, 1.6); }
+  let hands = pose === 'wave' ? [[-17, 8], [19, -26 + Math.sin(t * 8) * 3]] : pose === 'cheer' ? [[-18, -25], [18, -25]] : [[-16, 8], [9, -15]];
+  const cross = pose === 'cross';
+  if (!cross) [[-11, -5], [11, -5]].forEach(([sx, sy], i) => limb(c, sx, sy, hands[i][0], hands[i][1], 6.5, GL.shirt));
+  rr(c, -13, -11, 26, 26, 9); fs(c, GL.shirt);
+  // open rescue vest with reflective stripes
+  c.beginPath(); c.moveTo(-13, -6); c.quadraticCurveTo(-13, -11, -7, -11); c.lineTo(-3, -11); c.lineTo(-3, 15); c.lineTo(-13, 15); c.closePath(); fs(c, GL.vest, 2);
+  c.beginPath(); c.moveTo(13, -6); c.quadraticCurveTo(13, -11, 7, -11); c.lineTo(3, -11); c.lineTo(3, 15); c.lineTo(13, 15); c.closePath(); fs(c, GL.vest, 2);
+  c.fillStyle = '#e9ecef'; c.fillRect(-12.5, 3, 9, 3); c.fillRect(3.5, 3, 9, 3);
+  starPath(c, -7.8, -4, 3.2, 1.4); c.fillStyle = '#ffd23f'; c.fill(); ln(c, 1); c.stroke();
+  if (cross) crossedArms(c, GL.shirt, GL.skin, false);
+  else hands.forEach(([hx, hy]) => circ(c, hx, hy, 4.3, GL.skin, 1.8));
+  if (pose === 'radio') { rr(c, 6, -26, 7, 12, 2); fs(c, '#3d3d4e', 1.8); ln(c, 1.8); c.beginPath(); c.moveTo(11, -26); c.lineTo(11, -32); c.stroke(); c.fillStyle = (t * 3 % 1) < 0.5 ? '#4ade80' : '#14532d'; dot(c, 9.5, -22.5, 1.4); }
+  circ(c, 0, -27, 17, GL.skin);
+  // blond hair: swept fringe and a cowlick
+  c.beginPath(); c.moveTo(-17.5, -24);
+  c.quadraticCurveTo(-21, -43, -4, -46); c.quadraticCurveTo(2, -51, 5, -46); c.quadraticCurveTo(19, -44, 17.5, -25);
+  c.quadraticCurveTo(14, -33, 8, -35); c.quadraticCurveTo(4, -30, -3, -33); c.quadraticCurveTo(-9, -31, -13, -34); c.quadraticCurveTo(-15, -30, -17.5, -24);
+  c.closePath(); fs(c, GL.hair);
+  c.strokeStyle = GL.hair2; c.lineWidth = 2.4; c.beginPath(); c.moveTo(-9, -41); c.quadraticCurveTo(-2, -45, 6, -42); c.stroke();
+  c.strokeStyle = GL.hair3; c.lineWidth = 1.6; c.beginPath(); c.moveTo(-3, -33); c.quadraticCurveTo(-1, -38, 3, -40); c.stroke();
+  eyes(c, [-6, 6], -25, { rx: 4.2, ry: 4.8, lx: o.lookX || 0, ly: 0.3, pr: 2.5 });
+  ln(c, 1.8); c.beginPath();
+  if (o.smirk) { c.moveTo(-10, -33.5); c.lineTo(-3.5, -31); c.moveTo(10, -33.5); c.lineTo(3.5, -31); }
+  else { c.moveTo(-9.5, -32); c.lineTo(-3.5, -31.5); c.moveTo(9.5, -32); c.lineTo(3.5, -31.5); }
+  c.stroke();
+  if (o.smirk) smirk(c, 0, -15.5); else smile(c, 0, -15.5, 4.2, pose === 'cheer' || o.shout);
+  cheeks(c, -10.5, 10.5, -18);
+  c.restore();
+}
+
+// Gal's rescue unit: original dogs in the five colors, each with a job and a vehicle
+const DOGS = [
+  { id: 'red', vehName: 'משאית מנוף', name: 'סולמי', job: 'סולם ומנוף', color: '#e63946', color2: '#9d0208', fur: '#e0a458', fur2: '#a66a2c', ears: 'flop', tool: 'ladder', veh: 'crane',
+    no: 'הסולם שלי לא יעזור כאן.', go: 'סולמי והמנוף יוצאים לדרך!', act: 'לחצו כדי להרים את הסולם', fem: false },
+  { id: 'blue', vehName: 'כבאית', name: 'שפריץ', job: 'מים ואש', color: '#2f80ed', color2: '#1b4f9c', fur: '#f5efe6', fur2: '#8a5a3c', ears: 'flop', spot: true, tool: 'water', veh: 'fire',
+    no: 'אני מכבה אש עם מים, וכאן אין אש.', go: 'שפריץ והכבאית יוצאים לדרך!', act: 'לחצו על האש כדי להתיז מים', fem: false },
+  { id: 'yellow', vehName: 'מסוק', name: 'זמזום', job: 'עף במסוק', color: '#ffc300', color2: '#c99700', fur: '#cfd4da', fur2: '#7d8590', ears: 'up', tool: 'prop', veh: 'heli',
+    no: 'אני עף במסוק, אבל כאן זה לא עוזר.', go: 'זמזום והמסוק ממריאים!', act: 'לחצו כדי לעוף למעלה', fem: false },
+  { id: 'pink', vehName: 'טוסטוס', name: 'רחרחה', job: 'מוצאת באף', color: '#ff70a6', color2: '#c9184a', fur: '#f6e3c6', fur2: '#c99a6b', ears: 'long', bow: true, tool: 'nose', veh: 'scooter',
+    no: 'האף שלי מוצא דברים שהלכו לאיבוד, וכאן שום דבר לא אבד.', go: 'רחרחה והטוסטוס יוצאים לחפש!', act: 'הסתכלו מאיפה עולה הריח ולחצו על השיח', fem: true },
+  { id: 'purple', vehName: 'דחפור', name: 'חפרי', job: 'חופר בדחפור', color: '#8e44ec', color2: '#5a189a', fur: '#7a5236', fur2: '#4a3122', ears: 'flop', tool: 'shovel', veh: 'digger',
+    no: 'אני חופר בורות, וכאן לא צריך לחפור.', go: 'חפרי והדחפור יוצאים לחפור!', act: 'לחצו מהר כדי לחפור', fem: false },
+];
+const DOG = Object.fromEntries(DOGS.map(d => [d.id, d]));
+function toolIcon(c, tool, x, y, r) {
+  c.save(); c.translate(x, y); ln(c, 1.4);
+  if (tool === 'water') { c.beginPath(); c.moveTo(0, -r * 0.8); c.quadraticCurveTo(r * 0.75, 0, r * 0.5, r * 0.35); c.arc(0, r * 0.3, r * 0.52, 0, PI); c.quadraticCurveTo(-r * 0.75, 0, 0, -r * 0.8); fs(c, '#4cc9f0', 1.4); }
+  else if (tool === 'ladder') { c.strokeStyle = K; c.lineWidth = 1.8; c.beginPath(); c.moveTo(-r * 0.4, -r * 0.75); c.lineTo(-r * 0.4, r * 0.75); c.moveTo(r * 0.4, -r * 0.75); c.lineTo(r * 0.4, r * 0.75); for (let i = -1; i <= 1; i++) { c.moveTo(-r * 0.4, i * r * 0.45); c.lineTo(r * 0.4, i * r * 0.45); } c.stroke(); }
+  else if (tool === 'prop') { c.fillStyle = K; for (let i = 0; i < 3; i++) { c.save(); c.rotate(i * TAU / 3); ell(c, 0, -r * 0.42, r * 0.22, r * 0.45, 0, '#fff', 1.2); c.restore(); } c.fillStyle = K; dot(c, 0, 0, r * 0.18); }
+  else if (tool === 'nose') { circ(c, -r * 0.12, -r * 0.12, r * 0.45, '#cdeffd', 1.6); ln(c, 2.4); c.beginPath(); c.moveTo(r * 0.2, r * 0.2); c.lineTo(r * 0.65, r * 0.65); c.stroke(); }
+  else { c.beginPath(); c.moveTo(-r * 0.15, -r * 0.8); c.lineTo(r * 0.15, -r * 0.8); c.lineTo(r * 0.12, 0); c.lineTo(r * 0.45, r * 0.1); c.quadraticCurveTo(r * 0.4, r * 0.85, 0, r * 0.85); c.quadraticCurveTo(-r * 0.4, r * 0.85, -r * 0.45, r * 0.1); c.lineTo(-r * 0.12, 0); c.closePath(); fs(c, '#adb5bd', 1.3); }
+  c.restore();
+}
+function drawDog(c, x, y, s, d, o = {}) {
+  const t = o.t || 0, wag = Math.sin(t * 12);
+  c.save(); c.translate(x, y); c.scale(s, s);
+  // tail
+  c.lineCap = 'round'; c.strokeStyle = K; c.lineWidth = 8.5; c.beginPath(); c.moveTo(10, 16); c.quadraticCurveTo(24 + wag * 3, 10, 21 + wag * 6, -2); c.stroke();
+  c.strokeStyle = d.fur; c.lineWidth = 5; c.stroke();
+  // body with the colored rescue vest
+  ell(c, 0, 15, 16, 14, 0, d.fur);
+  c.save(); c.beginPath(); c.ellipse(0, 15, 16, 14, 0, 0, TAU); c.clip();
+  c.fillStyle = d.color; c.fillRect(-17, 4, 34, 16); c.fillStyle = d.color2; c.fillRect(-17, 18, 34, 2.4);
+  c.restore();
+  ell(c, 0, 15, 16, 14, 0, 'rgba(0,0,0,0)');
+  circ(c, 0, 11.5, 6.4, '#fff', 1.8); toolIcon(c, d.tool, 0, 11.5, 6);
+  // front legs
+  for (const lx of [-7, 7]) { rr(c, lx - 3.8, 18, 7.6, 12, 3.5); fs(c, d.fur, 2); ell(c, lx, 29.5, 4.8, 2.8, 0, d.fur2 === '#4a3122' ? '#8b6347' : '#fff7ec', 1.6); }
+  // ears behind / beside head
+  if (d.ears === 'up') { for (const sx of [-1, 1]) { c.beginPath(); c.moveTo(sx * 6, -20); c.lineTo(sx * 14, -33); c.lineTo(sx * 15, -16); c.closePath(); fs(c, d.fur2); } }
+  // head
+  circ(c, 0, -11, 15, d.fur);
+  if (d.spot) { c.save(); c.beginPath(); c.arc(0, -11, 15, 0, TAU); c.clip(); c.fillStyle = d.fur2; c.beginPath(); c.ellipse(6, -16, 7, 6, 0.4, 0, TAU); c.fill(); c.restore(); circ(c, 0, -11, 15, 'rgba(0,0,0,0)'); }
+  if (d.ears === 'flop' || d.ears === 'long') {
+    const L = d.ears === 'long' ? 13 : 9;
+    for (const sx of [-1, 1]) { c.save(); c.translate(sx * 13, -16); c.rotate(sx * 0.35 + Math.sin(t * 6 + sx) * 0.06); ell(c, 0, L * 0.55, 5.2, L, 0, d.fur2); c.restore(); }
+  }
+  // collar
+  rr(c, -10, 1.5, 20, 4, 2); fs(c, d.color2, 1.6);
+  // muzzle and face
+  ell(c, 0, -5, 8.5, 6.3, 0, '#fff7ec', 1.8);
+  ell(c, 0, -8.5, 3.6, 2.6, 0, K, 1);
+  ln(c, 1.6); c.beginPath(); c.moveTo(0, -6); c.lineTo(0, -3.5); c.moveTo(-3.5, -2.5); c.quadraticCurveTo(0, 0, 3.5, -2.5); c.stroke();
+  if (o.happy !== false) { c.beginPath(); c.ellipse(1, -0.5, 2.6, 3, 0, 0, PI); fs(c, '#ff8fab', 1.2); }
+  eyes(c, [-6, 6], -14, { rx: 3.5, ry: 4.2, pr: 2.2, ly: 0.2 });
+  if (d.bow) { c.save(); c.translate(-9, -25); c.rotate(-0.3); ell(c, -4, 0, 4.4, 3.2, 0, d.color); ell(c, 4, 0, 4.4, 3.2, 0, d.color); circ(c, 0, 0, 2.2, d.color2, 1.4); c.restore(); }
+  if (d.tool === 'prop') {
+    ell(c, 0, -26, 7, 3, 0, d.color, 1.8);
+    c.save(); c.translate(0, -30); c.scale(1, 0.35); c.rotate(t * 14);
+    c.fillStyle = '#fff'; for (let i = 0; i < 2; i++) { c.rotate(PI / 2); ell(c, 0, 0, 13, 2.4, 0, '#fff', 1.4); } c.restore();
+    c.fillStyle = K; dot(c, 0, -29.5, 1.6);
+  }
+  c.restore();
+}
+
+// The villains: naughty raccoons
+function drawRaccoon(c, x, y, s, o = {}) {
+  const t = o.t || 0;
+  c.save(); c.translate(x, y); c.scale(s * (o.face || 1), s); if (o.spin) c.rotate(o.spin);
+  // ringed tail
+  const sw = Math.sin(t * 5) * 3;
+  for (let i = 6; i >= 0; i--) { const u = i / 6, x1 = (1 - u) * (1 - u) * 10 + 2 * u * (1 - u) * 32 + u * u * (26 + sw), y1 = (1 - u) * (1 - u) * 22 + 2 * u * (1 - u) * 20 + u * u * -4; circ(c, x1, y1, 7 - u * 2, i % 2 ? '#3d405b' : '#adb5bd', 1.6); }
+  ell(c, 0, 13, 13, 14, 0, '#8d99ae'); ell(c, 0, 16, 8, 9, 0, '#e9ecef', 1.4);
+  for (const sx of [-1, 1]) { c.beginPath(); c.moveTo(sx * 7, -17); c.lineTo(sx * 14, -26); c.lineTo(sx * 16, -12); c.closePath(); fs(c, '#8d99ae'); c.fillStyle = '#3d405b'; c.beginPath(); c.moveTo(sx * 9, -17); c.lineTo(sx * 13.5, -22.5); c.lineTo(sx * 14.5, -15); c.closePath(); c.fill(); }
+  ell(c, 0, -9, 17, 13, 0, '#adb5bd');
+  // bandit mask
+  c.beginPath(); c.moveTo(-16, -11); c.quadraticCurveTo(-9, -18, 0, -12); c.quadraticCurveTo(9, -18, 16, -11); c.quadraticCurveTo(10, -3, 0, -8); c.quadraticCurveTo(-10, -3, -16, -11); fs(c, '#2b2d42', 1.6);
+  eyes(c, [-7, 7], -11, { rx: 3.4, ry: 3.6, pr: 1.9, lx: o.lookX || 0 });
+  ln(c, 2.2); c.beginPath(); c.moveTo(-11, -18); c.lineTo(-3, -15); c.moveTo(11, -18); c.lineTo(3, -15); c.stroke();
+  ell(c, 0, -3.5, 7, 4.5, 0, '#e9ecef', 1.4); c.fillStyle = K; dot(c, 0, -5.5, 2.2);
+  c.beginPath(); c.moveTo(-4.5, -1); c.quadraticCurveTo(0, 2.5, 4.5, -1); fs(c, '#fff', 1.4);
+  if (o.hold) { circ(c, 0, 8, 6.5, '#e63946', 1.8); c.fillStyle = '#2a9d8f'; dot(c, 0, 2.5, 2); }
+  for (const sx of [-1, 1]) circ(c, sx * 7, o.hold ? 9 : 14, 3.6, '#3d405b', 1.4);
+  c.restore();
+}
+
+
+
+const cv = document.getElementById('poster'), c = cv.getContext('2d');
+function draw() {
+  const S = cv.width / 400;
+  c.setTransform(S, 0, 0, S, 0, 0);
+  // comic sunburst
+  c.fillStyle = '#2f80ed'; c.fillRect(0, 0, 400, 500);
+  c.save(); c.translate(200, 250); c.fillStyle = '#4c9bf5';
+  for (let i = 0; i < 24; i += 2) { const a0 = i * TAU / 24, a1 = (i + 1) * TAU / 24; c.beginPath(); c.moveTo(0, 0); c.arc(0, 0, 420, a0, a1); c.closePath(); c.fill(); }
+  c.restore();
+  const g = c.createRadialGradient(200, 260, 60, 200, 260, 330); g.addColorStop(0, 'rgba(255,255,255,.35)'); g.addColorStop(1, 'rgba(27,21,48,.35)'); c.fillStyle = g; c.fillRect(0, 0, 400, 500);
+  // city at dusk behind them
+  c.fillStyle = '#24304f';
+  [[0, 330, 46, 170], [40, 300, 38, 200], [74, 350, 50, 150], [300, 320, 44, 180], [338, 290, 34, 210], [366, 345, 40, 155]].forEach(([x, y, w, h]) => c.fillRect(x, y, w, h));
+  c.fillStyle = '#ffd166';
+  for (let i = 0; i < 26; i++) { const x = [8, 50, 84, 310, 346, 374][i % 6] + (i * 7) % 18, y = 312 + (i * 37) % 150; if ((i * 13) % 5 > 1) c.fillRect(x, y, 6, 8); }
+  // rooftop they stand on
+  c.fillStyle = '#5c6475'; c.fillRect(0, 430, 400, 70); c.fillStyle = '#7d8597'; c.fillRect(0, 430, 400, 9);
+  c.strokeStyle = K; c.lineWidth = 3; c.beginPath(); c.moveTo(0, 430); c.lineTo(400, 430); c.stroke();
+  // shadows
+  c.fillStyle = 'rgba(0,0,0,.28)'; c.beginPath(); c.ellipse(200, 436, 150, 10, 0, 0, TAU); c.fill();
+  // back to back, leaning on each other, arms crossed
+  // lean into each other: the backs of their heads meet, Ariel's cape wraps between them
+  const s = 3.05, lean = 0.14;
+  c.save(); c.translate(270, 432); c.rotate(-lean);
+  drawGal(c, 0, -29 * s, s, { t: 0.2, pose: 'cross', face: 1, lookX: 1.8, smirk: true });
+  c.restore();
+  c.save(); c.translate(130, 432); c.rotate(lean);
+  drawAriel(c, 0, -28 * s, s, { t: 0.55, pose: 'cross', face: -1, lookX: 1.7, look: 0, smirk: true });
+  c.restore();
+  // little sparkles
+  c.fillStyle = '#fff';
+  [[62, 120, 7], [342, 104, 9], [300, 196, 5], [92, 214, 5]].forEach(([x, y, r]) => { starPath(c, x, y, r, r * 0.4, 4); c.fill(); });
+  // title
+  c.textAlign = 'center'; c.textBaseline = 'alphabetic'; c.direction = 'rtl'; c.lineJoin = 'round';
+  let ts = 92;
+  do { c.font = '700 ' + ts + 'px "Karantina","Secular One",sans-serif'; ts -= 2; } while (c.measureText('אריאל וגל').width > 350 && ts > 40);
+  c.lineWidth = 12; c.strokeStyle = K; c.strokeText('אריאל וגל', 200, 92);
+  c.fillStyle = '#ffd23f'; c.fillText('אריאל וגל', 200, 92);
+  c.font = '700 30px "Karantina","Secular One",sans-serif';
+  c.lineWidth = 7; c.strokeText('גיבורי השכונה', 200, 124); c.fillStyle = '#fff'; c.fillText('גיבורי השכונה', 200, 124);
+  // the promise, on a ribbon
+  c.save(); c.translate(200, 468); c.rotate(-0.025);
+  c.beginPath(); c.moveTo(-150, -22); c.lineTo(150, -22); c.lineTo(136, 0); c.lineTo(150, 22); c.lineTo(-150, 22); c.lineTo(-136, 0); c.closePath();
+  c.fillStyle = '#ef233c'; c.fill(); c.lineWidth = 4; c.strokeStyle = K; c.stroke();
+  c.font = '30px "Secular One","Varela Round",sans-serif'; c.textBaseline = 'middle'; c.fillStyle = '#fff';
+  c.lineWidth = 5; c.strokeText('אפשר לסמוך עלינו!', 0, 2); c.fillText('אפשר לסמוך עלינו!', 0, 2);
+  c.restore();
+  // comic frame
+  c.lineWidth = 6; c.strokeStyle = K; c.strokeRect(3, 3, 394, 494);
+  prepareImage();
+}
+let blob = null;
+function prepareImage() { blob = null; try { cv.toBlob(b => { blob = b; }, 'image/png'); } catch (e) {} }
+document.getElementById('save').addEventListener('click', async () => {
+  const msg = document.getElementById('msg');
+  if (!blob) { msg.textContent = 'התמונה עוד מתכוננת, נסו שוב בעוד רגע.'; prepareImage(); return; }
+  const file = new File([blob], 'ariel-and-gal.png', { type: 'image/png' });
+  try {
+    if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'אריאל וגל' }); msg.textContent = 'בחרו "שמירת תמונה" כדי לשמור לתמונות.'; return; }
+  } catch (e) { if (e && e.name === 'AbortError') return; }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ariel-and-gal.png';
+  document.body.appendChild(a); a.click(); a.remove();
+  msg.textContent = 'התמונה נשמרה בהורדות.';
+});
+draw();
+if (document.fonts && document.fonts.load) Promise.all([document.fonts.load('700 92px Karantina'), document.fonts.load('30px "Secular One"')]).then(draw).catch(() => {});
+})();
+</script>
+</body>
+</html>

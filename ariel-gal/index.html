@@ -458,6 +458,16 @@ function smile(c, x, y, r, open) {
 function cheeks(c, x1, x2, y) { c.fillStyle = 'rgba(255,120,150,.5)'; dot(c, x1, y, 2.8); dot(c, x2, y, 2.8); }
 
 /* ================= Characters ================= */
+// arms crossed over the chest: the forearms stack, the left hand rests on the right arm
+function crossedArms(c, sleeve, skin, watch) {
+  limb(c, 11, -6, 14.5, -0.5, 6.5, sleeve);
+  limb(c, 14.5, -0.5, -11, -3.5, 6.5, sleeve);
+  limb(c, -11, -6, -14.5, -0.5, 6.5, sleeve);
+  limb(c, -14.5, 0.5, 11, 1.5, 6.5, sleeve);
+  circ(c, 12.5, 1.2, 4.3, skin, 1.8);
+  if (watch) { rr(c, 2, -1.8, 7, 6.4, 2); fs(c, '#ffd23f', 1.4); circ(c, 5.5, 1.4, 2.8, '#ef233c', 1.2); }
+}
+function smirk(c, x, y) { ln(c, 2.2); c.beginPath(); c.moveTo(x - 4.5, y - 0.5); c.quadraticCurveTo(x + 0.5, y + 2.6, x + 5, y - 2.4); c.stroke(); }
 // Ariel: black spiky hair, purple ninja mask around the head, green shirt, belly shield, cape, ninja watch
 const AR = { skin: '#f5cfae', hair: '#141414', mask: '#7b2cbf', mask2: '#5a189a', shirt: '#3fbf4f', shirt2: '#2c9a3b', cape: '#6a1fb0', cape2: '#9d4edd', pants: '#2b2d42', shield: '#ffd23f', shield2: '#ff9f1c' };
 function drawAriel(c, x, y, s, o = {}) {
@@ -490,8 +500,8 @@ function drawAriel(c, x, y, s, o = {}) {
   else if (pose === 'air') hands = [[-22, -2], [20, -16]];
   else if (pose === 'cheer') hands = [[-17, -26], [17, -26]];
   else hands = [[-16, 9], [16, 9]];
-  const sh = [[-11, -5], [11, -5]];
-  hands.forEach(([hx, hy], i) => limb(c, sh[i][0], sh[i][1], hx, hy, 6.5, AR.shirt));
+  const sh = [[-11, -5], [11, -5]], cross = pose === 'cross';
+  if (!cross) hands.forEach(([hx, hy], i) => limb(c, sh[i][0], sh[i][1], hx, hy, 6.5, AR.shirt));
   // body + belly shield
   rr(c, -13, -11, 26, 26, 9); fs(c, AR.shirt);
   c.fillStyle = AR.shirt2; rr(c, 6, -9, 6, 22, 4); c.fill();
@@ -499,9 +509,12 @@ function drawAriel(c, x, y, s, o = {}) {
   c.beginPath(); c.moveTo(-5.5, 0.5); c.lineTo(5.5, 0.5); c.lineTo(5.5, 6); c.quadraticCurveTo(5, 10.5, 0, 13.5); c.quadraticCurveTo(-5, 10.5, -5.5, 6); c.closePath(); c.fillStyle = AR.shield2; c.fill();
   starPath(c, 0, 6.5, 4.2, 1.8); c.fillStyle = '#fff'; c.fill(); ln(c, 1); c.stroke();
   // hands + ninja watch on the left wrist
-  hands.forEach(([hx, hy]) => circ(c, hx, hy, 4.3, AR.skin, 1.8));
-  const [wx, wy] = [lerp(sh[0][0], hands[0][0], 0.72), lerp(sh[0][1], hands[0][1], 0.72)];
-  rr(c, wx - 4.5, wy - 3, 9, 6, 2); fs(c, '#ffd23f', 1.6); circ(c, wx, wy, 3.2, '#ef233c', 1.4);
+  if (cross) crossedArms(c, AR.shirt, AR.skin, true);
+  else {
+    hands.forEach(([hx, hy]) => circ(c, hx, hy, 4.3, AR.skin, 1.8));
+    const [wx, wy] = [lerp(sh[0][0], hands[0][0], 0.72), lerp(sh[0][1], hands[0][1], 0.72)];
+    rr(c, wx - 4.5, wy - 3, 9, 6, 2); fs(c, '#ffd23f', 1.6); circ(c, wx, wy, 3.2, '#ef233c', 1.4);
+  }
   // head
   circ(c, 0, -27, 17, AR.skin);
   // hair: black spikes on top
@@ -516,8 +529,9 @@ function drawAriel(c, x, y, s, o = {}) {
   ln(c, 1.6); c.beginPath(); c.moveTo(-16.5, -33.5); c.lineTo(16.5, -33.5); c.moveTo(-16.5, -22.5); c.lineTo(16.5, -22.5); c.stroke();
   circ(c, 0, -27, 17, 'rgba(0,0,0,0)');
   circ(c, 15.5, -28, 3.3, AR.mask2, 1.6);
-  eyes(c, [-6, 6], -28, { rx: 4.6, ry: 3.9, ly: o.look != null ? o.look : -0.6, pr: 2.2 });
+  eyes(c, [-6, 6], -28, { rx: 4.6, ry: 3.9, lx: o.lookX || 0, ly: o.look != null ? o.look : -0.6, pr: 2.2 });
   if (o.hurt) { ln(c, 2); c.beginPath(); c.moveTo(-4, -16); c.quadraticCurveTo(0, -19, 4, -16); c.stroke(); }
+  else if (o.smirk) smirk(c, 0, -16.5);
   else smile(c, 0, -16.5, 4, o.shout);
   cheeks(c, -10, 10, -19);
   c.restore();
@@ -530,14 +544,16 @@ function drawGal(c, x, y, s, o = {}) {
   c.save(); c.translate(x, y); c.scale(s * (o.face || 1), s);
   for (const lx of [-6, 6]) { rr(c, lx - 4.5, 10, 9, 18, 4); fs(c, GL.jeans); ell(c, lx + (lx < 0 ? -1.5 : 1.5), 29, 6.8, 3.8, 0, '#fff', 1.4); c.fillStyle = GL.vest; c.fillRect(lx - 4, 28.5, 8, 1.6); }
   let hands = pose === 'wave' ? [[-17, 8], [19, -26 + Math.sin(t * 8) * 3]] : pose === 'cheer' ? [[-18, -25], [18, -25]] : [[-16, 8], [9, -15]];
-  [[-11, -5], [11, -5]].forEach(([sx, sy], i) => limb(c, sx, sy, hands[i][0], hands[i][1], 6.5, GL.shirt));
+  const cross = pose === 'cross';
+  if (!cross) [[-11, -5], [11, -5]].forEach(([sx, sy], i) => limb(c, sx, sy, hands[i][0], hands[i][1], 6.5, GL.shirt));
   rr(c, -13, -11, 26, 26, 9); fs(c, GL.shirt);
   // open rescue vest with reflective stripes
   c.beginPath(); c.moveTo(-13, -6); c.quadraticCurveTo(-13, -11, -7, -11); c.lineTo(-3, -11); c.lineTo(-3, 15); c.lineTo(-13, 15); c.closePath(); fs(c, GL.vest, 2);
   c.beginPath(); c.moveTo(13, -6); c.quadraticCurveTo(13, -11, 7, -11); c.lineTo(3, -11); c.lineTo(3, 15); c.lineTo(13, 15); c.closePath(); fs(c, GL.vest, 2);
   c.fillStyle = '#e9ecef'; c.fillRect(-12.5, 3, 9, 3); c.fillRect(3.5, 3, 9, 3);
   starPath(c, -7.8, -4, 3.2, 1.4); c.fillStyle = '#ffd23f'; c.fill(); ln(c, 1); c.stroke();
-  hands.forEach(([hx, hy]) => circ(c, hx, hy, 4.3, GL.skin, 1.8));
+  if (cross) crossedArms(c, GL.shirt, GL.skin, false);
+  else hands.forEach(([hx, hy]) => circ(c, hx, hy, 4.3, GL.skin, 1.8));
   if (pose === 'radio') { rr(c, 6, -26, 7, 12, 2); fs(c, '#3d3d4e', 1.8); ln(c, 1.8); c.beginPath(); c.moveTo(11, -26); c.lineTo(11, -32); c.stroke(); c.fillStyle = (t * 3 % 1) < 0.5 ? '#4ade80' : '#14532d'; dot(c, 9.5, -22.5, 1.4); }
   circ(c, 0, -27, 17, GL.skin);
   // blond hair: swept fringe and a cowlick
@@ -547,9 +563,12 @@ function drawGal(c, x, y, s, o = {}) {
   c.closePath(); fs(c, GL.hair);
   c.strokeStyle = GL.hair2; c.lineWidth = 2.4; c.beginPath(); c.moveTo(-9, -41); c.quadraticCurveTo(-2, -45, 6, -42); c.stroke();
   c.strokeStyle = GL.hair3; c.lineWidth = 1.6; c.beginPath(); c.moveTo(-3, -33); c.quadraticCurveTo(-1, -38, 3, -40); c.stroke();
-  eyes(c, [-6, 6], -25, { rx: 4.2, ry: 4.8, ly: 0.3, pr: 2.5 });
-  ln(c, 1.8); c.beginPath(); c.moveTo(-9.5, -32); c.lineTo(-3.5, -31.5); c.moveTo(9.5, -32); c.lineTo(3.5, -31.5); c.stroke();
-  smile(c, 0, -15.5, 4.2, pose === 'cheer' || o.shout);
+  eyes(c, [-6, 6], -25, { rx: 4.2, ry: 4.8, lx: o.lookX || 0, ly: 0.3, pr: 2.5 });
+  ln(c, 1.8); c.beginPath();
+  if (o.smirk) { c.moveTo(-10, -33.5); c.lineTo(-3.5, -31); c.moveTo(10, -33.5); c.lineTo(3.5, -31); }
+  else { c.moveTo(-9.5, -32); c.lineTo(-3.5, -31.5); c.moveTo(9.5, -32); c.lineTo(3.5, -31.5); }
+  c.stroke();
+  if (o.smirk) smirk(c, 0, -15.5); else smile(c, 0, -15.5, 4.2, pose === 'cheer' || o.shout);
   cheeks(c, -10.5, 10.5, -18);
   c.restore();
 }

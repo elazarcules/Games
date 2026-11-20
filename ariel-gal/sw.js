@@ -1,6 +1,6 @@
 /* אריאל וגל – עובד גם בלי אינטרנט (קודם מהרשת, ואם אין – מהמטמון) */
-const CACHE = 'ariel-gal-v3';
-const FILES = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
+const CACHE = 'ariel-gal-v4';
+const FILES = ['./', './index.html', './heroes.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 
 self.addEventListener('install', e => {
