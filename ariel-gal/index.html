@@ -126,7 +126,9 @@ button:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
 #rAsk{font-family:var(--font-ui);font-size:15px}
 .dogs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
 .dog{border:2.5px solid var(--ink);border-radius:12px;padding:4px 2px 6px;background:#fff;display:flex;flex-direction:column;align-items:center;gap:1px;box-shadow:0 3px 0 var(--ink);color:var(--ink);min-width:0}
-.dog canvas{width:100%;max-width:70px;height:auto;aspect-ratio:1/1.08;display:block}
+.dog canvas.dg{width:100%;max-width:70px;height:auto;aspect-ratio:1/1.08;display:block}
+.dog canvas.vh{width:100%;max-width:76px;height:auto;aspect-ratio:84/48;display:block;margin:-2px 0 2px;border-top:2px dashed rgba(27,21,48,.18);padding-top:2px}
+.dog .vn{font-family:var(--font-ui);color:var(--ink);font-size:11px}
 .dog b{font-family:var(--font-ui);font-size:14px;line-height:1.1}
 .dog small{font-size:10.5px;line-height:1.2;color:#5b4e7a}
 .dog.nope{animation:shake .4s;background:#ffe3e3;opacity:.7}
@@ -554,15 +556,15 @@ function drawGal(c, x, y, s, o = {}) {
 
 // Gal's rescue unit: original dogs in the five colors, each with a job and a vehicle
 const DOGS = [
-  { id: 'red', name: 'סולמי', job: 'סולם ומנוף', color: '#e63946', color2: '#9d0208', fur: '#e0a458', fur2: '#a66a2c', ears: 'flop', tool: 'ladder', veh: 'crane',
+  { id: 'red', vehName: 'משאית מנוף', name: 'סולמי', job: 'סולם ומנוף', color: '#e63946', color2: '#9d0208', fur: '#e0a458', fur2: '#a66a2c', ears: 'flop', tool: 'ladder', veh: 'crane',
     no: 'הסולם שלי לא יעזור כאן.', go: 'סולמי והמנוף יוצאים לדרך!', act: 'לחצו כדי להרים את הסולם', fem: false },
-  { id: 'blue', name: 'שפריץ', job: 'מים ואש', color: '#2f80ed', color2: '#1b4f9c', fur: '#f5efe6', fur2: '#8a5a3c', ears: 'flop', spot: true, tool: 'water', veh: 'fire',
+  { id: 'blue', vehName: 'כבאית', name: 'שפריץ', job: 'מים ואש', color: '#2f80ed', color2: '#1b4f9c', fur: '#f5efe6', fur2: '#8a5a3c', ears: 'flop', spot: true, tool: 'water', veh: 'fire',
     no: 'אני מכבה אש עם מים, וכאן אין אש.', go: 'שפריץ והכבאית יוצאים לדרך!', act: 'לחצו על האש כדי להתיז מים', fem: false },
-  { id: 'yellow', name: 'זמזום', job: 'עף במסוק', color: '#ffc300', color2: '#c99700', fur: '#cfd4da', fur2: '#7d8590', ears: 'up', tool: 'prop', veh: 'heli',
+  { id: 'yellow', vehName: 'מסוק', name: 'זמזום', job: 'עף במסוק', color: '#ffc300', color2: '#c99700', fur: '#cfd4da', fur2: '#7d8590', ears: 'up', tool: 'prop', veh: 'heli',
     no: 'אני עף במסוק, אבל כאן זה לא עוזר.', go: 'זמזום והמסוק ממריאים!', act: 'לחצו כדי לעוף למעלה', fem: false },
-  { id: 'pink', name: 'רחרחה', job: 'מוצאת באף', color: '#ff70a6', color2: '#c9184a', fur: '#f6e3c6', fur2: '#c99a6b', ears: 'long', bow: true, tool: 'nose', veh: 'scooter',
+  { id: 'pink', vehName: 'טוסטוס', name: 'רחרחה', job: 'מוצאת באף', color: '#ff70a6', color2: '#c9184a', fur: '#f6e3c6', fur2: '#c99a6b', ears: 'long', bow: true, tool: 'nose', veh: 'scooter',
     no: 'האף שלי מוצא דברים שהלכו לאיבוד, וכאן שום דבר לא אבד.', go: 'רחרחה והטוסטוס יוצאים לחפש!', act: 'הסתכלו מאיפה עולה הריח ולחצו על השיח', fem: true },
-  { id: 'purple', name: 'חפרי', job: 'חופר בדחפור', color: '#8e44ec', color2: '#5a189a', fur: '#7a5236', fur2: '#4a3122', ears: 'flop', tool: 'shovel', veh: 'digger',
+  { id: 'purple', vehName: 'דחפור', name: 'חפרי', job: 'חופר בדחפור', color: '#8e44ec', color2: '#5a189a', fur: '#7a5236', fur2: '#4a3122', ears: 'flop', tool: 'shovel', veh: 'digger',
     no: 'אני חופר בורות, וכאן לא צריך לחפור.', go: 'חפרי והדחפור יוצאים לחפור!', act: 'לחצו מהר כדי לחפור', fem: false },
 ];
 const DOG = Object.fromEntries(DOGS.map(d => [d.id, d]));
@@ -679,6 +681,65 @@ function drawVehicle(c, x, y, s, d, t) {
     if (v === 'fire') { circ(c, 0, 10, 8, '#adb5bd', 1.8); c.save(); c.translate(0, 10); c.rotate(Math.sin(t * 2) * 0.4); rr(c, -2.5, -16, 5, 16, 2); fs(c, '#6c757d', 1.4); c.restore(); rr(c, -13, 22, 26, 9, 3); fs(c, '#f1f3f5', 1.4); }
     else if (v === 'crane') { ln(c, 2); c.strokeStyle = '#f1f3f5'; c.lineWidth = 2.6; c.beginPath(); c.moveTo(-6, -12); c.lineTo(-6, 33); c.moveTo(6, -12); c.lineTo(6, 33); for (let yy = -8; yy < 33; yy += 6) { c.moveTo(-6, yy); c.lineTo(6, yy); } c.stroke(); circ(c, 0, 26, 5, '#adb5bd', 1.6); }
     else if (v === 'digger') { rr(c, -10, 0, 20, 18, 4); fs(c, d.color2, 1.6); ln(c, 3); c.beginPath(); c.moveTo(0, -L / 2); c.lineTo(0, -L / 2 - 14); c.stroke(); rr(c, -12, -L / 2 - 24, 24, 11, 3); fs(c, '#adb5bd', 1.8); c.fillStyle = K; for (let i = -9; i <= 9; i += 6) { c.beginPath(); c.moveTo(i - 2, -L / 2 - 24); c.lineTo(i, -L / 2 - 29); c.lineTo(i + 2, -L / 2 - 24); c.fill(); } }
+  }
+  c.restore();
+}
+/* ---------- Vehicles, side view (next to each dog) ---------- */
+function wheelSide(c, x, y, r) { circ(c, x, y, r, '#2b2d42', 2); circ(c, x, y, r * 0.42, '#adb5bd', 1.3); }
+function dogInWindow(c, x, y, d) { ell(c, x - 3, y - 1, 1.8, 3.4, 0.3, d.fur2, 1); circ(c, x, y, 3.6, d.fur, 1.2); c.fillStyle = K; dot(c, x + 3, y + 0.5, 1); }
+// ground at y; faces left, the way you read Hebrew
+function drawVehicleSide(c, x, y, s, d, t = 0) {
+  c.save(); c.translate(x, y); c.scale(-s, s);
+  const v = d.veh;
+  c.fillStyle = 'rgba(0,0,0,.18)'; c.beginPath(); c.ellipse(0, 0, 36, 3.5, 0, 0, TAU); c.fill();
+  if (v === 'fire' || v === 'crane') {
+    if (v === 'crane') {
+      // the ladder arm rises from the back
+      c.save(); c.translate(-24, -27); c.rotate(-0.62);
+      c.strokeStyle = K; c.lineWidth = 6; c.beginPath(); c.moveTo(0, -3); c.lineTo(46, -3); c.moveTo(0, 3); c.lineTo(46, 3); c.stroke();
+      c.strokeStyle = '#f1f3f5'; c.lineWidth = 3; c.stroke();
+      ln(c, 1.6); c.beginPath(); for (let i = 5; i < 46; i += 7) { c.moveTo(i, -3); c.lineTo(i, 3); } c.stroke();
+      c.restore();
+      circ(c, -24, -27, 4.5, '#adb5bd', 1.6);
+    }
+    rr(c, -34, -26, 50, 18, 3); fs(c, d.color);
+    rr(c, 14, -31, 22, 23, 5); fs(c, d.color);
+    rr(c, 20, -28, 13, 10, 2); fs(c, '#bde0fe', 1.6); dogInWindow(c, 26, -23, d);
+    c.fillStyle = d.color2; c.fillRect(-33, -14, 68, 3.5);
+    const on = (t * 4 | 0) % 2;
+    rr(c, 18, -35, 14, 4, 2); fs(c, '#fff', 1.2); c.fillStyle = on ? '#ef233c' : '#ffb3c1'; c.fillRect(19, -34, 6, 2); c.fillStyle = on ? '#bde0fe' : '#2f80ed'; c.fillRect(25, -34, 6, 2);
+    if (v === 'fire') {
+      circ(c, -22, -17, 5.5, '#f1f3f5', 1.4); circ(c, -22, -17, 2.2, '#adb5bd', 1);
+      circ(c, -6, -29, 4, '#adb5bd', 1.6); limb(c, -6, -30, 6, -41, 3.5, '#6c757d');
+    }
+    wheelSide(c, -22, -5, 6.2); wheelSide(c, -8, -5, 6.2); wheelSide(c, 26, -5, 6.2);
+  } else if (v === 'heli') {
+    rr(c, -36, -22, 30, 5, 2); fs(c, d.color);
+    c.beginPath(); c.moveTo(-36, -22); c.lineTo(-40, -32); c.lineTo(-31, -22); c.closePath(); fs(c, d.color2, 1.6);
+    circ(c, -37, -19, 3.5, 'rgba(255,255,255,.6)', 1.2);
+    ell(c, 6, -18, 19, 11, 0, d.color);
+    c.beginPath(); c.ellipse(14, -19, 9, 7, 0, -PI / 2, PI / 2); c.closePath(); fs(c, '#bde0fe', 1.6); dogInWindow(c, 15, -19, d);
+    ln(c, 2.4); c.beginPath(); c.moveTo(6, -29); c.lineTo(6, -34); c.stroke();
+    const bl = 26 + Math.sin(t * 30) * 4; ln(c, 3); c.beginPath(); c.moveTo(6 - bl, -35); c.lineTo(6 + bl, -35); c.stroke();
+    ln(c, 2.2); c.beginPath(); c.moveTo(-10, -1); c.lineTo(22, -1); c.moveTo(-2, -1); c.lineTo(0, -8); c.moveTo(14, -1); c.lineTo(12, -8); c.stroke();
+  } else if (v === 'scooter') {
+    wheelSide(c, -16, -6, 6); wheelSide(c, 18, -6, 6);
+    rr(c, -12, -13, 26, 5, 2); fs(c, d.color);
+    ell(c, -15, -17, 11, 7.5, 0, d.color);
+    rr(c, -24, -27, 17, 5, 2); fs(c, '#2b2d42', 1.4);
+    limb(c, 13, -10, 18, -34, 4.5, d.color);
+    ln(c, 2.4); c.beginPath(); c.moveTo(14, -35); c.lineTo(24, -36); c.stroke();
+    circ(c, 21, -28, 3, '#fff3b0', 1.3);
+    if (d.bow) { ell(c, -20, -21, 2.6, 1.9, 0, d.color2, 1); }
+  } else {
+    rr(c, -30, -13, 46, 13, 6.5); fs(c, '#2b2d42');
+    for (let i = -24; i <= 10; i += 8.5) circ(c, i, -6.5, 3.2, '#adb5bd', 1.1);
+    rr(c, -26, -35, 26, 22, 3); fs(c, d.color);
+    rr(c, -9, -32, 7, 10, 2); fs(c, '#bde0fe', 1.4); dogInWindow(c, -6, -26, d);
+    limb(c, -1, -27, 20, -42, 5, d.color2);
+    limb(c, 20, -42, 32, -20, 4, d.color2);
+    c.beginPath(); c.moveTo(27, -22); c.lineTo(38, -22); c.lineTo(35, -11); c.lineTo(28, -12); c.closePath(); fs(c, '#adb5bd', 1.6);
+    c.fillStyle = K; for (let i = 0; i < 3; i++) { c.beginPath(); c.moveTo(29 + i * 3, -11.5); c.lineTo(30.5 + i * 3, -8.5); c.lineTo(32 + i * 3, -11.5); c.fill(); }
   }
   c.restore();
 }
@@ -1221,10 +1282,12 @@ function drawFx(c, cy) {
 /* ================= Rescue call (both modes) ================= */
 let rescueCtx = null, galT = 0;
 function buildDogButtons() {
-  $('#dogBtns').innerHTML = DOGS.map((d, i) => `<button class="dog" data-i="${i}" aria-label="${d.name}, ${d.job}"><canvas width="140" height="151"></canvas><b>${d.name}</b><small>${d.job}</small></button>`).join('');
+  $('#dogBtns').innerHTML = DOGS.map((d, i) => `<button class="dog" data-i="${i}" aria-label="${d.name}, ${d.job}, מגיע ב${d.vehName}"><canvas class="dg" width="140" height="151"></canvas><canvas class="vh" width="168" height="96"></canvas><b>${d.name}</b><small>${d.job}</small><small class="vn">${d.vehName}</small></button>`).join('');
   document.querySelectorAll('.dog').forEach(b => {
-    const d = DOGS[+b.dataset.i], cv = b.querySelector('canvas'), x = cv.getContext('2d');
+    const d = DOGS[+b.dataset.i], cv = b.querySelector('canvas.dg'), x = cv.getContext('2d');
     x.setTransform(cv.width / 70, 0, 0, cv.width / 70, 0, 0); drawDog(x, 35, 44, 1, d, { t: 0.3 });
+    const vc = b.querySelector('canvas.vh'), vx = vc.getContext('2d');
+    vx.setTransform(vc.width / 84, 0, 0, vc.width / 84, 0, 0); drawVehicleSide(vx, 42, 45, 0.78, d, 0.1);
     b.addEventListener('click', () => chooseDog(d, b));
   });
 }
@@ -1365,6 +1428,7 @@ function renderAction(t) {
   c.fillStyle = '#7bc96f'; c.fillRect(0, 250, 400, 50); ln(c, 2); c.beginPath(); c.moveTo(0, 250); c.lineTo(400, 250); c.stroke();
   c.textAlign = 'center'; c.textBaseline = 'middle';
   const tool = d.tool;
+  if (tool !== 'prop' || !A.done) drawVehicleSide(c, tool === 'nose' ? 340 : 46, 262, 1.15, d, t);
   if (tool === 'water') {
     rr(c, 210, 110, 150, 140, 4); fs(c, '#f1c27d'); c.beginPath(); c.moveTo(200, 112); c.lineTo(285, 60); c.lineTo(370, 112); c.closePath(); fs(c, '#c8664a');
     rr(c, 240, 140, 40, 36, 3); fs(c, '#bde0fe', 2); rr(c, 300, 190, 34, 60, 3); fs(c, '#8b5a3c', 2);
